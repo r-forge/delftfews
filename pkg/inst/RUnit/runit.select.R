@@ -19,6 +19,8 @@
 
 require(RUnit)
 
+EPOCH <- delftfews:::EPOCH
+
 test.select.percentiles.timeseries.30.80.10 <- function() {
   pidata <- timeseries(21000000*60, by=5*60, length.out=22)
   for(i in 1:10) {
@@ -60,17 +62,61 @@ test.timestamp.in.range.weekday <- function() {
   DEACTIVATED("timestamp.in.range.weekday is not tested.")
 }
 
-test.timestamp.in.weekend <- function(){
-  pidata <- read.PI('data/timeseries.in.weekend.timeperiod.reference.xml')
-  in.weekend <- timestamp.in.weekend(pidata)
-  ##259-15 = 244 non-weekend timestamps
-  ##304-258 = 46 weekend timestamps
+test.timestamp.in.weekend <- function() {
+  pidata <- timeseries(as.POSIXct(1263553200, origin=EPOCH), by=15*60, length.out=289, H.gewogen=-1.5)
+  ##              timestamps H.gewogen in.weekend
+  ## 1   2010-01-15 11:00:00      -1.5      FALSE
+  ## ...
+  ## 52  2010-01-15 23:45:00      -1.5      FALSE
+  ## 53  2010-01-16 00:00:00      -1.5       TRUE
+  ## ...
+  ## 244 2010-01-17 23:45:00      -1.5       TRUE
+  ## 245 2010-01-18 00:00:00      -1.5      FALSE
+  ## ...
+  ## 289 2010-01-18 11:00:00      -1.5      FALSE
 
-  checkTrue(length(in.weekend) == 289)
-  ##first are all non-weeekend
-  checkTrue(all(!in.weekend[1:244]))
-  #last are weekend (16-1-2010)
-  checkTrue(all(in.weekend[245:289]))
+  in.weekend <- timestamp.in.weekend(pidata)
+  target <- rep(FALSE, 289)
+  target[53:244] <- TRUE
+  checkEquals(target, in.weekend)
+}
+
+test.timestamp.in.weekend.localtime.winter <- function() {
+  pidata <- timeseries(as.POSIXct(1263553200, origin=EPOCH), by=15*60, length.out=289, H.gewogen=-1.5)
+  ##              timestamps H.gewogen in.weekend
+  ## 1   2010-01-15 11:00:00      -1.5      FALSE
+  ## ...
+  ## 48  2010-05-14 22:45:00      -1.5      FALSE
+  ## 49  2010-05-14 23:00:00      -1.5       TRUE
+  ## ...
+  ## 240 2010-05-16 22:45:00      -1.5       TRUE
+  ## 241 2010-05-16 23:00:00      -1.5      FALSE
+  ## ...
+  ## 289 2010-01-18 11:00:00      -1.5      FALSE
+
+  in.weekend <- timestamp.in.weekend(pidata, tz="CET")
+  target <- rep(FALSE, 289)
+  target[49:240] <- TRUE
+  checkEquals(target, in.weekend)
+}
+
+test.timestamp.in.weekend.localtime.summer <- function() {
+  pidata <- timeseries(as.POSIXct(1273834800, origin=EPOCH), by=15*60, length.out=289, H.gewogen=-1.5)
+  ##              timestamps H.gewogen in.weekend
+  ## 1   2010-05-14 11:00:00      -1.5      FALSE
+  ## ...
+  ## 44  2010-05-14 21:45:00      -1.5      FALSE
+  ## 45  2010-05-14 22:00:00      -1.5       TRUE
+  ## ...
+  ## 236 2010-05-17 21:45:00      -1.5       TRUE
+  ## 237 2010-05-17 22:00:00      -1.5      FALSE
+  ## ...
+  ## 289 2010-05-17 11:00:00      -1.5      FALSE
+
+  in.weekend <- timestamp.in.weekend(pidata, tz="CET")
+  target <- rep(FALSE, 289)
+  target[45:236] <- TRUE
+  checkEquals(target, in.weekend)
 }
 
 test.timestamp.in.range.hour <- function() {
@@ -78,11 +124,11 @@ test.timestamp.in.range.hour <- function() {
   ## 23:30 03:00 06:30 10:00 13:30 17:00 20:30 00:00 03:30 07:00 10:30 14:00 17:30 21:00
 
   in.period <- timestamp.in.range.hour(pidata, 10, 17)
-  expect <- c(F, F, F, T, T, T, F, F, F, F, T, T, F, F)
+  expect <- c(F, F, F, T, T, F, F, F, F, F, T, T, F, F)
   checkEquals(expect, in.period)
 
   in.period <- timestamp.in.range.hour(pidata, 17, 10)
-  expect <- c(T, T, T, T, F, T, T, T, T, T, F, F, T, T)
+  expect <- c(T, T, T, F, F, T, T, T, T, T, F, F, T, T)
   checkEquals(expect, in.period)
 }
 

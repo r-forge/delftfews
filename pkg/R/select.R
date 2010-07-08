@@ -24,39 +24,13 @@
 ## initial date       :  20091120
 ##
 
-select.percentiles <- function(input, percentiles, score.function=sum.first, ...) {
-  ## assuming 'input' contains some sort of monte carlo realizations
-  ## of the same experiment in timeseries format, this function
-  ## chooses the percentiles indicated, after the `score.function` function
-  ## has applied to each column.
-
-  ## first column contains timestamps, don't count it
-  N <- length(input) - 1
-  ## call the score.function, passing it any extra parameters
-  tempdata <- score.function(input[(1:N)+1], ...)
-  ## set names numerically so we can find back the columns
-  names(tempdata) <- 1:N
-  ## these are the columns.  don't forget skipping the timestamps
-  ## column.
-  columns <- as.numeric(names(sort(tempdata)[N * percentiles / 100])) + 1
-
-  ## result has the same timestamps as input, plus the columns just
-  ## chosen.
-  result <- data.frame(timestamps=input$timestamps)
-  result[paste(names(input)[columns], percentiles, sep='.')] <- input[columns]
-
-  ## done
-  return(result)
-}
-
-
-timestamp.in.range <- function(data, from, to, by, units, offset) {
+timestamp.in.range <- function(data, from, to, by, units, offset, tz="UTC") {
   ## returns array of booleans identifying rows falling in repeating
   ## intervals.  timestamps are first converted to the given units and
   ## then tested.
 
   ## `data` is a data.frame with a `timestamps` column holding POSIXct values.
-  ## `from` and `to` have the obvious meanings.
+  ## `from` and `to` have the obvious meanings.  (`from` is included, `to` is excluded.)
   ## `by` is the length of the repeating interval.
   ## `units` specifies the unit used for `from`, `to`, `by`.
   ## `offset` is the value at EPOCH.
@@ -64,23 +38,36 @@ timestamp.in.range <- function(data, from, to, by, units, offset) {
   if (to < from)
     to <- to + by
   window.width <- to - from
-  values.from.from <- (as.double(difftime(data$timestamps, EPOCH, tz="UTC"), units=units) + offset - from) %% by
-  return (values.from.from <= window.width)
+  
+  ## we want to check the 'numerical' parts only, when the timestamp
+  ## is expressed in the timezone specified.  to do so we print the
+  ## timestamps in the timezone specified, remove the timezone
+  ## information and do all calculations as if we were living in UTC.
+  ## it's a cheap trick, you don't need tell me.
+  timestamps.as.string <- format(data$timestamps, tz=tz)
+  fictive.timestamps <- as.POSIXct(timestamps.as.string, tz="UTC")
+  values.from.from <- (as.double(difftime(fictive.timestamps, EPOCH), units=units) + offset - from) %% by
+  return (values.from.from < window.width)
 }
 
 
-timestamp.in.range.weekday <- function(data, from, to) {
-  timestamp.in.range(data, from, to, 7, 'days', 4)
+timestamp.in.range.weekday <- function(data, from, to, tz="UTC") {
+  timestamp.in.range(data, from, to, 7, 'days', 4, tz=tz)
 }
 
 
-timestamp.in.weekend <- function(data) {
-  timestamp.in.range.weekday(data, 6, 7)
+timestamp.in.weekend <- function(data, tz="UTC") {
+  ## all equivalent:
+  ## timestamp.in.range.weekday(data, 6, 8, tz=tz) # Sat->Mon(next week)
+  ## timestamp.in.range.weekday(data, 6, 1, tz=tz) # Sat->Mon
+  ## !timestamp.in.range.weekday(data, 1, 6, tz=tz) # not Mon->Sat
+  ## we use "not from monday (included) to saturday (excluded)"
+  !timestamp.in.range.weekday(data, 1, 6, tz=tz) 
 }
 
 
-timestamp.in.range.hour <- function(data, from, to) {
-  timestamp.in.range(data, from, to, 24, 'hours', 0)
+timestamp.in.range.hour <- function(data, from, to, tz="UTC") {
+  timestamp.in.range(data, from, to, 24, 'hours', 0, tz=tz)
 }
 
 
@@ -98,7 +85,7 @@ reformat.date <- function(datestring) {
 }
 
 
-timestamp.in.range.calendar <- function(data, from, to) {
+timestamp.in.range.calendar <- function(data, from, to, tz="UTC") {
   ## returns whether the timestamps of a timeseries are between start and end date
 
   dates <- format.Date(data$timestamps, format="%02m%02d")
