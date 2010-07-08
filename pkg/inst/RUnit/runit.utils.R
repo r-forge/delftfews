@@ -1,5 +1,5 @@
 ##***********************************************************************
-## $Id: runit.timeseries.R 11606 2010-06-10 08:18:45Z Mario $
+## $Id$
 ##
 ## this file is part of the R library delftfews.  delftfews is free
 ## software: you can redistribute it and/or modify it under the terms
