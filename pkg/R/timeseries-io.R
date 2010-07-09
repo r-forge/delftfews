@@ -63,8 +63,10 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
   doc <- xmlTreeParse(filename)
   TimeSeriesNode <- xmlRoot(doc)
 
-  ## we only operate on the "series" nodes.
+  ## time offset in seconds from the timeZone element (which is in hours)
+  timeOffset <- as.double(xmlValue(TimeSeriesNode[["timeZone"]])) * 60 * 60
 
+  ## we only operate on the "series" nodes.
   seriesNodes <- xmlElementsByTagName(TimeSeriesNode, "series")
 
   ## reset the name of the elements in seriesNodes from the general
@@ -112,7 +114,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
 
   ## result data.frame holds one $timestamps column, meant for both
   ## computation and human readability of the data.
-  result <- data.frame(timestamps=EPOCH + seq(from=first, to=last, by=step.seconds))
+  result <- data.frame(timestamps=EPOCH + seq(from=first, to=last, by=step.seconds) - timeOffset)
 
   ## finally extract all the timestamped values and fill in the blanks
 
@@ -133,7 +135,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
 
     grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
     column <- rep(NA, length(result$timestamps))
-    column[as.seconds(result$timestamps) %in% grouped$s] <- grouped$v
+    column[as.seconds(result$timestamps) %in% (grouped$s - timeOffset)] <- grouped$v
     na.action(column)
   }
 

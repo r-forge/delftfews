@@ -91,6 +91,14 @@ test.read.PI.all.empty.series <- function() {
   checkException(read.PI('data/eventless-0.xml'), ", crashes if you do not specify step.seconds")
 }
 
+test.read.PI.timezone.2 <- function() {
+  ## input file has a non zero timeZone element.
+  pidata <- read.PI('data/read.PI.timezone.2.xml', na.action=na.pass)
+
+  target <- EPOCH + seq(from=1270245600, to=1271023200, by=86400)
+  checkEquals(target, pidata$timestamps)
+}
+
 test.write.PI.na.missing.elements <- function() {
   ## if no missVal is given: skip the element
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)

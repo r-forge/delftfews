@@ -5,7 +5,20 @@
 \title{read PI file as data.frame}
 \description{
   reads a PI file, check the most common time step, force the
-  data into a data.frame
+  data into a data.frame.
+
+  the input PI file may define a non zero `timeZone`.  this is
+  acknowledged and the date/time instants in the `timestamps` column
+  will appear to you as shifted: keep in mind that a time instant is
+  independent of the time zone concept: only its string representation
+  is affected.  the standard `format` function, will help you see tha
+  data in the same form as in the input, just specify the correct `tz`.
+
+  the time series set read in the PI file is forced into a set of
+  equally spaced time series.  the step chosen will be the most common
+  step in the PI file.  there is no guarantee that this is what you
+  really need nor meant.
+  
 }
 \usage{
 pidata <- read.PI(filename[, step.minutes, na.action])
