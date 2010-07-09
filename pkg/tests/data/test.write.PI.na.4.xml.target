@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<TimeSeries xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd" version="1.2">
+ <timeZone>0.0</timeZone>
+ <series>
+  <header>
+   <type>instantaneous</type>
+   <locationId>600-P1201</locationId>
+   <parameterId>parameterId</parameterId>
+   <timeStep unit="seconds" multiplier="86400"/>
+   <startDate date="2009-10-04" time="00:00:00"/>
+   <endDate date="2009-10-19" time="00:00:00"/>
+   <missVal>-999</missVal>
+   <longName>-</longName>
+   <stationName>-</stationName>
+   <units>-</units>
+  </header>
+  <event date="2009-10-04" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-05" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-06" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-07" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-08" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-09" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-10" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-11" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-12" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-13" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-14" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-15" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-16" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-17" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-18" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-19" time="00:00:00" value="-999" flag="8"/>
+ </series>
+ <series>
+  <header>
+   <type>instantaneous</type>
+   <locationId>600-P1202</locationId>
+   <parameterId>parameterId</parameterId>
+   <timeStep unit="seconds" multiplier="86400"/>
+   <startDate date="2009-10-04" time="00:00:00"/>
+   <endDate date="2009-10-19" time="00:00:00"/>
+   <missVal>-999</missVal>
+   <longName>-</longName>
+   <stationName>-</stationName>
+   <units>-</units>
+  </header>
+  <event date="2009-10-04" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-05" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-06" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-07" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-08" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-09" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-10" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-11" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-12" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-13" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-14" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-15" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-16" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-17" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-18" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-19" time="00:00:00" value="-999" flag="8"/>
+ </series>
+ <series>
+  <header>
+   <type>instantaneous</type>
+   <locationId>600-P1203</locationId>
+   <parameterId>parameterId</parameterId>
+   <timeStep unit="seconds" multiplier="86400"/>
+   <startDate date="2009-10-04" time="00:00:00"/>
+   <endDate date="2009-10-19" time="00:00:00"/>
+   <missVal>-999</missVal>
+   <longName>-</longName>
+   <stationName>-</stationName>
+   <units>-</units>
+  </header>
+  <event date="2009-10-04" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-05" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-06" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-07" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-08" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-09" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-10" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-11" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-12" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-13" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-14" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-15" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-16" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-17" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-18" time="00:00:00" value="-999" flag="8"/>
+  <event date="2009-10-19" time="00:00:00" value="-999" flag="8"/>
+ </series>
+</TimeSeries>

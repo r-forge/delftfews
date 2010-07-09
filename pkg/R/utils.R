@@ -136,8 +136,10 @@ shift.vector <- function(v, by) {
     c(v[(-by + 1):(length(v) - by)])
 }
 
-contiguous.stretch <- function(data, value, position, equality=TRUE) {
+contiguous.stretch <- function(data, position, value=NULL, equality=TRUE) {
   ## zie http://stackoverflow.com/questions/2643719
+  if(is.null(value))
+    value <- data[position]
   if (position < 1 || position > length(data))
     return(rep(FALSE, length(data)))
   if(equality)
@@ -151,6 +153,8 @@ contiguous.stretch <- function(data, value, position, equality=TRUE) {
 }
 
 get.step <- function(L, require.constant=FALSE) {
+  ## not exported, tested.
+  
   ## returns the value of the most common difference between
   ## subsequent elements.
 
@@ -167,6 +171,8 @@ get.step <- function(L, require.constant=FALSE) {
 }
 
 sum.first <- function(input, count=12) {
+  ## not exported, not tested.
+  
   ## accepts a data.frame and returns the vector of the sum of the
   ## first 12 rows of each column
   sapply(input[1:12,], sum)

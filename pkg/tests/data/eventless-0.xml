@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeSeries
+    xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd"
+    version="1.2" xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <timeZone>0.0</timeZone>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>600-P2504</locationId>
+            <parameterId>WNS925</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2010-03-31" time="23:00:00"/>
+            <endDate date="2010-04-30" time="23:00:00"/>
+            <missVal>-999.0</missVal>
+            <stationName>ontwatering</stationName>
+            <units>uur/dag</units>
+        </header>
+    </series>
+</TimeSeries>

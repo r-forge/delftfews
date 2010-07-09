@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeSeries
+    xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd"
+    version="1.2" xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <timeZone>0.0</timeZone>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>600-P1201</locationId>
+            <parameterId>WNS954</parameterId>
+            <timeStep unit="second" multiplier="86400"/>
+            <startDate date="2009-10-03" time="00:00:00"/>
+            <endDate date="2009-10-19" time="00:00:00"/>
+            <missVal>-999.0</missVal>
+            <stationName>blower 1</stationName>
+            <units>-</units>
+        </header>
+        <event date="2009-10-03" time="00:00:00" value="6645" flag="0"/>
+        <event date="2009-10-04" time="00:00:00" value="6663" flag="0"/>
+        <event date="2009-10-05" time="00:00:00" value="6678" flag="0"/>
+        <event date="2009-10-06" time="00:00:00" value="6695" flag="0"/>
+        <event date="2009-10-07" time="00:00:00" value="6712" flag="0"/>
+        <event date="2009-10-08" time="00:00:00" value="6733" flag="0"/>
+        <event date="2009-10-09" time="00:00:00" value="6745" flag="0"/>
+        <event date="2009-10-10" time="00:00:00" value="6757" flag="0"/>
+        <event date="2009-10-11" time="00:00:00" value="6771" flag="0"/>
+        <event date="2009-10-12" time="00:00:00" value="6788" flag="0"/>
+        <event date="2009-10-13" time="00:00:00" value="6802" flag="0"/>
+        <event date="2009-10-14" time="00:00:00" value="6816" flag="0"/>
+        <event date="2009-10-15" time="00:00:00" value="6832" flag="0"/>
+        <event date="2009-10-16" time="00:00:00" value="6847" flag="0"/>
+        <event date="2009-10-17" time="00:00:00" value="6862" flag="0"/>
+        <event date="2009-10-18" time="00:00:00" value="6877" flag="0"/>
+        <event date="2009-10-19" time="00:00:00" value="6894" flag="0"/>
+    </series>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>600-P1202</locationId>
+            <parameterId>WNS954</parameterId>
+            <timeStep unit="second" multiplier="86400"/>
+            <startDate date="2009-10-03" time="00:00:00"/>
+            <endDate date="2009-10-19" time="00:00:00"/>
+            <missVal>-999.0</missVal>
+            <stationName>blower 2</stationName>
+            <units>-</units>
+        </header>
+        <event date="2009-10-03" time="00:00:00" value="6675" flag="0"/>
+        <event date="2009-10-04" time="00:00:00" value="6692" flag="0"/>
+        <event date="2009-10-05" time="00:00:00" value="6705" flag="0"/>
+        <event date="2009-10-06" time="00:00:00" value="6719" flag="0"/>
+        <event date="2009-10-07" time="00:00:00" value="6737" flag="0"/>
+        <event date="2009-10-08" time="00:00:00" value="6759" flag="0"/>
+        <event date="2009-10-09" time="00:00:00" value="6774" flag="0"/>
+        <event date="2009-10-10" time="00:00:00" value="6790" flag="0"/>
+        <event date="2009-10-11" time="00:00:00" value="6805" flag="0"/>
+        <event date="2009-10-12" time="00:00:00" value="6825" flag="0"/>
+        <event date="2009-10-13" time="00:00:00" value="6842" flag="0"/>
+        <event date="2009-10-14" time="00:00:00" value="6857" flag="0"/>
+        <event date="2009-10-15" time="00:00:00" value="6877" flag="0"/>
+        <event date="2009-10-16" time="00:00:00" value="6900" flag="0"/>
+        <event date="2009-10-17" time="00:00:00" value="6920" flag="0"/>
+        <event date="2009-10-18" time="00:00:00" value="6937" flag="0"/>
+        <event date="2009-10-19" time="00:00:00" value="6950" flag="0"/>
+    </series>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>600-P1203</locationId>
+            <parameterId>WNS954</parameterId>
+            <timeStep unit="second" multiplier="86400"/>
+            <startDate date="2009-10-03" time="00:00:00"/>
+            <endDate date="2009-10-19" time="00:00:00"/>
+            <missVal>-999.0</missVal>
+            <stationName>blower 3</stationName>
+            <units>-</units>
+        </header>
+        <event date="2009-10-03" time="00:00:00" value="9658" flag="0"/>
+        <event date="2009-10-04" time="00:00:00" value="9682" flag="0"/>
+        <event date="2009-10-05" time="00:00:00" value="9706" flag="0"/>
+        <event date="2009-10-06" time="00:00:00" value="9730" flag="0"/>
+        <event date="2009-10-07" time="00:00:00" value="9754" flag="0"/>
+        <event date="2009-10-08" time="00:00:00" value="9778" flag="0"/>
+        <event date="2009-10-09" time="00:00:00" value="9802" flag="0"/>
+        <event date="2009-10-10" time="00:00:00" value="9826" flag="0"/>
+        <event date="2009-10-11" time="00:00:00" value="9850" flag="0"/>
+        <event date="2009-10-12" time="00:00:00" value="9874" flag="0"/>
+        <event date="2009-10-13" time="00:00:00" value="9898" flag="0"/>
+        <event date="2009-10-14" time="00:00:00" value="9922" flag="0"/>
+        <event date="2009-10-15" time="00:00:00" value="9946" flag="0"/>
+        <event date="2009-10-16" time="00:00:00" value="9970" flag="0"/>
+        <event date="2009-10-17" time="00:00:00" value="9994" flag="0"/>
+        <event date="2009-10-18" time="00:00:00" value="10018" flag="0"/>
+        <event date="2009-10-19" time="00:00:00" value="10042" flag="0"/>
+    </series>
+</TimeSeries>

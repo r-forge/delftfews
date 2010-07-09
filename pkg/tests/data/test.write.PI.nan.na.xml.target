@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<TimeSeries xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd" version="1.2">
+ <timeZone>0.0</timeZone>
+ <series>
+  <header>
+   <type>instantaneous</type>
+   <locationId>600-P1201</locationId>
+   <parameterId>WNS954-differences</parameterId>
+   <timeStep unit="nonequidistant"/>
+   <startDate date="2009-02-13" time="23:35:00"/>
+   <endDate date="2009-02-14" time="00:00:00"/>
+  </header>
+  <event date="2009-02-13" time="23:35:00" value="25" flag="0"/>
+  <event date="2009-02-14" time="00:00:00" value="0" flag="9"/>
+ </series>
+</TimeSeries>

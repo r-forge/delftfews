@@ -219,14 +219,77 @@ test.shift.vector <- function() {
   checkEquals(c(1, 2, 3), shift.vector(c(1, 2, 3), 0))
 }
 
-test.contiguous.stretch <- function() {
-  DEACTIVATED("contiguous.stretch is not tested.")
+test.contiguous.stretch.1 <- function() {
+  ## all adjacent values
+  input <- c(1,1,1,2,2,2,3,3,2,2)
+  current <- contiguous.stretch(input, 1)
+  target <- rep(FALSE, length(input))
+  target[1:3] <- TRUE
+  checkEquals(target, current)
+}
+
+test.contiguous.stretch.2 <- function() {
+  ## starting at different position, but finding the same value as test.1
+  input <- c(1,1,1,2,2,2,3,3,2,2)
+  current <- contiguous.stretch(input, 3)
+  target <- rep(FALSE, length(input))
+  target[1:3] <- TRUE
+  checkEquals(target, current)
+}
+
+test.contiguous.stretch.3 <- function() {
+  ## starting at different position, finding other value than test.1
+  ## and 2.  notice this will not return the last two positions, which
+  ## are not adjacent to the stretch.
+  input <- c(1,1,1,2,2,2,3,3,2,2)
+  current <- contiguous.stretch(input, 5)
+  target <- rep(FALSE, length(input))
+  target[4:6] <- TRUE
+  checkEquals(target, current)
+}
+
+test.contiguous.stretch.4 <- function() {
+  ## the value is not found at position, so the result is all FALSE
+  input <- c(1,1,1,2,2,2,3,3,2,2)
+  current <- contiguous.stretch(input, 1, 2)
+  target <- rep(FALSE, length(input))
+  checkEquals(target, current)
+}
+
+test.contiguous.stretch.5 <- function() {
+  ## stretch of values different from 2, starting at positon 1
+  input <- c(1,1,1,2,2,2,3,3,2,2)
+  current <- contiguous.stretch(input, 1, 2, FALSE)
+  target <- rep(FALSE, length(input))
+  target[1:3] <- TRUE
+  checkEquals(target, current)
+}
+
+test.contiguous.stretch.6 <- function() {
+  ## stretch of values different from 3, starting at positon 1
+  input <- c(1,1,1,2,2,2,3,3,2,2)
+  current <- contiguous.stretch(input, 1, 3, FALSE)
+  target <- rep(FALSE, length(input))
+  target[1:6] <- TRUE
+  checkEquals(target, current)
+}
+
+test.contiguous.stretch.7 <- function() {
+  ## stretch of values different from 4, starting at positon 1
+  input <- c(1,1,1,2,2,2,3,3,2,2)
+  current <- contiguous.stretch(input, 1, 4, FALSE)
+  target <- rep(TRUE, length(input))
+  checkEquals(target, current)
 }
 
 test.get.step <- function() {
-  DEACTIVATED("get.step is not tested.")
-}
-
-test.sum.first <- function() {
-  DEACTIVATED("sum.first is not tested.")
+  ## testing unexported function
+  get.step <- delftfews:::get.step
+  
+  L <- list(a=cumsum(c(1,3,3,2,3,3,4,3,2,3,3)), b=cumsum(c(2,3,2,3)))
+  checkEquals(3, get.step(L))
+  L <- data.frame(a=c(2,4,6,8,12,14,18), b=c(12,14,16,18,22,24,28))
+  checkEquals(2, get.step(L))
+  L <- matrix(c(2,4,6,8,12,14,18, 12,14,16,18,22,24,28), 7, 2)
+  checkEquals(2, get.step(L))
 }
