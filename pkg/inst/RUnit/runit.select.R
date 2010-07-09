@@ -75,7 +75,7 @@ test.timestamp.in.weekend <- function() {
   ## ...
   ## 289 2010-01-18 11:00:00      -1.5      FALSE
 
-  in.weekend <- timestamp.in.weekend(pidata)
+  in.weekend <- timestamp.in.weekend(pidata, tz="UTC")
   target <- rep(FALSE, 289)
   target[53:244] <- TRUE
   checkEquals(target, in.weekend)
@@ -94,7 +94,7 @@ test.timestamp.in.weekend.localtime.winter <- function() {
   ## ...
   ## 289 2010-01-18 11:00:00      -1.5      FALSE
 
-  in.weekend <- timestamp.in.weekend(pidata, tz="CET")
+  in.weekend <- timestamp.in.weekend(pidata)
   target <- rep(FALSE, 289)
   target[49:240] <- TRUE
   checkEquals(target, in.weekend)
@@ -113,7 +113,7 @@ test.timestamp.in.weekend.localtime.summer <- function() {
   ## ...
   ## 289 2010-05-17 11:00:00      -1.5      FALSE
 
-  in.weekend <- timestamp.in.weekend(pidata, tz="CET")
+  in.weekend <- timestamp.in.weekend(pidata)
   target <- rep(FALSE, 289)
   target[45:236] <- TRUE
   checkEquals(target, in.weekend)
@@ -123,11 +123,11 @@ test.timestamp.in.range.hour <- function() {
   pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=210*60, length.out=14)
   ## 23:30 03:00 06:30 10:00 13:30 17:00 20:30 00:00 03:30 07:00 10:30 14:00 17:30 21:00
 
-  in.period <- timestamp.in.range.hour(pidata, 10, 17)
+  in.period <- timestamp.in.range.hour(pidata, 10, 17, tz="UTC")
   expect <- c(F, F, F, T, T, F, F, F, F, F, T, T, F, F)
   checkEquals(expect, in.period)
 
-  in.period <- timestamp.in.range.hour(pidata, 17, 10)
+  in.period <- timestamp.in.range.hour(pidata, 17, 10, tz="UTC")
   expect <- c(T, T, T, F, F, T, T, T, T, T, F, F, T, T)
   checkEquals(expect, in.period)
 }
@@ -140,17 +140,17 @@ test.timestamp.in.range.calendar.contiguous.1 <- function() {
   pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=720*60, length.out=14)
   ## 0213 0214 0214 0215 0215 0216 0216 0217 0217 0218 0218 0219 0219 0220
 
-  in.period <- timestamp.in.range.calendar(pidata, "0214", "0217")
+  in.period <- timestamp.in.range.calendar(pidata, "0214", "0217", tz="UTC")
   expect <- rep(F, 14)
   expect[2:7] <- TRUE
   checkEquals(expect, in.period)
 
-  in.period <- timestamp.in.range.calendar(pidata, "0215", "0216")
+  in.period <- timestamp.in.range.calendar(pidata, "0215", "0216", tz="UTC")
   expect <- rep(F, 14)
   expect[4:5] <- TRUE
   checkEquals(expect, in.period)
   
-  in.period <- timestamp.in.range.calendar(pidata, "0210", "0216")
+  in.period <- timestamp.in.range.calendar(pidata, "0210", "0216", tz="UTC")
   expect <- rep(F, 14)
   expect[1:5] <- TRUE
   checkEquals(expect, in.period)
@@ -162,13 +162,13 @@ test.timestamp.in.range.calendar.contiguous.2 <- function() {
   ## 2009-10-11 2009-11-20 2009-12-30 2010-02-08 2010-03-20 2010-04-29
   ## 2010-06-08 2010-07-18 2010-08-27 2010-10-06 2010-11-15 2010-12-25
 
-  in.period <- timestamp.in.range.calendar(pidata, "0301", "1001")
+  in.period <- timestamp.in.range.calendar(pidata, "0301", "1001", tz="UTC")
   expect <- rep(F, 18)
   expect[2:6] <- TRUE
   expect[11:15] <- TRUE
   checkEquals(expect, in.period) 
 
-  in.period <- timestamp.in.range.calendar(pidata, "3-1", "10-1")
+  in.period <- timestamp.in.range.calendar(pidata, "3-1", "10-1", tz="UTC")
   expect <- rep(F, 18)
   expect[2:6] <- TRUE
   expect[11:15] <- TRUE
@@ -181,8 +181,8 @@ test.timestamp.in.range.calendar.contiguous.3 <- function() {
   ## 2009-10-11 2009-11-20 2009-12-30 2010-02-08 2010-03-20 2010-04-29
   ## 2010-06-08 2010-07-18 2010-08-27 2010-10-06 2010-11-15 2010-12-25
 
-  checkException(timestamp.in.range.calendar(pidata, "31", "101"), ": should crash on ambiguous input")
-  checkException(timestamp.in.range.calendar(pidata, "301", "1001"), ": should crash on ambiguous input")
+  checkException(timestamp.in.range.calendar(pidata, "31", "101", tz="UTC"), ": should crash on ambiguous input")
+  checkException(timestamp.in.range.calendar(pidata, "301", "1001", tz="UTC"), ": should crash on ambiguous input")
 
 }
 
@@ -192,7 +192,7 @@ test.timestamp.in.range.calendar.split <- function() {
   ## 2009-10-11 2009-11-20 2009-12-30 2010-02-08 2010-03-20 2010-04-29
   ## 2010-06-08 2010-07-18 2010-08-27 2010-10-06 2010-11-15 2010-12-25
 
-  in.period <- timestamp.in.range.calendar(pidata, "1001", "0401")
+  in.period <- timestamp.in.range.calendar(pidata, "1001", "0401", tz="UTC")
   expect <- rep(F, 18)
   expect[1:2] <- TRUE
   expect[7:11] <- TRUE

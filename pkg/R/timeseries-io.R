@@ -278,7 +278,7 @@ read.BfG <- function(filename, column="value") {
 splitToNumeric <- function(x) {
   ## translates a string configuration submatrix to numeric
   
-  ## not exported
+  ## not exported, tested
 
   ow <- options("warn")
   options(warn=-1)

@@ -19,6 +19,10 @@
 
 require(RUnit)
 
+## testing the following non-exported functions:
+splitToNumeric <- delftfews:::splitToNumeric
+parseSplitDcf <- delftfews:::parseSplitDcf
+
 EPOCH <- delftfews:::EPOCH
 
 test.read.PI.just.reading <- function() {
@@ -241,7 +245,7 @@ test.splitToNumeric <- function() {
                          gemaalcapaciteit=c(300.0, 300.0))
   rownames(target.m) <- c('nat', 'droog')
 
-  current.m <- NenS:::splitToNumeric(input.m)
+  current.m <- splitToNumeric(input.m)
   
   checkEquals(target.m, current.m)
 }
@@ -256,7 +260,7 @@ test.splitToNumeric.small <- function() {
                          gemaalcapaciteit=c(300.0))
   rownames(target.m) <- c('nat')
 
-  current.m <- NenS:::splitToNumeric(input.m)
+  current.m <- splitToNumeric(input.m)
   
   checkEquals(target.m, current.m)
 }
@@ -277,7 +281,7 @@ test.parseSplitDcf <- function() {
   names(target.m) <- c("fileDescription", "scenario")
   rownames(target.m[[2]]) <- c("nat", "droog")
   
-  current.m <- NenS:::parseSplitDcf(input.m)
+  current.m <- parseSplitDcf(input.m)
   checkEquals(length(target.m), length(current.m))
   checkEquals(target.m[[1]], current.m[[1]])
   checkEquals(target.m[[2]], current.m[[2]])

@@ -51,12 +51,12 @@ timestamp.in.range <- function(data, from, to, by, units, offset, tz="UTC") {
 }
 
 
-timestamp.in.range.weekday <- function(data, from, to, tz="UTC") {
+timestamp.in.range.weekday <- function(data, from, to, tz="CET") {
   timestamp.in.range(data, from, to, 7, 'days', 4, tz=tz)
 }
 
 
-timestamp.in.weekend <- function(data, tz="UTC") {
+timestamp.in.weekend <- function(data, tz="CET") {
   ## all equivalent:
   ## timestamp.in.range.weekday(data, 6, 8, tz=tz) # Sat->Mon(next week)
   ## timestamp.in.range.weekday(data, 6, 1, tz=tz) # Sat->Mon
@@ -66,7 +66,7 @@ timestamp.in.weekend <- function(data, tz="UTC") {
 }
 
 
-timestamp.in.range.hour <- function(data, from, to, tz="UTC") {
+timestamp.in.range.hour <- function(data, from, to, tz="CET") {
   timestamp.in.range(data, from, to, 24, 'hours', 0, tz=tz)
 }
 
@@ -85,7 +85,7 @@ reformat.date <- function(datestring) {
 }
 
 
-timestamp.in.range.calendar <- function(data, from, to, tz="UTC") {
+timestamp.in.range.calendar <- function(data, from, to, tz="CET") {
   ## returns whether the timestamps of a timeseries are between start and end date
 
   dates <- format.Date(data$timestamps, format="%02m%02d")
