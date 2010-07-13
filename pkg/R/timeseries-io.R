@@ -134,7 +134,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
     seconds <- as.numeric(difftime(timestamps, EPOCH, tz="UTC"), units="secs")
 
     grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
-    column <- rep(NA, length(result$timestamps))
+    column <- rep(NA, nrow(result))
     column[as.seconds(result$timestamps) %in% (grouped$s - timeOffset)] <- grouped$v
     na.action(column)
   }

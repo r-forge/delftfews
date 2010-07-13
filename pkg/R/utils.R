@@ -175,5 +175,5 @@ sum.first <- function(input, count=12) {
   
   ## accepts a data.frame and returns the vector of the sum of the
   ## first 12 rows of each column
-  sapply(input[1:12,], sum)
+  sapply(input[1:count,], sum)
 }

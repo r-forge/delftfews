@@ -65,7 +65,7 @@ cumulate.timeseries <- function(input, column="input", gap=1, integration.method
 
   augment <- function(start, end, type) {
     start.ts <- input$timestamps[start]
-    if(end >= length(input$timestamps)) {
+    if(end >= nrow(input)) {
       end.ts <- input$timestamps[end] + (input$timestamps[end] - input$timestamps[end - 1])
       timestamps <- input$timestamps[start:end]
       timestamps <- c(timestamps, end.ts)
