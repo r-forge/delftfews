@@ -22,10 +22,56 @@ require(RUnit)
 EPOCH <- delftfews:::EPOCH
 
 test.timeseries <- function() {
+  ## test equality except dimnames
   minutes <- (0:5) * 720
-  expect <- data.frame(timestamps=as.POSIXct(minutes * 60, origin=EPOCH))
+  target <- zoo(data.frame(), as.POSIXct(minutes * 60, origin=EPOCH))
   got <- timeseries(from=0, by=720*60, length.out=6)
-  checkEquals(got, expect)
+  dimnames(got) <- dimnames(target)
+  checkEquals(target, got)
+}
+
+test.timeseries.dimnames <- function() {
+  ## only test dimnames
+  minutes <- (0:5) * 720
+  target <- list(NULL, NULL)
+  current <- dimnames(timeseries(from=0, by=720*60, length.out=6))
+  checkEquals(target, current)
+}
+
+test.timeseries.with.one.column <- function() {
+  minutes <- (0:5) * 720
+  target <- zoo(data.frame(a=1), as.POSIXct(minutes * 60, origin=EPOCH))
+  dimnames(target) <- list(NULL, dimnames(target)[[2]])
+  current <- timeseries(from=0, by=720*60, length.out=6, a=1)
+  checkEquals(target, current)
+}
+
+test.timeseries.with.more.columns <- function() {
+  minutes <- (0:5) * 720
+  target <- zoo(data.frame(a=1, b=1:6), as.POSIXct(minutes * 60, origin=EPOCH))
+  dimnames(target) <- list(NULL, dimnames(target)[[2]])
+  current <- timeseries(from=0, by=720*60, length.out=6, a=1, b=1:6)
+  checkEquals(target, current)
+}
+
+test.timeseries.with.data.frame <- function() {
+  full <- data.frame(a=1, b=1:6, c=(0:5)*4)
+  minutes <- (0:5) * 720
+  target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH))
+  dimnames(target) <- list(NULL, dimnames(target)[[2]])
+  current <- timeseries(from=0, by=720*60, length.out=6, data=full)
+  checkEquals(target, current)
+}
+
+test.timeseries.with.order.by <- function() {
+  full <- data.frame(a=1, b=1:6, c=(0:5)*4)
+  minutes <- (0:5) * 720
+  template <- timeseries(from=0, by=720*60, length.out=6)
+  target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH))
+  dimnames(target) <- list(NULL, dimnames(target)[[2]])
+
+  current <- timeseries(order.by=index(template), data=full)
+  checkEquals(target, current)
 }
 
 test.cumulate.timeseries.one.net.stretch <- function() {
@@ -38,18 +84,18 @@ test.cumulate.timeseries.one.net.stretch <- function() {
 
   target <- rep(NA, 10)
   target[4:6] <- 25*60
-  checkEquals(target, result$input.gross.partials)
-  checkEquals(target, result$input.net.partials)
+  checkEquals(target, coredata(result$input.gross.partials))
+  checkEquals(target, coredata(result$input.net.partials))
 
   target <- rep(NA, 10)
   target[4] <- 75*60
-  checkEquals(target, result$input.gross.totals)
-  checkEquals(target, result$input.net.totals)
+  checkEquals(target, coredata(result$input.gross.totals))
+  checkEquals(target, coredata(result$input.net.totals))
 
   target <- rep(NA, 10)
   target[4] <- 15 * 60
-  checkEquals(target, result$input.gross.duration)
-  checkEquals(target, result$input.net.duration)
+  checkEquals(target, coredata(result$input.gross.duration))
+  checkEquals(target, coredata(result$input.net.duration))
 }
 
 test.cumulate.timeseries.one.net.stretch.trapezoid <- function() {
@@ -75,19 +121,19 @@ test.cumulate.timeseries.one.net.stretch.trapezoid <- function() {
   target <- rep(NA, 10)
   target[c(4,7)] <- 5 * 60
   target[c(5,6)] <- 15 * 60
-  checkEquals(target, result$input.gross.partials)
-  checkEquals(target, result$input.net.partials)
+  checkEquals(target, coredata(result$input.gross.partials))
+  checkEquals(target, coredata(result$input.net.partials))
 
   target <- rep(NA, 10)
   target[4] <- 40 * 60
-  checkEquals(target, result$input.gross.totals)
-  checkEquals(target, result$input.net.totals)
+  checkEquals(target, coredata(result$input.gross.totals))
+  checkEquals(target, coredata(result$input.net.totals))
 
   ## TODO - now same duration as integration.method 1
   target <- rep(NA, 10)
   target[4] <- 15 * 60
-  checkEquals(target, result$input.gross.duration)
-  checkEquals(target, result$input.net.duration)
+  checkEquals(target, coredata(result$input.gross.duration))
+  checkEquals(target, coredata(result$input.net.duration))
 }
 
 test.cumulate.timeseries.two.net.stretches <- function() {
@@ -132,10 +178,10 @@ test.cumulate.timeseries.two.net.stretches <- function() {
   ## 15     0                  0                0
   target <- rep(NA, 15)
   target[4] <- 100 * 60
-  checkEquals(target, result$input.gross.totals)
+  checkEquals(target, coredata(result$input.gross.totals))
   target[4] <- 75 * 60
   target[9] <- 25 * 60
-  checkEquals(target, result$input.net.totals)
+  checkEquals(target, coredata(result$input.net.totals))
 
   ##    input input.gross.duration input.net.duration 
   ## 1      0                    0                  0 
@@ -155,10 +201,10 @@ test.cumulate.timeseries.two.net.stretches <- function() {
   ## 15     0                    0                  0 
   target <- rep(NA, 15)
   target[4] <- 30 * 60
-  checkEquals(target, result$input.gross.duration)
+  checkEquals(target, coredata(result$input.gross.duration))
   target[4] <- 15 * 60
   target[9] <- 5 * 60
-  checkEquals(target, result$input.net.duration)
+  checkEquals(target, coredata(result$input.net.duration))
 }
 
 test.cumulate.timeseries.two.net.stretches.trapezoid <- function() {
@@ -205,9 +251,9 @@ test.cumulate.timeseries.two.net.stretches.trapezoid <- function() {
   target[4:10] <- 12.5 * 60
   target[5:6] <- 25 * 60
   target[8] <- NA
-  checkEquals(target, result$input.net.partials)
+  checkEquals(target, coredata(result$input.net.partials))
   target[8] <- 0
-  checkEquals(target, result$input.gross.partials)
+  checkEquals(target, coredata(result$input.gross.partials))
 }
 
 test.cumulate.timeseries.two.net.stretches.near.borders <- function() {
@@ -242,10 +288,10 @@ test.cumulate.timeseries.two.net.stretches.near.borders <- function() {
   ## 10     5                  0|               0|
   target <- rep(NA, 10)
   target[2] <- 175 * 60
-  checkEquals(target, result$input.gross.totals)
+  checkEquals(target, coredata(result$input.gross.totals))
   target[2] <- 125 * 60
   target[9] <- 50 * 60
-  checkEquals(target, result$input.net.totals)
+  checkEquals(target, coredata(result$input.net.totals))
 
   ##    input input.gross.duration input.net.duration 
   ## 1      0                    0                  0 
@@ -260,10 +306,10 @@ test.cumulate.timeseries.two.net.stretches.near.borders <- function() {
   ## 10     5                    0|                 0|
   target <- rep(NA, 10)
   target[2] <- 45 * 60
-  checkEquals(target, result$input.gross.duration)
+  checkEquals(target, coredata(result$input.gross.duration))
   target[2] <- 25 * 60
   target[9] <- 10 * 60
-  checkEquals(target, result$input.net.duration)
+  checkEquals(target, coredata(result$input.net.duration))
 }
 
 test.cumulate.timeseries.all.NA <- function() {
@@ -273,40 +319,37 @@ test.cumulate.timeseries.all.NA <- function() {
   result <- cumulate.timeseries(pidata, integration.method=1)
 
   target <- rep(NA, 10)
-  checkEquals(target, result$input.gross.totals)
-  checkEquals(target, result$input.net.totals)
-  checkEquals(target, result$input.gross.duration)
-  checkEquals(target, result$input.net.duration)
+  checkEquals(target, coredata(result$input.gross.totals))
+  checkEquals(target, coredata(result$input.net.totals))
+  checkEquals(target, coredata(result$input.gross.duration))
+  checkEquals(target, coredata(result$input.net.duration))
 }
 
 test.select.percentiles.timeseries.30.80.10 <- function() {
-  pidata <- timeseries(21000000*60, by=5*60, length.out=22)
-  for(i in 1:10) {
-    pidata[i+1] <- i
-  }
-  names(pidata)[(1:10)+1] <- 'a'
+  l <- rep(1:10, each=22)
+  dim(l) <- c(22, 10)
+  colnames(l) <- rep('a', 10)
+  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
   current <- select.percentiles(pidata, c(30, 80))
   target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=3, a.80=8)
   checkEquals(target, current)
 }
 
 test.select.percentiles.timeseries.10.20.90.100.10 <- function() {
-  pidata <- timeseries(21000000*60, by=5*60, length.out=22)
-  for(i in 1:10) {
-    pidata[i+1] <- i
-  }
-  names(pidata)[(1:10)+1] <- 'a'
+  l <- rep(1:10, each=22)
+  dim(l) <- c(22, 10)
+  colnames(l) <- rep('a', 10)
+  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
   current <- select.percentiles(pidata, c(10, 20, 90, 100))
   target <- timeseries(21000000*60, by=5*60, length.out=22, a.10=1, a.20=2, a.90=9, a.100=10)
   checkEquals(target, current)
 }
 
 test.select.percentiles.timeseries.30.80.100 <- function() {
-  pidata <- timeseries(21000000*60, by=5*60, length.out=22)
-  for(i in 1:100) {
-    pidata[i+1] <- i
-  }
-  names(pidata)[(1:100)+1] <- 'a'
+  l <- rep(1:100, each=22)
+  dim(l) <- c(22, 100)
+  colnames(l) <- rep('a', 100)
+  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
   current <- select.percentiles(pidata, c(30, 80))
   target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=30, a.80=80)
   checkEquals(target, current)

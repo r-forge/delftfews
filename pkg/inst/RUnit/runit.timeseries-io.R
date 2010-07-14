@@ -27,48 +27,48 @@ EPOCH <- delftfews:::EPOCH
 
 test.read.PI.just.reading <- function() {
   pidata <- read.PI('data/decumulative.input.xml')
-  checkEquals('timestamps' %in% names(pidata), TRUE)
+  checkEquals(class(pidata), "zoo")
 }
 
 test.computing.decumulative <- function() {
   DEACTIVATED("this is not a unit test, it's a usage example.")
   pidata <- read.PI('data/decumulative.input.xml')
 
-  current <- data.frame(timestamps=pidata[-1, c('timestamps')]) # drop first timestamp
-  current$P1201 <- diff(pidata[['lp.600-P1201.WNS954']])
-  current$P1202 <- diff(pidata[['lp.600-P1202.WNS954']])
-  current$P1203 <- diff(pidata[['lp.600-P1203.WNS954']])
+  current <- data.frame(timestamps=index(pidata)[-1]) # drop first timestamp
+  current$P1201 <- diff(pidata[, 'lp.600-P1201.WNS954'])
+  current$P1202 <- diff(pidata[, 'lp.600-P1202.WNS954'])
+  current$P1203 <- diff(pidata[, 'lp.600-P1203.WNS954'])
 
   pidata.out <- read.PI('data/decumulative.output.xml')
 
-  checkEquals(pidata.out$timestamps, current$timestamps)
-  checkEquals(pidata.out[['lp.600-P1201.WNS954.omgezet']], current$P1201)
-  checkEquals(pidata.out[['lp.600-P1202.WNS954.omgezet']], current$P1202)
-  checkEquals(pidata.out[['lp.600-P1203.WNS954.omgezet']], current$P1203)
+  checkEquals(index(pidata.out), index(current))
+  checkEquals(pidata.out[, 'lp.600-P1201.WNS954.omgezet'], current$P1201)
+  checkEquals(pidata.out[, 'lp.600-P1202.WNS954.omgezet'], current$P1202)
+  checkEquals(pidata.out[, 'lp.600-P1203.WNS954.omgezet'], current$P1203)
 }
 
 test.read.PI.na.pass <- function() {
   ## value is not at all present for timestamp.
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
-  checkEquals(is.na(pidata[['lp.600-P1201.WNS954']][2]), FALSE)
-  checkEquals(is.na(pidata[['lp.600-P1201.WNS954']][3]), TRUE)
+  checkEquals(is.na(pidata[2, 'lp.600-P1201.WNS954']), FALSE)
+  checkEquals(is.na(pidata[3, 'lp.600-P1201.WNS954']), TRUE)
 }
 
 test.read.PI.na.pass.missVal <- function() {
   ## value for timestamp is the fictive missing value.
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
-  checkEquals(is.na(pidata[['lp.600-P1203.WNS954']][2]), FALSE)
-  checkEquals(is.na(pidata[['lp.600-P1202.WNS954']][3]), TRUE)
+  checkEquals(is.na(pidata[2, 'lp.600-P1203.WNS954']), FALSE)
+  checkEquals(is.na(pidata[3, 'lp.600-P1202.WNS954']), TRUE)
 }
 
 test.read.PI.na.pass.flag9 <- function() {
   ## value for timestamp must be discarded (flag is 9)
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
-  checkEquals(is.na(pidata[['lp.600-P1203.WNS954']][2]), FALSE)
-  checkEquals(is.na(pidata[['lp.600-P1203.WNS954']][3]), TRUE)
+  checkEquals(is.na(pidata[2, 'lp.600-P1203.WNS954']), FALSE)
+  checkEquals(is.na(pidata[3, 'lp.600-P1203.WNS954']), TRUE)
 }
 
 test.read.PI.one.empty.series <- function() {
@@ -96,7 +96,7 @@ test.read.PI.timezone.2 <- function() {
   pidata <- read.PI('data/read.PI.timezone.2.xml', na.action=na.pass)
 
   target <- EPOCH + seq(from=1270245600, to=1271023200, by=86400)
-  checkEquals(target, pidata$timestamps)
+  checkEqualsNumeric(target, index(pidata))
 }
 
 test.write.PI.na.missing.elements <- function() {
@@ -107,8 +107,8 @@ test.write.PI.na.missing.elements <- function() {
                      locationId='600-P1201', parameterId='WNS954-differences',
                      timeStep=1440, startDate=20910240, endDate=20931840)
 
-  result <- data.frame(timestamps=pidata[-1, c('timestamps')]) # drop first timestamp
-  result$P1201 <- diff(pidata[['lp.600-P1201.WNS954']])
+  result <- data.frame(timestamps=index(pidata)[-1]) # drop first timestamp
+  result$P1201 <- diff(pidata[, 'lp.600-P1201.WNS954'])
 
   conf$missVal <- NULL # removed column, elements will be missing
   write.PI(result, conf, 'data/write.PI.na.missing.elements.current')
@@ -125,8 +125,7 @@ test.write.PI.na.NULL.elements <- function() {
                      locationId='600-P1201', parameterId='WNS954-differences',
                      timeStep=1440, startDate=20910240, endDate=20931840)
 
-  result <- data.frame(timestamps=pidata[-1, c('timestamps')]) # drop first timestamp
-  result$P1201 <- diff(pidata[['lp.600-P1201.WNS954']])
+  result <- zoo(data.frame(P1201=diff(pidata[, 'lp.600-P1201.WNS954'])), index(pidata)[-1])
 
   conf$missVal <- "NULL"
   write.PI(result, conf, 'data/test.write.PI.na.1.xml.current')
@@ -143,8 +142,8 @@ test.write.PI.na.value <- function() {
                      locationId='600-P1201', parameterId='WNS954-differences',
                      timeStep=1440, startDate=20910240, endDate=20931840)
 
-  result <- data.frame(timestamps=pidata[-1, c('timestamps')]) # drop first timestamp
-  result$P1201 <- diff(pidata[['lp.600-P1201.WNS954']])
+  result <- data.frame(timestamps=index(pidata)[-1]) # drop first timestamp
+  result$P1201 <- diff(pidata[, 'lp.600-P1201.WNS954'])
 
   conf$missVal <- -999.0 # set missing value, expect this value
   write.PI(result, conf, 'data/test.write.PI.na.2.xml.current')
@@ -161,8 +160,7 @@ test.write.PI.na.flag.9 <- function() {
                      locationId='600-P1201', parameterId='WNS954-differences',
                      timeStep=1440, startDate=20910240, endDate=20931840)
 
-  result <- data.frame(timestamps=pidata[-1, c('timestamps')]) # drop first timestamp
-  result$P1201 <- diff(pidata[['lp.600-P1201.WNS954']])
+  result <- timeseries(order.by=index(pidata)[-1], P1201=diff(pidata[, 'lp.600-P1201.WNS954']))
 
   conf$missVal <- NA # causes flag="9"
   write.PI(result, conf, 'data/test.write.PI.na.3.xml.current')
@@ -183,10 +181,7 @@ test.write.PI.na.threecolumns <- function() {
   conf$stationName <- '-'
   conf$longName <- '-'
 
-  result <- data.frame(timestamps=pidata[-1, c('timestamps')]) # drop first timestamp
-  result$P1201 <- NA
-  result$P1202 <- NA
-  result$P1203 <- NA
+  result <- timeseries(order.by=index(pidata)[-1], P1201=NA, P1202=NA, P1203=NA)
   
   write.PI(result, conf, 'data/test.write.PI.na.4.xml.current')
   expect <- readLines('data/test.write.PI.na.4.xml.target')

@@ -112,9 +112,8 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
   first <- floor(startsAndEnds[1]/step.seconds)*step.seconds
   last <- ceiling(startsAndEnds[2]/step.seconds)*step.seconds
 
-  ## result data.frame holds one $timestamps column, meant for both
-  ## computation and human readability of the data.
-  result <- data.frame(timestamps=EPOCH + seq(from=first, to=last, by=step.seconds) - timeOffset)
+  ## result zoo is indexed on timestamps.  you can retrieve them using the `index` function.
+  result <- zoo(data.frame(), order.by=EPOCH + seq(from=first, to=last, by=step.seconds) - timeOffset)
 
   ## finally extract all the timestamped values and fill in the blanks
 
@@ -135,12 +134,12 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
 
     grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
     column <- rep(NA, nrow(result))
-    column[as.seconds(result$timestamps) %in% (grouped$s - timeOffset)] <- grouped$v
+    column[as.seconds(index(result)) %in% (grouped$s - timeOffset)] <- grouped$v
     na.action(column)
   }
 
   ## column-bind the timestamps to the collected values
-  cbind(result, mapply(getValues, seriesNodes))
+  cbind(result, mapply(getValues, seriesNodes), check.names=FALSE)
 }
 
 write.PI <- function(data, data.description, filename, global.data=NA) {
@@ -152,7 +151,7 @@ write.PI <- function(data, data.description, filename, global.data=NA) {
   ##1 instantaneous 155 Ai2 -999.0 m^3/min result
   ##2 instantaneous 156 Ai3 -999.0 mmHg check
 
-  timeStep <- get.step(data$timestamps)
+  timeStep <- get.step(index(data))
 
   looksLikeNULL <- function(object, name) {
     if(!(name %in% names(object)))
@@ -172,8 +171,8 @@ write.PI <- function(data, data.description, filename, global.data=NA) {
     ## 'event' nodes
 
     ## cut uninteresting columns
-    actualdata <- data.frame(seconds = as.seconds(data[[1]]))
-    actualdata$column <- data[[ item[['column']] ]]
+    actualdata <- data.frame(seconds = as.seconds(index(data)))
+    actualdata$column <- data[ , item[['column']] ]
     ## cut rows that generate no 'event' node.
     if(looksLikeNULL(item, 'missVal')) {
       actualdata <- subset(actualdata, !is.na(column))
@@ -215,7 +214,7 @@ write.PI <- function(data, data.description, filename, global.data=NA) {
         xmlNode(name = 'event', attrs=c(date=tsDate(ts), time=tsTime(ts), value=value, flag=0))
     }
 
-    if(length(data[[1]]) != length(actualdata[[1]])) # we removed rows
+    if(nrow(data) != nrow(actualdata)) # we removed rows
       timeStepNode <- xmlNode('timeStep', attrs=c(unit="nonequidistant"))
     else
       timeStepNode <- xmlNode('timeStep', attrs=c(unit="seconds", multiplier=timeStep))
@@ -274,7 +273,7 @@ read.BfG <- function(filename, column="value") {
   Q$timestamps <- as.POSIXct(paste(dates, times), "%Y-%m-%d %H:%M:%S", tz="UTC")
 
   ## remove the original first four columns, set 'timestamps' as the first column.
-  return(Q[c('timestamps', column)])
+  return(Q[column], Q$timestamps)
 }
 
 splitToNumeric <- function(x) {

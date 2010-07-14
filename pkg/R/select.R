@@ -44,7 +44,7 @@ timestamp.in.range <- function(data, from, to, by, units, offset, tz="UTC") {
   ## timestamps in the timezone specified, remove the timezone
   ## information and do all calculations as if we were living in UTC.
   ## it's a cheap trick, you don't need tell me.
-  timestamps.as.string <- format(data$timestamps, tz=tz)
+  timestamps.as.string <- format(index(data), tz=tz)
   fictive.timestamps <- as.POSIXct(timestamps.as.string, tz="UTC")
   values.from.from <- (as.double(difftime(fictive.timestamps, EPOCH), units=units) + offset - from) %% by
   return (values.from.from < window.width)
@@ -88,7 +88,7 @@ reformat.date <- function(datestring) {
 timestamp.in.range.calendar <- function(data, from, to, tz="CET") {
   ## returns whether the timestamps of a timeseries are between start and end date
 
-  dates <- format.Date(data$timestamps, format="%02m%02d")
+  dates <- format.Date(index(data), format="%02m%02d")
 
   from <- reformat.date(from)
   to <- reformat.date(to)

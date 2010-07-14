@@ -34,8 +34,10 @@ select.percentiles(input, percentiles, score.function, ...)
   \item{...}{extra parameters are passed to the `score.function` function.}
 }
 \examples{
- pidata <- timeseries(1260000000, by=300, length.out=22)
- for(i in 1:100) pidata[i+1] <- i
- names(pidata)[(1:100)+1] <- 'a'
+ l <- rep(1:100, each=22)
+ dim(l) <- c(22, 100)
+ l <- data.frame(l)
+ colnames(l) <- rep('a', 100)
+ pidata <- zoo(l, as.Date(seq(from=12600, by=300, length.out=22)))
  current <- select.percentiles(pidata, c(30, 80))
 }

@@ -21,39 +21,6 @@ require(RUnit)
 
 EPOCH <- delftfews:::EPOCH
 
-test.select.percentiles.timeseries.30.80.10 <- function() {
-  pidata <- timeseries(21000000*60, by=5*60, length.out=22)
-  for(i in 1:10) {
-    pidata[i+1] <- i
-  }
-  names(pidata)[(1:10)+1] <- 'a'
-  current <- select.percentiles(pidata, c(30, 80))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=3, a.80=8)
-  checkEquals(target, current)
-}
-
-test.select.percentiles.timeseries.10.20.90.100.10 <- function() {
-  pidata <- timeseries(21000000*60, by=5*60, length.out=22)
-  for(i in 1:10) {
-    pidata[i+1] <- i
-  }
-  names(pidata)[(1:10)+1] <- 'a'
-  current <- select.percentiles(pidata, c(10, 20, 90, 100))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.10=1, a.20=2, a.90=9, a.100=10)
-  checkEquals(target, current)
-}
-
-test.select.percentiles.timeseries.30.80.100 <- function() {
-  pidata <- timeseries(21000000*60, by=5*60, length.out=22)
-  for(i in 1:100) {
-    pidata[i+1] <- i
-  }
-  names(pidata)[(1:100)+1] <- 'a'
-  current <- select.percentiles(pidata, c(30, 80))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=30, a.80=80)
-  checkEquals(target, current)
-}
-
 test.timestamp.in.range <- function() {
   DEACTIVATED("timestamp.in.range is not tested.")
 }

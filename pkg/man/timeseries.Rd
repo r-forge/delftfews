@@ -21,7 +21,7 @@
   
 }
 \usage{
-timeseries(from, to, by, length.out, ...)
+timeseries(from, to, by, length.out, order.by, ...)
 }
 \arguments{
   \item{from}{the starting instant of the resulting time series.
@@ -32,6 +32,9 @@ timeseries(from, to, by, length.out, ...)
     \code{numeric}}
   \item{length.out}{if specified, ensures the resulting timeseries
     contains \code{length.out} elements (\code{length.out - 1} steps).}
+  \item{order.by}{if specified, the resulting timeseries uses these
+    timestamps as index instead of building its own from the above
+    described four parameters.}
   \item{...}{any other named field is added as field in the resulting
     timeseries.  the lenght must match the \code{length.out} parameter.}
 }
