@@ -2,7 +2,9 @@
 
 \name{write.PI}
 \alias{write.PI}
-\title{write parts of a data.frame into PI format}
+\alias{write.PI.zoo}
+\alias{write.PI.data.frame}
+\title{write parts of a timeseriesset into PI format}
 \description{
   use this function to produce a PI file.
 
@@ -27,7 +29,8 @@
 write.PI(data, data.description, filename, global.data)
 }
 \arguments{
-  \item{data}{the timeseries.  must contain the column `timestamps`}
+  \item{data}{the timeseries-set.  either a data.frame with the column
+  `timestamps` or a zoo object.}
   \item{data.description}{a data.frame.  each row describes a column in the
     `data` that goes in the PI file.}
   \item{filename}{the name of the output xml file}

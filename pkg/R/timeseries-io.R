@@ -142,7 +142,16 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
   cbind(result, mapply(getValues, seriesNodes), check.names=FALSE)
 }
 
-write.PI <- function(data, data.description, filename, global.data=NA) {
+write.PI <- function(data, data.description, filename, global.data) 
+  ## generic function, saves a timeseriesset to a file
+  UseMethod('write.PI')
+
+write.PI.data.frame <- function(data, data.description, filename, global.data=NA) {
+  data <- zoo(data[-1], order.by=data$timestamps)
+  return(write.PI.zoo(data, data.description, filename, global.data=global.data))
+}
+
+write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
   ## exports parts of the data data.frame to the XML filename
 
   ## data.description is a data.frame, looking like this:

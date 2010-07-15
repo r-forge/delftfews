@@ -107,8 +107,7 @@ test.write.PI.na.missing.elements <- function() {
                      locationId='600-P1201', parameterId='WNS954-differences',
                      timeStep=1440, startDate=20910240, endDate=20931840)
 
-  result <- data.frame(timestamps=index(pidata)[-1]) # drop first timestamp
-  result$P1201 <- diff(pidata[, 'lp.600-P1201.WNS954'])
+  result <- timeseries(P1201=diff(pidata[, 'lp.600-P1201.WNS954']), order.by=index(pidata)[-1])
 
   conf$missVal <- NULL # removed column, elements will be missing
   write.PI(result, conf, 'data/write.PI.na.missing.elements.current')
@@ -125,7 +124,7 @@ test.write.PI.na.NULL.elements <- function() {
                      locationId='600-P1201', parameterId='WNS954-differences',
                      timeStep=1440, startDate=20910240, endDate=20931840)
 
-  result <- zoo(data.frame(P1201=diff(pidata[, 'lp.600-P1201.WNS954'])), index(pidata)[-1])
+  result <- timeseries(P1201=diff(pidata[, 'lp.600-P1201.WNS954']), order.by=index(pidata)[-1])
 
   conf$missVal <- "NULL"
   write.PI(result, conf, 'data/test.write.PI.na.1.xml.current')
@@ -136,6 +135,23 @@ test.write.PI.na.NULL.elements <- function() {
 
 test.write.PI.na.value <- function() {
   ## if missVal is given and not NA: use it and flag it 8
+  pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
+
+  conf <- data.frame(column='P1201', type='instantaneous',
+                     locationId='600-P1201', parameterId='WNS954-differences',
+                     timeStep=1440, startDate=20910240, endDate=20931840)
+
+  result <- timeseries(order.by=index(pidata)[-1], P1201=diff(pidata[, 'lp.600-P1201.WNS954']))
+
+  conf$missVal <- -999.0 # set missing value, expect this value
+  write.PI(result, conf, 'data/test.write.PI.na.2.xml.current')
+  expect <- readLines('data/test.write.PI.na.2.xml.target')
+  current <- readLines('data/test.write.PI.na.2.xml.current')
+  checkEquals(current, expect)
+}
+
+test.write.PI.na.value.data.frame <- function() {
+  ## same test as above, but writing a data.frame instead of a zoo
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
   conf <- data.frame(column='P1201', type='instantaneous',
