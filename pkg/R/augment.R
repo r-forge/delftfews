@@ -25,7 +25,7 @@
 ##
 
 timeseries <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, order.by=NULL, ...) {
-  ## builds a minimal time series data.frame
+  ## builds a minimal time-series-set zoo object
 
   if(!is.null(order.by)) {
     timestamps <- order.by
