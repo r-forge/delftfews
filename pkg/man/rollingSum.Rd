@@ -4,6 +4,7 @@
 \name{rollingSum}
 \alias{rollapply}
 \alias{rollingSum}
+\alias{[.zoo}
 \title{apply aggregating functions to contiguous stretches of data}
 \description{  
 

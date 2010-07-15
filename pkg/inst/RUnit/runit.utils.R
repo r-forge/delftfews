@@ -293,3 +293,9 @@ test.get.step <- function() {
   L <- matrix(c(2,4,6,8,12,14,18, 12,14,16,18,22,24,28), 7, 2)
   checkEquals(2, get.step(L))
 }
+
+test.__getitem__.zoo <- function() {
+  ## testing [.zoo override
+  d <- zoo(data.frame(a=1, b=2, c=3), order.by=1:3)
+  checkEquals(d[, 'a'], d['a'])
+}

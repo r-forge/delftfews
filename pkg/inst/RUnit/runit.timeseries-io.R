@@ -51,24 +51,24 @@ test.read.PI.na.pass <- function() {
   ## value is not at all present for timestamp.
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
-  checkEquals(is.na(pidata[2, 'lp.600-P1201.WNS954']), FALSE)
-  checkEquals(is.na(pidata[3, 'lp.600-P1201.WNS954']), TRUE)
+  checkEquals(FALSE, is.na(pidata[2, 'lp.600-P1201.WNS954']))
+  checkEquals(TRUE, is.na(pidata[3, 'lp.600-P1201.WNS954']))
 }
 
 test.read.PI.na.pass.missVal <- function() {
   ## value for timestamp is the fictive missing value.
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
-  checkEquals(is.na(pidata[2, 'lp.600-P1203.WNS954']), FALSE)
-  checkEquals(is.na(pidata[3, 'lp.600-P1202.WNS954']), TRUE)
+  checkEquals(FALSE, is.na(pidata[2, 'lp.600-P1203.WNS954']))
+  checkEquals(TRUE, is.na(pidata[3, 'lp.600-P1202.WNS954']))
 }
 
 test.read.PI.na.pass.flag9 <- function() {
   ## value for timestamp must be discarded (flag is 9)
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
-  checkEquals(is.na(pidata[2, 'lp.600-P1203.WNS954']), FALSE)
-  checkEquals(is.na(pidata[3, 'lp.600-P1203.WNS954']), TRUE)
+  checkEquals(FALSE, is.na(pidata[2, 'lp.600-P1203.WNS954']))
+  checkEquals(TRUE, is.na(pidata[3, 'lp.600-P1203.WNS954']))
 }
 
 test.read.PI.one.empty.series <- function() {

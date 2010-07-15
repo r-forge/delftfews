@@ -177,3 +177,24 @@ sum.first <- function(input, count=12) {
   ## first 12 rows of each column
   sapply(input[1:count,], sum)
 }
+
+"[.zoo" <- function(x, i, j, drop = TRUE, ...)
+{
+  ## TODO: this temporarily implements a modification I have requested
+  ## on the real [.zoo function.  there is a fake documentation entry
+  ## for this function in rollingSum.  the place was chosen because
+  ## also delftfews::rollapply can probably be removed in favour of
+  ## zoo::rollapply.
+
+  ## support "data.frame" named indexing of columns
+  args <- list(x=x, drop=drop, ...)
+  if(missing(j) && all(class(i) == "character"))
+    args$j <- i
+  else {
+    if(!missing(i))
+      args$i <- i
+    if(!missing(j))
+      args$j <- j
+  }
+  return(do.call("[.zoo", args, envir=loadNamespace("zoo")))
+}

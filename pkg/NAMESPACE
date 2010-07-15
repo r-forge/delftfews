@@ -26,6 +26,5 @@ export(as.seconds,
        timestamp.in.weekend,
        write.PI,
        write.PI.data.frame,
-       write.PI.zoo)
-       
-
+       write.PI.zoo,
+       "[.zoo")
