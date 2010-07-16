@@ -93,10 +93,10 @@ cumulate.timeseries <- function(input, column="input", gap=1, integration.method
     intervals <- as.double(diff(timestamps), units=units)
     if (integration.method == 1) {
       ## rectangular, top left
-      values <- input[, column][start:end]
+      values <- input[start:end, column]
     } else if (integration.method == 3) {
       ## trapezoid
-      values <- rollapply(c(0, input[, column][start:end], 0), 2, mean, na.action=na.zero)[-1]
+      values <- rollapply(c(0, input[start:end, column], 0), 2, mean, na.action=na.zero)[-1]
       intervals[length(intervals) + 1] <- intervals[length(intervals)]
       end <- end + 1
     } else {

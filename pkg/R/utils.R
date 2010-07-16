@@ -54,8 +54,15 @@ na.fill <- function(object) {
   ## accepts a vector possibly holding NA values and returns a vector
   ## where all observed values are carried forward and the first is
   ## carried backward.  cfr na.locf from zoo library.
-  L <- !is.na(object)
-  c(object[L][1], object[L])[1 + cumsum(L)]
+
+  ## function looks a bit clumsy because in case the input object has
+  ## labels for entries, we want to replace only the values, keeping
+  ## all labels in place.
+  values <- as.numeric(object)
+  result <- object
+  L <- !is.na(values)
+  result[1:length(values)] <- c(values[L][1], values[L])[1 + cumsum(L)]
+  return(result)
 }
 
 na.zero <- function(object) {
@@ -94,31 +101,33 @@ stretches <- function(input, gap=1, what="start", zero.surrounded=FALSE) {
   return(result)
 }
 
-rollapply <- function(data, count, fun, na.action=na.pass) {
-  ## returns the rolling application of `fun` to data (nth element in
-  ## returned vector is `fun` of count elements in data from n-count
+rollapply.default <- function(data, width, FUN, ...) {
+  ## returns the rolling application of `FUN` to data (nth element in
+  ## returned vector is `FUN` of width elements in data from n-width
   ## to n.)
 
-  ## count must be positive.
-  ## result is same length as data (starts with `count-1` NA).
+  apply.na.action <- function(data, na.action=na.pass, ...) na.action(data)
+  data <- apply.na.action(data, ...)
 
-  data <- na.action(data)
+  ## width must be positive.
+  ## result is same length as data (starts with `width-1` NA).
+
   len <- length(data)
-  if(count < 1) {
-    ## Only positive count allowed
+  if(width < 1) {
+    ## Only positive width allowed
     return(rep(NA, len))  
   }
-  if(count > len) {
+  if(width > len) {
     rep(NA, len)
   } else {
-    c( rep(NA, count - 1) , apply(embed(data, count), 1, fun) )
+    c( rep(NA, width - 1) , apply(embed(data, width), 1, FUN) )
   }
 }
 
-rollingSum <- function(data, count, na.action=na.zero) {
+rollingSum <- function(data, width, na.action=na.zero) {
   ## commodity function
   ## na.zero specifies that NA will be summed as zero.
-  rollapply(data, count, fun=sum, na.action=na.action)
+  rollapply(na.action(data), width, FUN=sum)
 }
 
 shift.vector <- function(v, by) {
@@ -197,4 +206,69 @@ sum.first <- function(input, count=12) {
       args$j <- j
   }
   return(do.call("[.zoo", args, envir=loadNamespace("zoo")))
+}
+
+double.threshold <- function(data, threshold.false, threshold.true, initial.status)
+  UseMethod('double.threshold')
+
+double.threshold.default <- function(data, threshold.false, threshold.true, initial.status=FALSE) {
+  ## double threshold test.
+  
+  ## looks at data as a sequence of values and returns a boolean that
+  ## tells whether we are between the two threshold values.
+
+  s <- rep(NA, length(data))
+  s[1] <- initial.status
+  s[data > threshold.true] <- TRUE
+  s[data < threshold.false] <- FALSE
+  L <- !is.na(s)
+  s[L][cumsum(L)]
+}
+
+double.threshold.data.frame <- function(data, ...) {
+  ## applies double.threshold.default to each column of the input
+  ## data.frame
+
+  data.frame(apply(data, 2, double.threshold, ...))
+}
+
+double.threshold.matrix <- function(data, ...) {
+  ## applies double.threshold.default to each column of the input
+  ## matrix
+
+  apply(data, 2, double.threshold, ...)
+}
+
+multi.double.threshold <- function(data, thresholds, initial.status)
+  UseMethod('multi.double.threshold')
+
+multi.double.threshold.default <- function(data, thresholds, initial.status=FALSE) {
+  ## multiple double threshold test.  similar to above
+  ## double.threshold, but this one counts the amount of thresholds
+  ## being exceeded.
+
+  ## `thresholds` is a data.frame with two columns named
+  ## "threshold.false" and "threshold.true".
+
+  apply.threshold.row <- function(threshold.row, data, ...) {
+    threshold.false <- threshold.row[1]
+    threshold.true <- threshold.row[2]
+    double.threshold(data, threshold.false, threshold.true, ...)
+  }
+
+  apply(apply(thresholds, 1, apply.threshold.row, data=data, initial.status=initial.status), 1, sum)
+}
+
+multi.double.threshold.data.frame <- function(data, ...) {
+  ## applies multi.double.threshold.default to each column of the input
+  ## data.frame
+
+  data.frame(apply(data, 2, multi.double.threshold, ...))
+}
+
+multi.double.threshold.matrix <- function(data, ...) {
+  ## applies multi.double.threshold.default to each column of the input
+  ## matrix
+
+  apply(data, 2, multi.double.threshold, ...)
 }

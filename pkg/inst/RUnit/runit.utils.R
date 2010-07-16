@@ -299,3 +299,83 @@ test.__getitem__.zoo <- function() {
   d <- zoo(data.frame(a=1, b=2, c=3), order.by=1:3)
   checkEquals(d[, 'a'], d['a'])
 }
+
+test.double.threshold.0 <- function() {
+  ## start below lower (false) threshold
+  values <- c(0, 2, 3, 2, 1, 0)
+  target <- c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE)
+  current <- double.threshold(values, 1, 2)
+  checkEquals(target, current)
+}
+
+test.double.threshold.1 <- function() {
+  ## start between thresholds, default initial value FALSE
+  values <- c(1, 2, 3, 2, 1, 0)
+  target <- c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE)
+  current <- double.threshold(values, 1, 2)
+  checkEquals(target, current)
+}
+
+test.double.threshold.2 <- function() {
+  ## start between thresholds, explicit initial value TRUE
+  values <- c(1, 2, 3, 2, 1, 0)
+  target <- c(TRUE, TRUE, TRUE, TRUE, TRUE, FALSE)
+  current <- double.threshold(values, 1, 2, TRUE)
+  checkEquals(target, current)
+}
+
+test.double.threshold.3 <- function() {
+  ## start below false threshold, ignores initial value TRUE
+  values <- c(0, 2, 3, 2, 1, 0)
+  target <- c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE)
+  current <- double.threshold(values, 1, 2, TRUE)
+  checkEquals(target, current)
+}
+
+test.double.threshold.data.frame.1 <- function() {
+  values <- data.frame(a=c(0, 2, 3, 2, 1, 0), b=c(0, 2, 3, 2, 1, 0))
+  target <- data.frame(a=c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE), b=c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE))
+  current <- double.threshold(values, 1, 2, TRUE)
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.vector.1 <- function() {
+  ## vector, four thresholds, initial TRUE.
+
+  values <- c(1, 2, 3, 4, 5, 4, 3, 2, 1)
+  thresholds <- data.frame(false=1:4-0.01, true=1:4+0.01)
+  current <- multi.double.threshold(values, thresholds, TRUE)
+  target <- c(1, 1, 2, 3, 4, 4, 3, 2, 1)
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.data.frame.0 <- function() {
+  ## data.frame, one column, four thresholds, initial default.
+
+  values <- data.frame(a=c(1, 2, 3, 4, 5, 4, 3, 2, 1))
+  thresholds <- data.frame(false=1:4-0.01, true=1:4+0.01)
+  current <- multi.double.threshold(values, thresholds)
+  target <- data.frame(a=c(0, 1, 2, 3, 4, 4, 3, 2, 1))
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.data.frame.1 <- function() {
+  ## data.frame(one column), four thresholds, initial TRUE.
+
+  values <- data.frame(a=c(1, 2, 3, 4, 5, 4, 3, 2, 1))
+  thresholds <- data.frame(false=1:4-0.01, true=1:4+0.01)
+  current <- multi.double.threshold(values, thresholds, TRUE)
+  target <- data.frame(a=c(1, 1, 2, 3, 4, 4, 3, 2, 1))
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.data.frame.2 <- function() {
+  ## data.frame(two columns), four thresholds, initial TRUE.
+
+  values <- data.frame(a=c(1, 2, 3, 4, 5, 4, 3, 2, 1), b=c(1, 2, 3, 4, 5, 4, 3, 2, 1))
+  thresholds <- data.frame(false=1:4-0.01, true=1:4+0.01)
+  current <- multi.double.threshold(values, thresholds, TRUE)
+  target <- data.frame(a=c(1, 1, 2, 3, 4, 4, 3, 2, 1), b=c(1, 1, 2, 3, 4, 4, 3, 2, 1))
+  checkEquals(target, current)
+}
+
