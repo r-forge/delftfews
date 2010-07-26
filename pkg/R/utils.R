@@ -72,7 +72,7 @@ na.zero <- function(object) {
   result
 }
 
-na.interpolate <- function(object) 
+na.interpolate <- function(object)
   ## TODO
   object
 
@@ -115,7 +115,7 @@ rollapply.default <- function(data, width, FUN, ...) {
   len <- length(data)
   if(width < 1) {
     ## Only positive width allowed
-    return(rep(NA, len))  
+    return(rep(NA, len))
   }
   if(width > len) {
     rep(NA, len)
@@ -163,7 +163,7 @@ contiguous.stretch <- function(data, position, value=NULL, equality=TRUE) {
 
 get.step <- function(L, require.constant=FALSE) {
   ## not exported, tested.
-  
+
   ## returns the value of the most common difference between
   ## subsequent elements.
 
@@ -181,7 +181,7 @@ get.step <- function(L, require.constant=FALSE) {
 
 sum.first <- function(input, count=12) {
   ## not exported, not tested.
-  
+
   ## accepts a data.frame and returns the vector of the sum of the
   ## first 12 rows of each column
   sapply(input[1:count,], sum)
@@ -213,7 +213,7 @@ double.threshold <- function(data, threshold.false, threshold.true, initial.stat
 
 double.threshold.default <- function(data, threshold.false, threshold.true, initial.status=FALSE) {
   ## double threshold test.
-  
+
   ## looks at data as a sequence of values and returns a boolean that
   ## tells whether we are between the two threshold values.
 
@@ -271,4 +271,15 @@ multi.double.threshold.matrix <- function(data, ...) {
   ## matrix
 
   apply(data, 2, multi.double.threshold, ...)
+}
+
+
+extremes <- function(x, count) {
+  ## returns the averages of the `count` highest and lowest values of
+  ## vector `x`.
+
+  sorted <- sort(x)
+  N <- length(x)
+
+  c(mean(sorted[1:3]), mean(sorted[(N-2):N]))
 }

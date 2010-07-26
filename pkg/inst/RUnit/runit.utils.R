@@ -379,3 +379,38 @@ test.multi.double.threshold.data.frame.2 <- function() {
   checkEquals(target, current)
 }
 
+## testing unexported extremes(x, count)
+extremes <- delftfews:::extremes
+
+test.extremes.too.short <- function() {
+  ## x shorter than count, does not complain
+  values <- c(1,2,3)
+  target <- c(2, 2)
+  current <- extremes(values, 8)
+  checkEquals(target, current)
+}
+
+test.extremes.emtpy <- function() {
+  ## x empty: returns pair of NA
+  values <- c()
+  target <- c(NA_real_, NA_real_)
+  current <- extremes(values, 8)
+  checkEquals(target, current)
+}
+
+test.extremes.correct.1 <- function() {
+  ## normal usage on sorted data
+  values <- c(1,2,3,4,5,6,7,8,9)
+  target <- c(2, 8)
+  current <- extremes(values, 3)
+  checkEquals(target, current)
+}
+
+test.extremes.correct.2 <- function() {
+  ## normal usage on same but unsorted data
+  values <- c(7,2,8,3,1,9,6,5,4)
+  target <- c(2, 8)
+  current <- extremes(values, 3)
+  checkEquals(target, current)
+}
+
