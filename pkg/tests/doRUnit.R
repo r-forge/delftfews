@@ -1,6 +1,8 @@
 #!/usr/bin/Rscript
 ## unit tests will not be done if RUnit is not available
-if(require("RUnit", quietly=TRUE)) {
+if(!require("RUnit", quietly=TRUE)) {
+  warning("cannot run unit tests -- package RUnit is not available")
+} else {
 
   ## --- Setup ---
 
@@ -34,21 +36,14 @@ if(require("RUnit", quietly=TRUE)) {
 
   print(list(pkg=pkg, getwd=getwd(), pathToUnitTests=path, svnRevision="$Rev$"))
 
-  if (is.null(opt$standalone)) {
-    cat("\nRunning unit tests of installed library\n")
-    library(package=pkg, character.only=TRUE)
-  } else {
-    cat("\nRunning unit tests of uninstalled library\n")
-    source(dir("../R/", pattern=".*\\.R", full.names=TRUE))
-  }
+  cat("\nRunning unit tests of installed library\n")
+  library(package=pkg, character.only=TRUE)
 
   ## If desired, load the name space to allow testing of private functions
   ## if (is.element(pkg, loadedNamespaces()))
   ##     attach(loadNamespace(pkg), name=paste("namespace", pkg, sep=":"), pos=3)
   ##
   ## or simply call PKG:::myPrivateFunction() in tests
-
-  ## --- Testing ---
 
   ## Define tests
   testSuite <- defineTestSuite(name=paste(pkg, "unit testing"),
@@ -58,6 +53,7 @@ if(require("RUnit", quietly=TRUE)) {
 
   ## Default report name
   pathReport <- file.path(path, "report")
+  pathCoverage <- file.path(path, "coverage")
 
   ## Report to stdout and text files
   cat("------------------- UNIT TEST SUMMARY ---------------------\n\n")
@@ -67,8 +63,11 @@ if(require("RUnit", quietly=TRUE)) {
   printTextProtocol(tests, showDetails=TRUE,
                     fileName=paste(pathReport, ".txt", sep=""))
 
-  ## Report to HTML file
+  ## Report test results to HTML file
   printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
+
+  ## Report tests coverage to HTML file
+  print(names(tests))
 
   ## Return stop() to cause R CMD check stop in case of
   ##  - failures i.e. FALSE to unit tests or
@@ -78,6 +77,7 @@ if(require("RUnit", quietly=TRUE)) {
     stop(paste("\n\nunit testing failed (#test failures: ", tmp$nFail,
                ", #R errors: ",  tmp$nErr, ")\n\n", sep=""))
   }
-} else {
-  warning("cannot run unit tests -- package RUnit is not available")
-}
+  if(tmp$nDeactivated > 0) {
+    warning(paste("WARNING in doRUnit: there were", tmp$nDeactivated, "deactivated tests."))
+  }
+} 

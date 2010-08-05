@@ -113,10 +113,9 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
   last <- ceiling(startsAndEnds[2]/step.seconds)*step.seconds
 
   ## result zoo is indexed on timestamps.  you can retrieve them using the `index` function.
-  result <- zoo(data.frame(), order.by=EPOCH + seq(from=first, to=last, by=step.seconds) - timeOffset)
+  result.index <- EPOCH + seq(from=first, to=last, by=step.seconds) - timeOffset
 
   ## finally extract all the timestamped values and fill in the blanks
-
   getValues <- function(node) {
     ## get the values as a named column
     header <- xmlElementsByTagName(node, "header")[[1]]
@@ -133,13 +132,13 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
     seconds <- as.numeric(difftime(timestamps, EPOCH, tz="UTC"), units="secs")
 
     grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
-    column <- rep(NA, nrow(result))
-    column[as.seconds(index(result)) %in% (grouped$s - timeOffset)] <- grouped$v
+    column <- rep(NA, length(result.index))
+    column[as.seconds(result.index) %in% (grouped$s - timeOffset)] <- grouped$v
     na.action(column)
   }
 
   ## column-bind the timestamps to the collected values
-  cbind(result, mapply(getValues, seriesNodes), check.names=FALSE)
+  zoo(cbind(mapply(getValues, seriesNodes), check.names=FALSE), order.by=result.index)
 }
 
 write.PI <- function(data, data.description, filename, global.data) 

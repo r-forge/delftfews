@@ -45,18 +45,15 @@ timeseries <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, order.by=NU
     timestamps <- as.POSIXct.seconds(seq(from=from, to=to, by=by), origin=EPOCH)
   }
 
-  result <- zoo(data.frame(...), timestamps)
-  dimnames(result) <- list(NULL, dimnames(result)[[2]])
+  result <- zoo(data.frame(...), order.by=timestamps)
 
   params <- list(...)
   if(length(params) == 1) {
     input <- params[[1]]
-    if(class(input) == "data.frame")
-      names(result) <- names(input)
-    else if (class(input) == "matrix")
+    if(is.matrix(input) || is.data.frame(input))
       names(result) <- colnames(input)
   }
-
+  
   return(result)
 }
 

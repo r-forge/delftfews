@@ -101,29 +101,6 @@ stretches <- function(input, gap=1, what="start", zero.surrounded=FALSE) {
   return(result)
 }
 
-rollapply.default <- function(data, width, FUN, ...) {
-  ## returns the rolling application of `FUN` to data (nth element in
-  ## returned vector is `FUN` of width elements in data from n-width
-  ## to n.)
-
-  apply.na.action <- function(data, na.action=na.pass, ...) na.action(data)
-  data <- apply.na.action(data, ...)
-
-  ## width must be positive.
-  ## result is same length as data (starts with `width-1` NA).
-
-  len <- length(data)
-  if(width < 1) {
-    ## Only positive width allowed
-    return(rep(NA, len))
-  }
-  if(width > len) {
-    rep(NA, len)
-  } else {
-    c( rep(NA, width - 1) , apply(embed(data, width), 1, FUN) )
-  }
-}
-
 rollingSum <- function(data, width, na.action=na.zero) {
   ## commodity function
   ## na.zero specifies that NA will be summed as zero.
@@ -184,7 +161,7 @@ sum.first <- function(input, count=12) {
 
   ## accepts a data.frame and returns the vector of the sum of the
   ## first 12 rows of each column
-  sapply(input[1:count,], sum)
+  colSums(input[1:count,])
 }
 
 "[.zoo" <- function(x, i, j, drop = TRUE, ...)
@@ -283,3 +260,11 @@ extremes <- function(x, count) {
 
   c(mean(sorted[1:3]), mean(sorted[(N-2):N]))
 }
+
+## not really necessary, but possibly useful
+edit.zoo <- function(x) {
+  cd <- coredata(x)
+  rownames(cd) <- index(x)
+  zoo(edit(cd), order.by=index(x))
+}
+
