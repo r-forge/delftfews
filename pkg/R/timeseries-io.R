@@ -138,7 +138,9 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
   }
 
   ## column-bind the timestamps to the collected values
-  zoo(cbind(mapply(getValues, seriesNodes), check.names=FALSE), order.by=result.index)
+  result <- zoo(cbind(mapply(getValues, seriesNodes), check.names=FALSE), order.by=result.index)
+  class(result) <- c("delftfews", class(result))
+  return(result)
 }
 
 write.PI <- function(data, data.description, filename, global.data) 

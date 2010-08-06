@@ -6,6 +6,9 @@
 \alias{NenS-package}
 \alias{NenS}
 \alias{delftfews}
+\alias{[.zoo}
+\alias{[<-.zoo}
+\alias{$<-.zoo}
 \docType{package}
 \title{
 alfa version of delftfews

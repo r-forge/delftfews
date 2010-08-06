@@ -164,25 +164,27 @@ sum.first <- function(input, count=12) {
   colSums(input[1:count,])
 }
 
-"[.zoo" <- function(x, i, j, drop = TRUE, ...)
-{
-  ## TODO: this temporarily implements a modification I have requested
-  ## on the real [.zoo function.  there is a fake documentation entry
-  ## for this function in rollingSum.  the place was chosen because
-  ## also delftfews::rollapply can probably be removed in favour of
-  ## zoo::rollapply.
+rollapply.default <- function(data, width, FUN, ...) {
+  ## returns the rolling application of `FUN` to data (nth element in
+  ## returned vector is `FUN` of width elements in data from n-width
+  ## to n.)
 
-  ## support "data.frame" named indexing of columns
-  args <- list(x=x, drop=drop, ...)
-  if(missing(j) && all(class(i) == "character"))
-    args$j <- i
-  else {
-    if(!missing(i))
-      args$i <- i
-    if(!missing(j))
-      args$j <- j
+  apply.na.action <- function(data, na.action=na.pass, ...) na.action(data)
+  data <- apply.na.action(data, ...)
+
+  ## width must be positive.
+  ## result is same length as data (starts with `width-1` NA).
+
+  len <- length(data)
+  if(width < 1) {
+    ## Only positive width allowed
+    return(rep(NA, len))
   }
-  return(do.call("[.zoo", args, envir=loadNamespace("zoo")))
+  if(width > len) {
+    rep(NA, len)
+  } else {
+    c( rep(NA, width - 1) , apply(embed(data, width), 1, FUN) )
+  }
 }
 
 double.threshold <- function(data, threshold.false, threshold.true, initial.status)

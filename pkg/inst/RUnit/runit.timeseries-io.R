@@ -27,25 +27,25 @@ EPOCH <- delftfews:::EPOCH
 
 test.read.PI.just.reading <- function() {
   pidata <- read.PI('data/decumulative.input.xml')
-  checkEquals(class(pidata), "zoo")
+  checkEquals("delftfews", class(pidata)[1])
 }
 
-test.computing.decumulative <- function() {
-  DEACTIVATED("this is not a unit test, it's a usage example.")
-  pidata <- read.PI('data/decumulative.input.xml')
+## test.computing.decumulative <- function() {
+##   DEACTIVATED("this is not a unit test, it's a usage example.")
+##   pidata <- read.PI('data/decumulative.input.xml')
 
-  current <- data.frame(timestamps=index(pidata)[-1]) # drop first timestamp
-  current$P1201 <- diff(pidata[, 'lp.600-P1201.WNS954'])
-  current$P1202 <- diff(pidata[, 'lp.600-P1202.WNS954'])
-  current$P1203 <- diff(pidata[, 'lp.600-P1203.WNS954'])
+##   current <- data.frame(timestamps=index(pidata)[-1]) # drop first timestamp
+##   current$P1201 <- diff(pidata[, 'lp.600-P1201.WNS954'])
+##   current$P1202 <- diff(pidata[, 'lp.600-P1202.WNS954'])
+##   current$P1203 <- diff(pidata[, 'lp.600-P1203.WNS954'])
 
-  pidata.out <- read.PI('data/decumulative.output.xml')
+##   pidata.out <- read.PI('data/decumulative.output.xml')
 
-  checkEquals(index(pidata.out), index(current))
-  checkEquals(pidata.out[, 'lp.600-P1201.WNS954.omgezet'], current$P1201)
-  checkEquals(pidata.out[, 'lp.600-P1202.WNS954.omgezet'], current$P1202)
-  checkEquals(pidata.out[, 'lp.600-P1203.WNS954.omgezet'], current$P1203)
-}
+##   checkEquals(index(pidata.out), index(current))
+##   checkEquals(pidata.out[, 'lp.600-P1201.WNS954.omgezet'], current$P1201)
+##   checkEquals(pidata.out[, 'lp.600-P1202.WNS954.omgezet'], current$P1202)
+##   checkEquals(pidata.out[, 'lp.600-P1203.WNS954.omgezet'], current$P1203)
+## }
 
 test.read.PI.na.pass <- function() {
   ## value is not at all present for timestamp.

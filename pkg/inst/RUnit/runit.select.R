@@ -166,3 +166,97 @@ test.timestamp.in.range.calendar.split <- function() {
   expect[16:18] <- TRUE
   checkEquals(expect, in.period)
 }
+
+test.select.percentiles.timeseries.30.80.10 <- function() {
+  l <- rep(1:10, each=22)
+  dim(l) <- c(22, 10)
+  l[,sample(1:10)] <- l # shuffle columns
+  colnames(l) <- rep('a', 10)
+  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
+  current <- select.percentiles(pidata, c(30, 80))
+  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=3, a.80=8)
+  checkEquals(target, current)
+}
+
+test.select.percentiles.timeseries.10.20.90.100.10 <- function() {
+  l <- rep(1:10, each=22)
+  dim(l) <- c(22, 10)
+  l[,sample(1:10)] <- l # shuffle columns
+  colnames(l) <- rep('a', 10)
+  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
+  current <- select.percentiles(pidata, c(10, 20, 90, 100))
+  target <- timeseries(21000000*60, by=5*60, length.out=22, a.10=1, a.20=2, a.90=9, a.100=10)
+  checkEquals(target, current)
+}
+
+test.select.percentiles.timeseries.30.80.100 <- function() {
+  l <- rep(1:100, each=22)
+  dim(l) <- c(22, 100)
+  l[,sample(1:100)] <- l # shuffle columns
+  colnames(l) <- rep('a', 100)
+  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
+  current <- select.percentiles(pidata, c(30, 80))
+  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=30, a.80=80)
+  checkEquals(target, current)
+}
+
+## selecting complete rows and columns.
+
+test.getitem.delftfews.character <- function() {
+  ## overridden: selects by COLUMN
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  checkEquals(FWS[,'a', drop=FALSE], FWS['a'])
+  checkEquals(FWS[,'b', drop=FALSE], FWS['b'])
+  checkEquals(FWS[,c('a', 'b'), drop=FALSE], FWS[c('a', 'b')])
+}
+
+test.getitem.delftfews.numeric <- function() {
+  ## must decide what to do here.  as of now, selects by ROW!
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  checkEquals(FWS[2], FWS[2.0])
+  checkEquals(FWS[2], FWS[2L])
+}
+
+test.getitem.delftfews.timestamp <- function() {
+  ## choosing by timestamp selects by ROW!
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  checkEquals(FWS[1, 1:2], FWS[as.POSIXct(1234567800, origin=EPOCH)])
+  checkEquals(FWS[2, 1:2], FWS[as.POSIXct(1234567800 + 57600*60, origin=EPOCH)])
+}
+
+test.putitem.delftfews.character <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  FWS['a'] <- 5:8
+  checkEqualsNumeric(5:8, FWS['a'])
+}
+
+test.putcolumn.zoo.respects.derived.classes <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  checkTrue("delftfews" %in% class(FWS))
+  FWS$a <- 4:7
+  checkTrue("delftfews" %in% class(FWS))
+}
+
+test.putitem.delftfews.character.new.column <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  FWS['d'] <- 5:8
+  checkEqualsNumeric(5:8, FWS[, 'd'])
+}
+
+test.putcolumn.delftfews.redefining <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  FWS$a <- 4:7
+  checkEqualsNumeric(4:7, FWS[, 'a'])
+}
+
+test.putcolumn.delftfews.adding.to.existing <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  FWS$d <- 4:7
+  checkEqualsNumeric(4:7, FWS[, 'd'])
+}
+
+test.putcolumn.delftfews.adding.to.empty <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4)
+  FWS$d <- 4:7
+  checkEqualsNumeric(4:7, FWS[, 'd'])
+}

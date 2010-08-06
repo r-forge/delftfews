@@ -46,6 +46,10 @@ timeseries <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, order.by=NU
   }
 
   result <- zoo(data.frame(...), order.by=timestamps)
+  ## we make no use of rowname information, they only confuse our tests.
+  rownames(result) <- NULL
+  ## following trick allows us override specific methods
+  class(result) <- c("delftfews", class(result))
 
   params <- list(...)
   if(length(params) == 1) {
@@ -53,7 +57,7 @@ timeseries <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, order.by=NU
     if(is.matrix(input) || is.data.frame(input))
       names(result) <- colnames(input)
   }
-  
+
   return(result)
 }
 
@@ -117,28 +121,4 @@ cumulate.timeseries <- function(input, column="input", gap=1, integration.method
          MoreArgs=list(type="gross"))
 
   cbind(input, zoo(result, index(input)))
-}
-
-select.percentiles <- function(input, percentiles, score.function=sum.first, ...) {
-  ## assuming 'input' contains some sort of monte carlo realizations
-  ## of the same experiment in timeseries format, this function
-  ## chooses the percentiles indicated, after the `score.function` function
-  ## has applied to each column.
-
-  ## how many columns
-  N <- ncol(input)
-  ## call the score.function, passing it any extra parameters
-  tempdata <- score.function(input, ...)
-  ## set unique names so we can find back each individual column after
-  ## ordering by score
-  names(tempdata) <- 1:N
-  ## these are the columns.  
-  columns <- as.numeric(names(sort(tempdata)[N * percentiles / 100]))
-
-  ## result has same timestamps as input, but only the chosen columns
-  result <- input[, columns]
-  colnames(result) <- paste(names(input)[columns], percentiles, sep='.')
-
-  ## done
-  return(result)
 }

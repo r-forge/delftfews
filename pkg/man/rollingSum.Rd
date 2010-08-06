@@ -3,12 +3,15 @@
 
 \name{rollingSum}
 \alias{rollingSum}
-\alias{[.zoo}
+\alias{rollapply.default}
 \title{apply aggregating functions to contiguous stretches of data}
 \description{  
 
   `rollingSum` is a commodity function invoking `zoo::rollapply` with
-  `FUN=sum`.  
+  `FUN=sum`.
+
+  `zoo::rollapply` does not define a default method.  we do so in
+  delftfews.
 
 }
 \usage{

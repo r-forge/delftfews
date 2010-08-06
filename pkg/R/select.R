@@ -100,3 +100,144 @@ timestamp.in.range.calendar <- function(data, from, to, tz="CET") {
 
   return(result)
 }
+
+
+select.percentiles <- function(input, percentiles, score.function=sum.first, ...) {
+  ## assuming 'input' contains some sort of monte carlo realizations
+  ## of the same experiment in timeseries format, this function
+  ## chooses the percentiles indicated, after the `score.function` function
+  ## has applied to each column.
+
+  ## how many columns
+  N <- ncol(input)
+  ## call the score.function, passing it any extra parameters
+  tempdata <- score.function(input, ...)
+  ## set unique names so we can find back each individual column after
+  ## ordering by score
+  names(tempdata) <- 1:N
+  ## these are the columns.  
+  columns <- as.numeric(names(sort(tempdata)[N * percentiles / 100]))
+
+  ## result has same timestamps as input, but only the chosen columns
+  result <- input[, columns]
+  ## force result to have the same class as the input
+  class(result) <- class(input)
+  ## rename columns adding a trailing .percentile
+  colnames(result) <- paste(names(input)[columns], percentiles, sep='.')
+
+  ## done
+  return(result)
+}
+
+"[.delftfews" <- function(x, i, j, drop = FALSE) {
+  if (missing(i))
+    NextMethod()
+  else if (missing(j) && is.character(i))
+    do.call("[.zoo", list(x=x, j=i, drop=drop))
+  else
+    NextMethod()
+}
+
+"[<-.delftfews" <- function(x, i, j, value) {
+  if (missing(i))
+    NextMethod()
+  else if (missing(j) && is.character(i)) {
+    result <- do.call("$<-.zoo", list(object=x, x=i, value=value))
+    if (!("delftfews" %in% class(result)))
+      class(result) <- c("delftfews", class(result))
+    result
+  }
+  else
+    NextMethod()
+}
+
+################################################################################
+
+"[.zoo" <- function(x, i, j, drop = TRUE, ...)
+{
+  if(!is.zoo(x)) stop("method is only for zoo objects")
+  x.index <- index(x)
+  rval <- coredata(x)
+  if(missing(i)) i <- 1:NROW(rval)
+
+  ## also support that i can be index:
+  ## if i is not numeric/integer/logical, it is interpreted to be the index
+  if (all(class(i) == "logical"))
+    i <- which(i)
+  else if (inherits(i, "zoo") && all(class(coredata(i)) == "logical")) {
+    i <- which(coredata(merge(zoo(,time(x)), i)))
+  } else if(!((all(class(i) == "numeric") || all(class(i) == "integer")))) 
+    i <- which(MATCH(x.index, i, nomatch = 0L) > 0L)
+  
+  if(length(dim(rval)) == 2) {
+	drop. <- if (length(i) == 1) FALSE else drop
+    rval <- if (missing(j)) rval[i, , drop = drop.] # EDITED
+            else rval[i, j, drop = drop.]           # EDITED
+	if (drop && length(rval) == 1) rval <- c(rval)
+	rval <- zoo(rval, x.index[i])
+  } else
+	rval <- zoo(rval[i], x.index[i])
+  class(rval) <- class(x)
+
+  attr(rval, "oclass") <- attr(x, "oclass")
+  attr(rval, "levels") <- attr(x, "levels")
+  attr(rval, "frequency") <- attr(x, "frequency")
+  if(!is.null(attr(rval, "frequency"))) class(rval) <- c("zooreg", class(rval))
+
+  return(rval)
+}
+
+"[<-.zoo" <- function (x, i, j, value) 
+{
+  ## x[,j] <- value and x[] <- value can be handled by default method
+  if(missing(i)) return(NextMethod("[<-"))
+
+  ## otherwise do the necessary processing on i
+  x.index <- index(x)
+  n <- NROW(coredata(x))
+  value2 <- NULL
+  
+  if (all(class(i) == "logical")) {
+    i <- which(i)
+  } else if (inherits(i, "zoo") && all(class(coredata(i)) == "logical")) {
+    i <- which(coredata(merge(zoo(,time(x)), i)))
+  } else if(!((all(class(i) == "numeric") || all(class(i) == "integer")))) {
+    ## all time indexes in x.index?
+    i.ok <- MATCH(i, x.index, nomatch = 0L) > 0L
+    if(any(!i.ok)) {
+      if(is.null(dim(value))) {
+        value2 <- value[!i.ok]
+        value <- value[i.ok]
+      } else {
+        value2 <- value[!i.ok,, drop = FALSE]
+        value <- value[i.ok,, drop = FALSE]      
+      }
+      i2 <- i[!i.ok]
+      i <- i[i.ok]
+    }
+    i <- which(MATCH(x.index, i, nomatch = 0L) > 0L)
+  }
+  if(any(i > n) | any(i < 1)) stop("Out-of-range assignment not possible.")
+  ## taking shortcut: ([.zoo, x, , , <altered coredata>)
+  coredata(x)[i, j] <- value
+  ## remainder became superfluous
+  return(x)
+}
+
+"$<-.zoo" <- function(object, x, value) {
+  if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
+  if(NCOL(object) > 0 & is.null(colnames(object))) stop("only possible for zoo series with column names")
+  wi <- match(x, colnames(object))
+  if(is.na(wi)) {
+    object <- cbind(object, value)
+    if(is.null(dim(object))) dim(object) <- c(length(object), 1)
+    colnames(object)[NCOL(object)] <- x  
+  } else {
+    if(is.null(value)) {
+      object <- object[, -wi, drop = FALSE]
+    } else {   
+      object[, wi] <- value
+    }
+  }
+  object
+}

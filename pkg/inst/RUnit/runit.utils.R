@@ -294,12 +294,6 @@ test.get.step <- function() {
   checkEquals(2, get.step(L))
 }
 
-test.__getitem__.zoo <- function() {
-  ## testing [.zoo override
-  d <- zoo(data.frame(a=1, b=2, c=3), order.by=1:3)
-  checkEquals(d[, 'a'], d['a'])
-}
-
 test.double.threshold.0 <- function() {
   ## start below lower (false) threshold
   values <- c(0, 2, 3, 2, 1, 0)

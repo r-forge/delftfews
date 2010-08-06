@@ -25,12 +25,12 @@ test.timeseries <- function() {
   ## test equality except dimnames
   minutes <- (0:5) * 720
   target <- zoo(data.frame(), as.POSIXct(minutes * 60, origin=EPOCH))
+  class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6)
   checkEqualsNumeric(target, current)
 }
 
 test.timeseries.dimnames <- function() {
-  DEACTIVATED("still did not understand what zoo does with dimnames.")
   ## only test dimnames
   minutes <- (0:5) * 720
   target <- list(NULL, NULL)
@@ -42,6 +42,7 @@ test.timeseries.with.one.column <- function() {
   minutes <- (0:5) * 720
   target <- zoo(data.frame(a=1), as.POSIXct(minutes * 60, origin=EPOCH))
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
+  class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6, a=1)
   checkEquals(target, current)
 }
@@ -50,6 +51,7 @@ test.timeseries.with.more.columns <- function() {
   minutes <- (0:5) * 720
   target <- zoo(data.frame(a=1, b=1:6), as.POSIXct(minutes * 60, origin=EPOCH))
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
+  class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6, a=1, b=1:6)
   checkEquals(target, current)
 }
@@ -59,6 +61,7 @@ test.timeseries.with.data.frame <- function() {
   minutes <- (0:5) * 720
   target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH))
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
+  class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6, data=full)
   checkEquals(target, current)
 }
@@ -69,6 +72,7 @@ test.timeseries.with.order.by <- function() {
   template <- timeseries(from=0, by=720*60, length.out=6)
   target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH))
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
+  class(target) <- c("delftfews", class(target))
 
   current <- timeseries(order.by=index(template), data=full)
   checkEquals(target, current)
@@ -323,37 +327,4 @@ test.cumulate.timeseries.all.NA <- function() {
   checkEquals(target, coredata(result$input.net.totals))
   checkEquals(target, coredata(result$input.gross.duration))
   checkEquals(target, coredata(result$input.net.duration))
-}
-
-test.select.percentiles.timeseries.30.80.10 <- function() {
-  l <- rep(1:10, each=22)
-  dim(l) <- c(22, 10)
-  l[,sample(1:10)] <- l # shuffle columns
-  colnames(l) <- rep('a', 10)
-  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
-  current <- select.percentiles(pidata, c(30, 80))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=3, a.80=8)
-  checkEquals(target, current)
-}
-
-test.select.percentiles.timeseries.10.20.90.100.10 <- function() {
-  l <- rep(1:10, each=22)
-  dim(l) <- c(22, 10)
-  l[,sample(1:10)] <- l # shuffle columns
-  colnames(l) <- rep('a', 10)
-  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
-  current <- select.percentiles(pidata, c(10, 20, 90, 100))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.10=1, a.20=2, a.90=9, a.100=10)
-  checkEquals(target, current)
-}
-
-test.select.percentiles.timeseries.30.80.100 <- function() {
-  l <- rep(1:100, each=22)
-  dim(l) <- c(22, 100)
-  l[,sample(1:100)] <- l # shuffle columns
-  colnames(l) <- rep('a', 100)
-  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
-  current <- select.percentiles(pidata, c(30, 80))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=30, a.80=80)
-  checkEquals(target, current)
 }

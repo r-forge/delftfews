@@ -2,7 +2,9 @@
 
 \name{timeseries}
 \alias{timeseries}
-\title{creates a data.frame that is a time series set}
+\alias{[.delftfews}
+\alias{[<-.delftfews}
+\title{overriding zoo creator and accessors}
 \description{
   
   using three of the four \code{from}, \code{to}, \code{by},
