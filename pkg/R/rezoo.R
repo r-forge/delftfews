@@ -53,93 +53,10 @@
   attr(rval, "oclass") <- attr(x, "oclass")
   attr(rval, "levels") <- attr(x, "levels")
   attr(rval, "frequency") <- attr(x, "frequency")
-  if(!is.null(attr(rval, "frequency"))) class(rval) <- c("zooreg", class(rval))
 
   return(rval)
 }
 
-"[<-.zoo" <- function (x, i, j, value) 
-{
-  ## x[,j] <- value and x[] <- value can be handled by default method
-  if(missing(i)) return(NextMethod("[<-"))
-
-  ## otherwise do the necessary processing on i
-  x.index <- index(x)
-  n <- NROW(coredata(x))
-  value2 <- NULL
-  
-  if (all(class(i) == "logical")) {
-    i <- which(i)
-  } else if (inherits(i, "zoo") && all(class(coredata(i)) == "logical")) {
-    i <- which(coredata(merge(zoo(,time(x)), i)))
-  } else if(!((all(class(i) == "numeric") || all(class(i) == "integer")))) {
-    ## all time indexes in x.index?
-    i.ok <- MATCH(i, x.index, nomatch = 0L) > 0L
-    if(any(!i.ok)) {
-      if(is.null(dim(value))) {
-        value2 <- value[!i.ok]
-        value <- value[i.ok]
-      } else {
-        value2 <- value[!i.ok,, drop = FALSE]
-        value <- value[i.ok,, drop = FALSE]      
-      }
-      i2 <- i[!i.ok]
-      i <- i[i.ok]
-    }
-    i <- which(MATCH(x.index, i, nomatch = 0L) > 0L)
-  }
-  if(any(i > n) | any(i < 1)) stop("Out-of-range assignment not possible.")
-  ## taking shortcut: ([.zoo, x, , , <altered coredata>)
-  coredata(x)[i, j] <- value
-  ## remainder became superfluous
-  return(x)
-}
-
-"$<-.zoo" <- function(object, x, value) {
-  if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
-  if(NCOL(object) > 0 & is.null(colnames(object))) stop("only possible for zoo series with column names")
-  wi <- match(x, colnames(object))
-  if(is.na(wi)) {
-    object <- cbind(object, value)
-    if(is.null(dim(object))) dim(object) <- c(length(object), 1)
-    colnames(object)[NCOL(object)] <- x  
-  } else {
-    if(is.null(value)) {
-      object <- object[, -wi, drop = FALSE]
-    } else {   
-      object[, wi] <- value
-    }
-  }
-  object
-}
-
-Ops.zoo <- function (e1, e2) 
-{
-  class.e1 <- class(e1)
-  e <- if (missing(e2)) {
-    NextMethod(.Generic)
-  }
-  else if (any(nchar(.Method) == 0)) {
-    NextMethod(.Generic)
-  }
-  else {
-    merge(e1, e2, all = FALSE, retclass = NULL)
-    NextMethod(.Generic)
-  }
-  out <- (if (is.null(attr(e, "index"))) 
-          zoo(e, index(e1), attr(e1, "frequency"))
-  else
-          e)
-  ## the next statement is a workaround for a bug in R
-  structure(out, class = class.e1)
-}
-
-"$.zoo" <- function(object, x) {
-  if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
-  if(is.null(colnames(object))) stop("only possible for zoo series with column names")
-  wi <- pmatch(x, colnames(object))
-  if(is.na(wi)) NULL else object[, wi]
-}
 "[<-.zoo" <- function (x, i, j, value) 
 {
   ## x[,j] <- value and x[] <- value can be handled by default method
@@ -188,4 +105,50 @@ Ops.zoo <- function (e1, e2)
     rval <- c(rval, rval2)
   }
   return(rval)
+}
+
+"$.zoo" <- function(object, x) {
+  if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
+  if(is.null(colnames(object))) stop("only possible for zoo series with column names")
+  wi <- pmatch(x, colnames(object))
+  if(is.na(wi)) NULL else object[, wi]
+}
+
+"$<-.zoo" <- function(object, x, value) {
+  if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
+  if(NCOL(object) > 0 & is.null(colnames(object))) stop("only possible for zoo series with column names")
+  wi <- match(x, colnames(object))
+  if(is.na(wi)) {
+    object <- cbind(object, value)
+    if(is.null(dim(object))) dim(object) <- c(length(object), 1)
+    colnames(object)[NCOL(object)] <- x  
+  } else {
+    if(is.null(value)) {
+      object <- object[, -wi, drop = FALSE]
+    } else {   
+      object[, wi] <- value
+    }
+  }
+  object
+}
+
+Ops.zoo <- function (e1, e2) 
+{
+  class.e1 <- class(e1)
+  e <- if (missing(e2)) {
+    NextMethod(.Generic)
+  }
+  else if (any(nchar(.Method) == 0)) {
+    NextMethod(.Generic)
+  }
+  else {
+    merge(e1, e2, all = FALSE, retclass = NULL)
+    NextMethod(.Generic)
+  }
+  out <- (if (is.null(attr(e, "index"))) 
+          zoo(e, index(e1), attr(e1, "frequency"))
+  else
+          e)
+  ## the next statement is a workaround for a bug in R
+  structure(out, class = class.e1)
 }
