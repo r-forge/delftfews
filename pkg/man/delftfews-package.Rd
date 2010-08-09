@@ -9,6 +9,8 @@
 \alias{[.zoo}
 \alias{[<-.zoo}
 \alias{$<-.zoo}
+\alias{$.zoo}
+\alias{Ops.zoo}
 \docType{package}
 \title{
 alfa version of delftfews
