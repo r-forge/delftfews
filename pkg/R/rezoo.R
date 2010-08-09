@@ -115,6 +115,7 @@
 
 Ops.zoo <- function (e1, e2) 
 {
+  class.e1 <- class(e1)
   e <- if (missing(e2)) {
     NextMethod(.Generic)
   }
@@ -130,7 +131,7 @@ Ops.zoo <- function (e1, e2)
   else
           e)
   ## the next statement is a workaround for a bug in R
-  structure(out, class = class(e1))
+  structure(out, class = class.e1)
 }
 
 "$.zoo" <- function(object, x) {
