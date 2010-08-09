@@ -141,12 +141,8 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
 "[<-.delftfews" <- function(x, i, j, value) {
   if (missing(i))
     NextMethod()
-  else if (missing(j) && is.character(i)) {
-    result <- do.call("$<-.zoo", list(object=x, x=i, value=value))
-    if (!("delftfews" %in% class(result)))
-      class(result) <- c("delftfews", class(result))
-    result
-  }
+  else if (missing(j) && is.character(i))
+    do.call("$<-.zoo", list(object=x, x=i, value=value))
   else
     NextMethod()
 }

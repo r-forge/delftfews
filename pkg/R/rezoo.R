@@ -140,3 +140,52 @@ Ops.zoo <- function (e1, e2)
   wi <- pmatch(x, colnames(object))
   if(is.na(wi)) NULL else object[, wi]
 }
+"[<-.zoo" <- function (x, i, j, value) 
+{
+  ## x[,j] <- value and x[] <- value can be handled by default method
+  if(missing(i)) return(NextMethod("[<-"))
+
+  ## otherwise do the necessary processing on i
+  n <- NROW(coredata(x))
+  n2 <- if(nargs() == 1) length(as.vector(coredata(x))) else n
+  n.ok <- TRUE
+  value2 <- NULL
+  
+  if (all(class(i) == "matrix")) i <- as.vector(i)
+  if (all(class(i) == "logical")) {
+    i <- which(rep(i, length.out = n2))
+    n.ok <- all(i <= n2)
+  } else if (inherits(i, "zoo") && all(class(coredata(i)) == "logical")) {
+    i <- which(coredata(merge(zoo(,time(x)), i)))
+    n.ok <- all(i <= n2)
+  } else if(!((all(class(i) == "numeric") || all(class(i) == "integer")))) {
+    ## all time indexes in index(x)?
+    i.ok <- MATCH(i, index(x), nomatch = 0L) > 0L
+    if(any(!i.ok)) {
+      if(is.null(dim(value))) {
+        value2 <- value[!i.ok]
+        value <- value[i.ok]
+      } else {
+        value2 <- value[!i.ok,, drop = FALSE]
+        value <- value[i.ok,, drop = FALSE]      
+      }
+      i2 <- i[!i.ok]
+      i <- i[i.ok]
+    }
+    i <- which(MATCH(index(x), i, nomatch = 0L) > 0L)
+    n.ok <- all(i <= n)
+  }
+  if(!n.ok | any(i < 1)) stop("Out-of-range assignment not possible.")
+  rval <- NextMethod("[<-")
+
+  if(!is.null(value2)) {
+    rval2 <- if(missing(j)) zoo(value2, i2) else {
+      value2a <- matrix(NA, nrow = length(i2), ncol = NCOL(rval))
+      colnames(value2a) <- colnames(rval)
+      value2a[, j] <- value2
+      zoo(value2a, i2)
+    }
+    rval <- c(rval, rval2)
+  }
+  return(rval)
+}
