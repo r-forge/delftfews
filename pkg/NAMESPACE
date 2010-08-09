@@ -29,8 +29,10 @@ export(as.seconds,
        write.PI,
        write.PI.data.frame,
        write.PI.zoo,
-       "$<-.zoo",
-       "[<-.zoo",
-       "[.zoo",
+       Ops.zoo, # modified from new version
+       "$.zoo", # UNmodified from new version
+       "$<-.zoo", # modified from new version
+       "[<-.zoo", # modified from new version
+       "[.zoo", # modified from new version
        "[<-.delftfews",
        "[.delftfews")

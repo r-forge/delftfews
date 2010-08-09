@@ -112,3 +112,30 @@
   }
   object
 }
+
+Ops.zoo <- function (e1, e2) 
+{
+  e <- if (missing(e2)) {
+    NextMethod(.Generic)
+  }
+  else if (any(nchar(.Method) == 0)) {
+    NextMethod(.Generic)
+  }
+  else {
+    merge(e1, e2, all = FALSE, retclass = NULL)
+    NextMethod(.Generic)
+  }
+  out <- (if (is.null(attr(e, "index"))) 
+          zoo(e, index(e1), attr(e1, "frequency"))
+  else
+          e)
+  ## the next statement is a workaround for a bug in R
+  structure(out, class = class(e1))
+}
+
+"$.zoo" <- function(object, x) {
+  if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
+  if(is.null(colnames(object))) stop("only possible for zoo series with column names")
+  wi <- pmatch(x, colnames(object))
+  if(is.na(wi)) NULL else object[, wi]
+}

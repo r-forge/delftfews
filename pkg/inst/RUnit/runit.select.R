@@ -230,13 +230,6 @@ test.putitem.delftfews.character <- function() {
   checkEqualsNumeric(5:8, FWS['a'])
 }
 
-test.putcolumn.zoo.respects.derived.classes <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  checkTrue("delftfews" %in% class(FWS))
-  FWS$a <- 4:7
-  checkTrue("delftfews" %in% class(FWS))
-}
-
 test.putitem.delftfews.character.new.column <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   FWS['d'] <- 5:8
