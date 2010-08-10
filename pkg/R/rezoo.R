@@ -27,32 +27,33 @@
 "[.zoo" <- function(x, i, j, drop = TRUE, ...)
 {
   if(!is.zoo(x)) stop("method is only for zoo objects")
-  x.index <- index(x)
   rval <- coredata(x)
-  if(missing(i)) i <- 1:NROW(rval)
+  n <- NROW(rval)
+  n2 <- if(nargs() == 1) length(as.vector(rval)) else n
+  if(missing(i)) i <- 1:n
 
   ## also support that i can be index:
   ## if i is not numeric/integer/logical, it is interpreted to be the index
   if (all(class(i) == "logical"))
-    i <- which(i)
+    i <- which(rep(i, length.out = n2))
   else if (inherits(i, "zoo") && all(class(coredata(i)) == "logical")) {
     i <- which(coredata(merge(zoo(,time(x)), i)))
   } else if(!((all(class(i) == "numeric") || all(class(i) == "integer")))) 
-    i <- which(MATCH(x.index, i, nomatch = 0L) > 0L)
+    i <- which(MATCH(index(x), i, nomatch = 0L) > 0L)
   
   if(length(dim(rval)) == 2) {
 	drop. <- if (length(i) == 1) FALSE else drop
-    rval <- if (missing(j)) rval[i, , drop = drop.] # EDITED
-            else rval[i, j, drop = drop.]           # EDITED
+        rval <- if (missing(j)) rval[i, , drop = drop., ...]
+		else rval[i, j, drop = drop., ...]
 	if (drop && length(rval) == 1) rval <- c(rval)
-	rval <- zoo(rval, x.index[i])
+	rval <- zoo(rval, index(x)[i])
   } else
-	rval <- zoo(rval[i], x.index[i])
-  class(rval) <- class(x)
+	rval <- zoo(rval[i], index(x)[i])
 
   attr(rval, "oclass") <- attr(x, "oclass")
   attr(rval, "levels") <- attr(x, "levels")
   attr(rval, "frequency") <- attr(x, "frequency")
+  class(rval) <- class(x)
 
   return(rval)
 }

@@ -133,7 +133,7 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
   if (missing(i))
     NextMethod()
   else if (missing(j) && is.character(i))
-    NextMethod('[', x=x, i=1:NROW(x), j=i, drop=drop, ...)
+    NextMethod(i=1:NROW(x), drop=drop)
   else
     NextMethod()
 }
