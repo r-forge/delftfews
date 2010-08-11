@@ -2,6 +2,8 @@
 
 \name{timeseries}
 \alias{timeseries}
+\alias{$.delftfews}
+\alias{$<-.delftfews}
 \alias{[.delftfews}
 \alias{[<-.delftfews}
 \title{overriding zoo creator and accessors}

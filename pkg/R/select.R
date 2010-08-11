@@ -163,7 +163,7 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
   return(result)
 }
 
-'$<-.delftfews' <- function(object, ...) {
+'$<-.delftfews' <- function(object, ..., value) {
   class.object <- class(object)
   result <- NextMethod()
   class(result) <- class.object
