@@ -21,7 +21,7 @@ require(RUnit)
 
 EPOCH <- delftfews:::EPOCH
 
-test.timeseries <- function() {
+test.timeseries.base <- function() {
   ## test equality except dimnames
   minutes <- (0:5) * 720
   target <- zoo(data.frame(), as.POSIXct(minutes * 60, origin=EPOCH))

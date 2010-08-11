@@ -248,11 +248,21 @@ test.getitem.delftfews.character <- function() {
   checkEqualsNumeric(4:7, FWS[, 'a'])
 }
 
+'test.$.delftfews.non.existing' <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  checkTrue(is.null(FWS$c))
+}
+
 'test.$<-.delftfews.keeps.other.names' <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   colnames(FWS) <- c('ab-c','d,e,f')
   FWS$a <- 4:7
   checkEquals(c('ab-c','d,e,f', 'a'), colnames(FWS))
+}
+
+'test.[.delftfews.non.existing' <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  checkTrue(is.null(FWS['c']))
 }
 
 'test.[<-.delftfews.keeps.other.names' <- function() {

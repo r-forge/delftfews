@@ -131,14 +131,17 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
 
 "[.delftfews" <- function(x, i, j, drop = FALSE, ...) {
   class.x <- class(x)
-  result <- (if (missing(i))
-             NextMethod(drop=drop)
-  else if (missing(j) && is.character(i))
-             NextMethod(i=seq_len(NROW(x)), drop=drop)
-  else
-             NextMethod(drop=drop))
-  class(result) <- class.x
-  return(result)
+  try({
+    result <- (if (missing(i))
+               NextMethod(drop=drop)
+    else if (missing(j) && is.character(i))
+               NextMethod(i=seq_len(NROW(x)), drop=drop)
+    else
+               NextMethod(drop=drop))
+    class(result) <- class.x
+    return(result)
+  }, silent=TRUE)
+  return(NULL)
 }
 
 "[<-.delftfews" <- function(x, i, j, value) {
@@ -156,7 +159,7 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
 '$.delftfews' <- function(object, ...) {
   class.object <- class(object)
   result <- NextMethod()
-  class(result) <- class.object
+  if(!is.null(result)) class(result) <- class.object
   return(result)
 }
 
