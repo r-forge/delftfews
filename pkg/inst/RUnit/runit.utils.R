@@ -169,18 +169,30 @@ test.stretches.NA.long.gap.gross.not.surrounded <- function() {
   checkEquals(c(2),       stretches(input, gap=4, zero.surrounded=TRUE))
 }
 
-test.rollingSum <- function(){
+test.rollingSum.base <- function() {
   input <- (1:20)
   result <- rollingSum(input, 10)
   expect <- c(NA, NA, NA, NA, NA,  NA,  NA,  NA,  NA,  55,  65,  75,  85,  95, 105, 115, 125, 135, 145, 155)
   checkEquals(length(expect), length(result))
   checkEquals(expect, result)
-  
+}
+
+test.rollingSum.with.na <- function() {  
   input <- c(1, 1, 1, NA, 2, 2, 1, NA, 1, 2, 1)
   result <- rollingSum(input, 3)
   expect <- c(NA, NA, 3, 2, 3, 4, 5, 3, 2, 3, 4)
   checkEquals(length(expect), length(result))
   checkEquals(expect, result)
+}
+
+test.rollingSum.delftfews <- function() {
+  input <- timeseries(from=0, by=720*60, length.out=20, a=1, b=1:20)
+  result <- rollingSum(input$b, 10)
+  target.numeric <- c(NA, NA, NA, NA, NA,  NA,  NA,  NA,  NA,  55,  65,  75,  85,  95, 105, 115, 125, 135, 145, 155)
+  checkEquals(length(target.numeric), length(result))
+  checkEqualsNumeric(target.numeric, result)
+  target <- timeseries(from=0, by=720*60, length.out=20, b=target.numeric)
+  checkEquals(target, result)
 }
 
 test.rollapply <- function() {

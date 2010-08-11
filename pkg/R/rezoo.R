@@ -120,9 +120,10 @@
   if(NCOL(object) > 0 & is.null(colnames(object))) stop("only possible for zoo series with column names")
   wi <- match(x, colnames(object))
   if(is.na(wi)) {
+    colnames.object <- colnames(object)
     object <- cbind(object, value)
     if(is.null(dim(object))) dim(object) <- c(length(object), 1)
-    colnames(object)[NCOL(object)] <- x  
+    colnames(object) <- c(colnames.object, x)
   } else {
     if(is.null(value)) {
       object <- object[, -wi, drop = FALSE]

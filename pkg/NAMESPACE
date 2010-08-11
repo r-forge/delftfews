@@ -13,6 +13,7 @@ export(as.seconds,
        read.BfG,
        read.PI,
        read.dcf.parsed,
+       rollapply.delftfews,
        rollapply.default,
        rollingSum,
        select.percentiles,
@@ -35,4 +36,6 @@ export(as.seconds,
        "[<-.zoo", # modified from new version
        "[.zoo", # modified from new version
        "[<-.delftfews",
-       "[.delftfews")
+       "[.delftfews",
+       "$<-.delftfews",
+       "$.delftfews")

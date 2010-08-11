@@ -47,28 +47,28 @@ test.read.PI.just.reading <- function() {
 ##   checkEquals(pidata.out[, 'lp.600-P1203.WNS954.omgezet'], current$P1203)
 ## }
 
-test.read.PI.na.pass <- function() {
+test.read.PI.na.pass.base <- function() {
   ## value is not at all present for timestamp.
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
-  checkEquals(FALSE, is.na(pidata[2, 'lp.600-P1201.WNS954']))
-  checkEquals(TRUE, is.na(pidata[3, 'lp.600-P1201.WNS954']))
+  checkEquals(FALSE, is.na(pidata[2, 'lp.600-P1201.WNS954', drop=TRUE]))
+  checkEquals(TRUE, is.na(pidata[3, 'lp.600-P1201.WNS954', drop=TRUE]))
 }
 
 test.read.PI.na.pass.missVal <- function() {
   ## value for timestamp is the fictive missing value.
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
-  checkEquals(FALSE, is.na(pidata[2, 'lp.600-P1203.WNS954']))
-  checkEquals(TRUE, is.na(pidata[3, 'lp.600-P1202.WNS954']))
+  checkEquals(FALSE, is.na(pidata[2, 'lp.600-P1203.WNS954', drop=TRUE]))
+  checkEquals(TRUE, is.na(pidata[3, 'lp.600-P1202.WNS954', drop=TRUE]))
 }
 
 test.read.PI.na.pass.flag9 <- function() {
   ## value for timestamp must be discarded (flag is 9)
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 
-  checkEquals(FALSE, is.na(pidata[2, 'lp.600-P1203.WNS954']))
-  checkEquals(TRUE, is.na(pidata[3, 'lp.600-P1203.WNS954']))
+  checkEquals(FALSE, is.na(pidata[2, 'lp.600-P1203.WNS954', drop=TRUE]))
+  checkEquals(TRUE, is.na(pidata[3, 'lp.600-P1203.WNS954', drop=TRUE]))
 }
 
 test.read.PI.one.empty.series <- function() {
@@ -124,7 +124,7 @@ test.write.PI.na.NULL.elements <- function() {
                      locationId='600-P1201', parameterId='WNS954-differences',
                      timeStep=1440, startDate=20910240, endDate=20931840)
 
-  result <- timeseries(P1201=diff(pidata[, 'lp.600-P1201.WNS954']), order.by=index(pidata)[-1])
+  result <- timeseries(P1201=diff(pidata['lp.600-P1201.WNS954']), order.by=index(pidata)[-1])
 
   conf$missVal <- "NULL"
   write.PI(result, conf, 'data/test.write.PI.na.1.xml.current')
@@ -133,7 +133,7 @@ test.write.PI.na.NULL.elements <- function() {
   checkEquals(current, expect)
 }
 
-test.write.PI.na.value <- function() {
+test.write.PI.na.value.default <- function() {
   ## if missVal is given and not NA: use it and flag it 8
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
 

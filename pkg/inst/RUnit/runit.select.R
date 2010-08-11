@@ -210,46 +210,72 @@ test.getitem.delftfews.character <- function() {
   checkEquals(FWS[,c('a', 'b'), drop=FALSE], FWS[c('a', 'b')])
 }
 
-test.getitem.delftfews.numeric <- function() {
+'test.[.delftfews.numeric' <- function() {
   ## must decide what to do here.  as of now, selects by ROW!
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   checkEquals(FWS[2], FWS[2.0])
   checkEquals(FWS[2], FWS[2L])
 }
 
-test.getitem.delftfews.timestamp <- function() {
+'test.[.delftfews.timestamp' <- function() {
   ## choosing by timestamp selects by ROW!
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   checkEquals(FWS[1, 1:2], FWS[as.POSIXct(1234567800, origin=EPOCH)])
   checkEquals(FWS[2, 1:2], FWS[as.POSIXct(1234567800 + 57600*60, origin=EPOCH)])
 }
 
-test.putitem.delftfews.character <- function() {
+'test.[<-.delftfews.character' <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   FWS['a'] <- 5:8
   checkEqualsNumeric(5:8, FWS['a'])
 }
 
-test.putitem.delftfews.character.new.column <- function() {
+'test.[<-.delftfews.character.new.column' <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   FWS['d'] <- 5:8
   checkEqualsNumeric(5:8, FWS[, 'd'])
 }
 
-test.putcolumn.delftfews.redefining <- function() {
+'test.[<-.delftfews.character.adding.named.column' <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  FWS['d'] <- FWS$a
+  checkEqualsNumeric(rep(1, 4), FWS[, 'd'])
+}
+
+'test.$<-.delftfews.redefining' <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   FWS$a <- 4:7
   checkEqualsNumeric(4:7, FWS[, 'a'])
 }
 
-test.putcolumn.delftfews.adding.to.existing <- function() {
+'test.$<-.delftfews.keeps.other.names' <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  colnames(FWS) <- c('ab-c','d,e,f')
+  FWS$a <- 4:7
+  checkEquals(c('ab-c','d,e,f', 'a'), colnames(FWS))
+}
+
+'test.[<-.delftfews.keeps.other.names' <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  colnames(FWS) <- c('ab-c','d,e,f')
+  FWS['a'] <- 4:7
+  checkEquals(c('ab-c','d,e,f', 'a'), colnames(FWS))
+}
+
+'test.$<-.delftfews.adding.to.existing' <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   FWS$d <- 4:7
   checkEqualsNumeric(4:7, FWS[, 'd'])
 }
 
-test.putcolumn.delftfews.adding.to.empty <- function() {
+'test.$<-.delftfews.adding.to.empty' <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4)
   FWS$d <- 4:7
   checkEqualsNumeric(4:7, FWS[, 'd'])
+}
+
+'test.$<-.delftfews.character.adding.named.column' <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  FWS$d <- FWS$a
+  checkEqualsNumeric(rep(1, 4), FWS[, 'd'])
 }

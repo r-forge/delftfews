@@ -138,7 +138,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
   }
 
   ## column-bind the timestamps to the collected values
-  result <- zoo(cbind(mapply(getValues, seriesNodes), check.names=FALSE), order.by=result.index)
+  result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index)
   class(result) <- c("delftfews", class(result))
   return(result)
 }
@@ -149,6 +149,7 @@ write.PI <- function(data, data.description, filename, global.data)
 
 write.PI.data.frame <- function(data, data.description, filename, global.data=NA) {
   data <- zoo(data[-1], order.by=data$timestamps)
+  class(data) <- c('delftfews', class(data))
   return(write.PI.zoo(data, data.description, filename, global.data=global.data))
 }
 
@@ -182,7 +183,7 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
 
     ## cut uninteresting columns
     actualdata <- data.frame(seconds = as.seconds(index(data)))
-    actualdata$column <- data[ , item[['column']] ]
+    actualdata$column <- data[item['column'], drop=TRUE]
     ## cut rows that generate no 'event' node.
     if(looksLikeNULL(item, 'missVal')) {
       actualdata <- subset(actualdata, !is.na(column))

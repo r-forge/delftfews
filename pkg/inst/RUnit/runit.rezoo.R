@@ -21,7 +21,7 @@ require(RUnit)
 
 EPOCH <- delftfews:::EPOCH
 
-test.putcolumn.zoo.respects.derived.classes <- function() {
+'test.$<-.zoo.respects.derived.classes' <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   checkTrue("delftfews" %in% class(FWS))
   FWS$a <- 4:7
@@ -32,6 +32,22 @@ test.putcolumn.zoo.respects.derived.classes <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   checkTrue("delftfews" %in% class(FWS))
   checkTrue("delftfews" %in% class(FWS$a))
+}
+
+'test.$.zoo.does.not.drop.dimensions' <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  target.a <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, a=1)
+  target.b <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, b=3)
+  checkEquals(target.a, FWS$a)
+  checkEquals(target.b, FWS$b)
+}
+
+'test.[.zoo.does.not.drop.dimensions' <- function() {
+  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  target.a <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, a=1)
+  target.b <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, b=3)
+  checkEquals(target.a, FWS['a'])
+  checkEquals(target.b, FWS['b'])
 }
 
 'test.[.zoo.respects.derived.classes' <- function() {

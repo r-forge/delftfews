@@ -54,8 +54,12 @@ timeseries <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, order.by=NU
   params <- list(...)
   if(length(params) == 1) {
     input <- params[[1]]
-    if(is.matrix(input) || is.data.frame(input))
-      names(result) <- colnames(input)
+    if(is.matrix(input) || is.data.frame(input)){
+      if(dim(input)[2] == 1)
+        names(result) <- names(params)
+      else
+        names(result) <- colnames(input)
+    }
   }
 
   return(result)

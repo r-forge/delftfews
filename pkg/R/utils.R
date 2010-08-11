@@ -101,6 +101,15 @@ stretches <- function(input, gap=1, what="start", zero.surrounded=FALSE) {
   return(result)
 }
 
+rollapply.delftfews <- function(data, ...) {
+  class.data <- class(data)
+  index.data <- index(data)
+  result <- NextMethod(na.pad=TRUE, align='right')
+  class(result) <- class.data
+  index(result) <- index.data
+  return(result)
+}
+
 rollingSum <- function(data, width, na.action=na.zero) {
   ## commodity function
   ## na.zero specifies that NA will be summed as zero.
