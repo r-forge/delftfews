@@ -101,10 +101,10 @@ stretches <- function(input, gap=1, what="start", zero.surrounded=FALSE) {
   return(result)
 }
 
-rollapply.delftfews <- function(data, ...) {
+rollapply.delftfews <- function(data, ..., na.pad=TRUE, align='right') {
   class.data <- class(data)
   index.data <- index(data)
-  result <- NextMethod(na.pad=TRUE, align='right')
+  result <- NextMethod(na.pad=na.pad, align=align)
   class(result) <- class.data
   index(result) <- index.data
   return(result)
@@ -202,8 +202,11 @@ double.threshold <- function(data, threshold.false, threshold.true, initial.stat
 double.threshold.default <- function(data, threshold.false, threshold.true, initial.status=FALSE) {
   ## double threshold test.
 
-  ## looks at data as a sequence of values and returns a boolean that
-  ## tells whether we are between the two threshold values.
+  ## returns a logical status vector.  at each position the status is
+  ## TRUE if data exceeds the `threshold.true`, FALSE if falls below
+  ## the `threshold.false`.  if the data lays between the thresholds,
+  ## the last status is taken forward.  `threshold.true` must be
+  ## higher than `threshold.false`.
 
   s <- rep(NA, length(data))
   s[1] <- initial.status

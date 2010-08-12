@@ -14,6 +14,9 @@
   `zoo::rollapply` does not define a default method.  we do so in the
   package delftfews.
 
+  `rollapply.delftfews` overrides `rollapply.zoo` defaults for `na.pad`
+  (set to TRUE) and `align` (set to 'right').
+
 }
 \usage{
 rollingSum(data, width, na.action=na.zero)
