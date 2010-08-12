@@ -196,10 +196,10 @@ rollapply.default <- function(data, width, FUN, ...) {
   }
 }
 
-double.threshold <- function(data, threshold.false, threshold.true, initial.status)
+double.threshold <- function(data, threshold.false, threshold.true, initial.status=FALSE, on.equality=FALSE)
   UseMethod('double.threshold')
 
-double.threshold.default <- function(data, threshold.false, threshold.true, initial.status=FALSE) {
+double.threshold.default <- function(data, threshold.false, threshold.true, initial.status=FALSE, on.equality=FALSE) {
   ## double threshold test.
 
   ## returns a logical status vector.  at each position the status is
@@ -212,6 +212,10 @@ double.threshold.default <- function(data, threshold.false, threshold.true, init
   s[1] <- initial.status
   s[data > threshold.true] <- TRUE
   s[data < threshold.false] <- FALSE
+  if(on.equality==TRUE) {
+    s[data == threshold.true] <- TRUE
+    s[data == threshold.false] <- FALSE
+  }
   L <- !is.na(s)
   s[L][cumsum(L)]
 }

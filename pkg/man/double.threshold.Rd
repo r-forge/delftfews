@@ -24,7 +24,7 @@
   
 }
 \usage{
-double.threshold(data, threshold.false, threshold.true, initial.status)
+double.threshold(data, threshold.false, threshold.true, initial.status, on.equality)
 multi.double.threshold(data, thresholds, initial.status)
 }
 \arguments{
@@ -35,6 +35,9 @@ multi.double.threshold(data, thresholds, initial.status)
     threshold.true) and as many rows as the thresholds you want to count.}
   \item{initial.status}{initial status, used if initial value is between
     a false/true threshold pair.}
+  \item{on.equality}{a boolean, indicates whether a threshold is to be
+    considered reached also on equality or only on exceeding it.
+    defaults to FALSE (equality is not enough).}
 }
 \examples{
 # am I baking my merengues right?
