@@ -74,7 +74,7 @@ cumulate.timeseries <- function(input, column="input", gap=1, integration.method
   ## 4: simpson's.  the methods are implemented taking into account
   ## the two 0 measurements outside the stretch under examination.
 
-  result <- data.frame(row.names=1:nrow(input))
+  result <- data.frame(row.names=seq_len(NROW(input)))
   result[[paste(column, 'gross', 'partials', sep='.')]] <- NA
   result[[paste(column, 'gross', 'totals', sep='.')]] <- NA
   result[[paste(column, 'gross', 'duration', sep='.')]] <- NA

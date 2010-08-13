@@ -114,7 +114,7 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
   tempdata <- score.function(input, ...)
   ## set unique names so we can find back each individual column after
   ## ordering by score
-  names(tempdata) <- 1:N
+  names(tempdata) <- seq_len(N)
   ## these are the columns.  
   columns <- as.numeric(names(sort(tempdata)[N * percentiles / 100]))
 

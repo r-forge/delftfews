@@ -30,7 +30,7 @@
   rval <- coredata(x)
   n <- NROW(rval)
   n2 <- if(nargs() == 1) length(as.vector(rval)) else n
-  if(missing(i)) i <- 1:n
+  if(missing(i)) i <- seq_len(n)
 
   ## also support that i can be index:
   ## if i is not numeric/integer/logical, it is interpreted to be the index
