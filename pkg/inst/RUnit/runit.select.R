@@ -86,13 +86,18 @@ test.timestamp.in.weekend.localtime.summer <- function() {
   checkEquals(target, in.weekend)
 }
 
-test.timestamp.in.range.hour <- function() {
+test.timestamp.in.range.hour.a <- function() {
   pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=210*60, length.out=14)
   ## 23:30 03:00 06:30 10:00 13:30 17:00 20:30 00:00 03:30 07:00 10:30 14:00 17:30 21:00
 
   in.period <- timestamp.in.range.hour(pidata, 10, 17, tz="UTC")
   expect <- c(F, F, F, T, T, F, F, F, F, F, T, T, F, F)
   checkEquals(expect, in.period)
+}
+
+test.timestamp.in.range.hour.b <- function() {
+  pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=210*60, length.out=14)
+  ## 23:30 03:00 06:30 10:00 13:30 17:00 20:30 00:00 03:30 07:00 10:30 14:00 17:30 21:00
 
   in.period <- timestamp.in.range.hour(pidata, 17, 10, tz="UTC")
   expect <- c(T, T, T, F, F, T, T, T, T, T, F, F, T, T)
@@ -103,7 +108,7 @@ test.reformat.date <- function() {
   DEACTIVATED("reformat.date is not tested.")
 }
 
-test.timestamp.in.range.calendar.contiguous.1 <- function() {
+test.timestamp.in.range.calendar.contiguous.1.a <- function() {
   pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=720*60, length.out=14)
   ## 0213 0214 0214 0215 0215 0216 0216 0217 0217 0218 0218 0219 0219 0220
 
@@ -111,11 +116,21 @@ test.timestamp.in.range.calendar.contiguous.1 <- function() {
   expect <- rep(F, 14)
   expect[2:7] <- TRUE
   checkEquals(expect, in.period)
+}
+
+test.timestamp.in.range.calendar.contiguous.1.b <- function() {
+  pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=720*60, length.out=14)
+  ## 0213 0214 0214 0215 0215 0216 0216 0217 0217 0218 0218 0219 0219 0220
 
   in.period <- timestamp.in.range.calendar(pidata, "0215", "0216", tz="UTC")
   expect <- rep(F, 14)
   expect[4:5] <- TRUE
   checkEquals(expect, in.period)
+}
+
+test.timestamp.in.range.calendar.contiguous.1.c <- function() {
+  pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=720*60, length.out=14)
+  ## 0213 0214 0214 0215 0215 0216 0216 0217 0217 0218 0218 0219 0219 0220
   
   in.period <- timestamp.in.range.calendar(pidata, "0210", "0216", tz="UTC")
   expect <- rep(F, 14)
@@ -123,7 +138,7 @@ test.timestamp.in.range.calendar.contiguous.1 <- function() {
   checkEquals(expect, in.period)
 }
 
-test.timestamp.in.range.calendar.contiguous.2 <- function() {
+test.timestamp.in.range.calendar.contiguous.2.a <- function() {
   pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=18)
   ## 2009-02-13 2009-03-25 2009-05-04 2009-06-13 2009-07-23 2009-09-01
   ## 2009-10-11 2009-11-20 2009-12-30 2010-02-08 2010-03-20 2010-04-29
@@ -134,6 +149,13 @@ test.timestamp.in.range.calendar.contiguous.2 <- function() {
   expect[2:6] <- TRUE
   expect[11:15] <- TRUE
   checkEquals(expect, in.period) 
+}
+
+test.timestamp.in.range.calendar.contiguous.2.b <- function() {
+  pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=18)
+  ## 2009-02-13 2009-03-25 2009-05-04 2009-06-13 2009-07-23 2009-09-01
+  ## 2009-10-11 2009-11-20 2009-12-30 2010-02-08 2010-03-20 2010-04-29
+  ## 2010-06-08 2010-07-18 2010-08-27 2010-10-06 2010-11-15 2010-12-25
 
   in.period <- timestamp.in.range.calendar(pidata, "3-1", "10-1", tz="UTC")
   expect <- rep(F, 18)
@@ -150,7 +172,6 @@ test.timestamp.in.range.calendar.contiguous.3 <- function() {
 
   checkException(timestamp.in.range.calendar(pidata, "31", "101", tz="UTC"), ": should crash on ambiguous input")
   checkException(timestamp.in.range.calendar(pidata, "301", "1001", tz="UTC"), ": should crash on ambiguous input")
-
 }
 
 test.timestamp.in.range.calendar.split <- function() {
