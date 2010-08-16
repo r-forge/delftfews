@@ -19,7 +19,7 @@
 ## Purpose    : input-output functions relative to timeseries
 ##
 ## initial programmer :  Mario Frasca
-## contributors: Mario Frasca, Michèl van Leeuwen, 
+## contributors: Mario Frasca, Michèl van Leeuwen,
 ##
 ## initial date       :  20091120
 ##
@@ -36,9 +36,9 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
     ##
     ## a value may be NA, or be flagged as NA (flag 9), or be equivalent
     ## to NA (equal to missVal)
-    
+
     ## if more values are given in one step, the last is returned
-    
+
     if(!any(is.na(missVal)))  # missing value was specified
       values[values == missVal] <- NA
     if(!any(is.na(flags)))  # a flags array was provided
@@ -48,8 +48,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
       result <- aggregate(values, by=list(ceiling(seconds/step.seconds)*step.seconds), function(x) tail(x, n=1))
       colnames(result) <- c('s', "v")
     } else {
-      result <- data.frame(v=FALSE)
-      result <- subset(result, v)
+      result <- subset(data.frame(s='', v=FALSE), c(FALSE))
     }
 
     return (result)
@@ -143,7 +142,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
   return(result)
 }
 
-write.PI <- function(data, data.description, filename, global.data) 
+write.PI <- function(data, data.description, filename, global.data)
   ## generic function, saves a timeseriesset to a file
   UseMethod('write.PI')
 
@@ -221,7 +220,7 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
         missingValueNode('InfVal')
       else if(is.na(value))
         missingValueNode('missVal')
-      else 
+      else
         xmlNode(name = 'event', attrs=c(date=tsDate(ts), time=tsTime(ts), value=value, flag=0))
     }
 
@@ -289,7 +288,7 @@ read.BfG <- function(filename, column="value") {
 
 splitToNumeric <- function(x) {
   ## translates a string configuration submatrix to numeric
-  
+
   ## not exported, tested
 
   ow <- options("warn")
