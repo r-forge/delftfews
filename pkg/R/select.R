@@ -108,18 +108,31 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
   ## chooses the percentiles indicated, after the `score.function` function
   ## has applied to each column.
 
-  ## how many columns
-  N <- ncol(input)
   ## call the score.function, passing it any extra parameters
   tempdata <- score.function(input, ...)
-  ## set unique names so we can find back each individual column after
-  ## ordering by score
-  names(tempdata) <- seq_len(N)
-  ## these are the columns.  
-  columns <- as.numeric(names(sort(tempdata)[N * percentiles / 100]))
 
-  ## result has same timestamps as input, but only the chosen columns
-  result <- input[, columns]
+  ## if no valid data was provided, return no valid data!
+  if(all(is.na(tempdata))) {
+    ## return the desired amount of columns, filled with NA and
+    ## timestamped as the input.
+    columns <- seq_len(length(percentiles))
+    result <- input[, columns]
+    result[] <- NA
+  } else {
+    ## skip all columns where the score is NA
+    input <- input[, !is.na(tempdata)]
+    tempdata <- tempdata[!is.na(tempdata)]
+    ## and now count the surviving columns
+    N <- length(tempdata)
+    ## set unique names so we can find back each individual column after
+    ## ordering by score
+    names(tempdata) <- seq_len(N)
+    ## these are the columns.  
+    columns <- as.numeric(names(sort(tempdata)[N * percentiles / 100]))
+    ## result has same timestamps as input, but only the chosen
+    ## columns
+    result <- input[, columns]
+  }
   ## force result to have the same class as the input
   class(result) <- class(input)
   ## rename columns adding a trailing .percentile

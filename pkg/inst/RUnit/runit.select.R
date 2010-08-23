@@ -221,6 +221,34 @@ test.select.percentiles.timeseries.30.80.100 <- function() {
   checkEquals(target, current)
 }
 
+test.select.percentiles.timeseries.with.four.NA.columns <- function() {
+  ## NA columns are ignored
+  l <- rep(1:100, each=22)
+  dim(l) <- c(22, 100)
+  l <- cbind(l, NA)
+  l <- cbind(l, NA)
+  l <- cbind(l, NA)
+  l <- cbind(l, NA)
+  l[,sample(1:104)] <- l # shuffle columns
+  colnames(l) <- rep('a', 104)
+  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
+  current <- select.percentiles(pidata, c(30, 80))
+  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=30, a.80=80)
+  checkEquals(target, current)
+}
+
+test.select.percentiles.timeseries.with.only.NA.columns <- function() {
+  ## user provided us with all-NA data, except for the timestamps.  we
+  ## return something similar.
+  l <- rep(NA, 2200)
+  dim(l) <- c(22, 100)
+  colnames(l) <- rep('a', 100)
+  pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
+  current <- select.percentiles(pidata, c(30, 80))
+  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=NA, a.80=NA)
+  checkEquals(target, current)
+}
+
 ## selecting complete rows and columns.
 
 test.getitem.delftfews.character <- function() {
