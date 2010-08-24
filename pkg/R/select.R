@@ -88,7 +88,7 @@ reformat.date <- function(datestring) {
 timestamp.in.range.calendar <- function(data, from, to, tz="CET") {
   ## returns whether the timestamps of a timeseries are between start and end date
 
-  dates <- format.Date(index(data), format="%02m%02d")
+  dates <- format.Date(index(data), format="%m%d")
 
   from <- reformat.date(from)
   to <- reformat.date(to)
