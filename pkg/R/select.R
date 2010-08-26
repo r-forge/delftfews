@@ -115,7 +115,7 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
   if(all(is.na(tempdata))) {
     ## return the desired amount of columns, filled with NA and
     ## timestamped as the input.
-    columns <- seq_len(length(percentiles))
+    columns <- seq_along(percentiles)
     result <- input[, columns]
     result[] <- NA
   } else {
