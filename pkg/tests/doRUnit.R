@@ -66,6 +66,9 @@ if(!require("RUnit", quietly=TRUE)) {
   ## Report test results to HTML file
   printHTMLProtocol(tests, fileName=paste(pathReport, ".html", sep=""))
 
+  ## Report test results to XML file
+  printJUnitProtocol(tests, fileName=paste(pathReport, ".xml", sep=""))
+
   ## Report tests coverage to HTML file
   print(names(tests))
 
