@@ -2,7 +2,7 @@
 
 TOP=../..
 PKG=${shell cd ${TOP};pwd}
-SUITE=doRUnit.R
+SUITE=doSvUnit.R
 R=R
 
 all: inst xtest

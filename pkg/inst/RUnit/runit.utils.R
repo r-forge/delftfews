@@ -17,7 +17,7 @@
 ## <http://www.gnu.org/licenses/>.
 ##
 
-require(RUnit)
+require(svUnit)
 
 test.na.fill <- function() {
   checkEquals(c(1, 1, 1, 2, 3, 3, 4), na.fill(c(1, NA, NA, 2, 3, NA, 4)))

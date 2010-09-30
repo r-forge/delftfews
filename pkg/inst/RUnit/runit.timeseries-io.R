@@ -17,7 +17,7 @@
 ## <http://www.gnu.org/licenses/>.
 ##
 
-require(RUnit)
+require(svUnit)
 
 ## testing the following non-exported functions:
 splitToNumeric <- delftfews:::splitToNumeric

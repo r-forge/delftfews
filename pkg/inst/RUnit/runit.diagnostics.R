@@ -17,7 +17,7 @@
 ## <http://www.gnu.org/licenses/>.
 ##
 
-require(RUnit)
+require(svUnit)
 
 test.formatter.fewsdiagnostics <- function() {
   DEACTIVATED("formatter.fewsdiagnostics is not tested.")
