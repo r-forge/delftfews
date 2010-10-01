@@ -442,3 +442,34 @@ test.extremes.correct.2 <- function() {
   checkEquals(target, current)
 }
 
+test.findLocalMax.internal <- function() {
+  ## normal usage, extreme are only inside
+  values <- c(1,2,3,4,3,2,3,4,5,6,5,4,5,6,5,4)
+  target <- c(F,F,F,T,F,F,F,F,F,T,F,F,F,T,F,F)
+  current <- findLocalMax(values)
+  checkEquals(target, current)
+}
+
+test.findLocalMin.internal <- function() {
+  ## normal usage, extreme are only inside
+  values <- c(3,2,3,4,3,2,3,4,5,6,5,4,5,6,7)
+  target <- c(F,T,F,F,F,T,F,F,F,F,F,T,F,F,F)
+  current <- findLocalMin(values)
+  checkEquals(target, current)
+}
+
+test.findLocalMax.at.fronteer <- function() {
+  ## extreme at fronteer is not found
+  values <- c(1,2,3,4,3,2,3,4,5,6,5,4,5,6)
+  target <- c(F,F,F,T,F,F,F,F,F,T,F,F,F,F)
+  current <- findLocalMax(values)
+  checkEquals(target, current)
+}
+
+test.findLocalMin.at.fronteer <- function() {
+  ## extreme at fronteer is not found
+  values <- c(3,2,3,4,3,2,3,4,5,6,5,4,5,6,7,6)
+  target <- c(F,T,F,F,F,T,F,F,F,F,F,T,F,F,F,F)
+  current <- findLocalMin(values)
+  checkEquals(target, current)
+}

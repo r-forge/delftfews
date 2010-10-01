@@ -286,3 +286,6 @@ edit.zoo <- function(x) {
   zoo(edit(cd), order.by=index(x))
 }
 
+findLocalMax <- function(x) c(FALSE, diff(diff(x) > 0) < 0, FALSE)
+
+findLocalMin <- function(x) c(FALSE, diff(diff(x) > 0) > 0, FALSE)

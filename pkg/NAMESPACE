@@ -1,12 +1,10 @@
 export(as.seconds,
-       as.seconds.Date,
-       as.seconds.POSIXct,
-       as.seconds.default,
-       as.seconds.difftime,
        cumulate.timeseries,
        contiguous.stretch,
-       double.threshold, double.threshold.default, double.threshold.data.frame, double.threshold.matrix, 
-       multi.double.threshold, multi.double.threshold.default, multi.double.threshold.data.frame, multi.double.threshold.matrix, 
+       double.threshold,
+       findLocalMin,
+       findLocalMax,
+       multi.double.threshold,
        na.fill,
        na.interpolate,
        na.zero,
@@ -28,8 +26,6 @@ export(as.seconds,
        timestamp.in.range.weekday,
        timestamp.in.weekend,
        write.PI,
-       write.PI.data.frame,
-       write.PI.zoo,
        Ops.zoo, # modified from new version
        "$.zoo", # UNmodified from new version
        "$<-.zoo", # modified from new version
@@ -39,3 +35,19 @@ export(as.seconds,
        "[.delftfews",
        "$<-.delftfews",
        "$.delftfews")
+
+S3method(double.threshold, default)
+S3method(double.threshold, data.frame)
+S3method(double.threshold, matrix)
+
+S3method(multi.double.threshold, default)
+S3method(multi.double.threshold, data.frame)
+S3method(multi.double.threshold, matrix)
+
+S3method(as.seconds, default)
+S3method(as.seconds, Date)
+S3method(as.seconds, POSIXct)
+S3method(as.seconds, difftime)
+
+S3method(write.PI, data.frame)
+S3method(write.PI, zoo)
