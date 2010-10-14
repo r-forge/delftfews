@@ -473,3 +473,43 @@ test.findLocalMin.at.fronteer <- function() {
   current <- findLocalMin(values)
   checkEquals(target, current)
 }
+
+test.read.sheet <- function() {
+  ## simple working test on configuration with two sheets
+  content <- "\
+-- ground locations
+location\tid\tid1\tunit\tx\ty
+Hoogeveen\t151\t06279\tmm/uur\t229129.85\t527083.29
+Eelde\t40_2\t06280\tmm/uur\t235449.14\t571940.82
+'Nieuw Beerta'\t1320\t06286\tmm/uur\t273805.36\t579493.47
+
+-- globals
+loglevelname\tloglevel
+DEBUG\t10
+"
+  target <- structure(list(location = structure(c(2L, 1L, 3L),
+                             .Label = c("Eelde", "Hoogeveen", "Nieuw Beerta"),
+                             class = "factor"),
+                           id = structure(c(2L, 3L, 1L),
+                             .Label = c("1320", "151", "40_2"),
+                             class = "factor"),
+                           id1 = c(6279L, 6280L, 6286L),
+                           unit = structure(c(1L, 1L, 1L),
+                             .Label = "mm/uur",
+                             class = "factor"),
+                           x = c(229129.85, 235449.14, 273805.36),
+                           y = c(527083.29, 571940.82, 579493.47)),
+                      .Names = c("location", "id", "id1", "unit", "x", "y"),
+                      class = "data.frame",
+                      row.names = c(NA, -3L))
+  current <- read.sheet(textConnection(content), "ground locations")
+  checkEquals(target, current)
+
+  target <- structure(list(loglevelname = structure(1L, .Label = "DEBUG", class = "factor"),
+                           loglevel = 10L),
+                      .Names = c("loglevelname", "loglevel"),
+                      class = "data.frame",
+                      row.names = c(NA, -1L))
+  current <- read.sheet(textConnection(content), "globals")
+  checkEquals(target, current)
+}

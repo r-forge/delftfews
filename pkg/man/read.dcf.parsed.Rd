@@ -2,13 +2,23 @@
 
 \name{read.dcf.parsed}
 \alias{read.dcf.parsed}
-\title{read a debian configuration file as a list of data.frames}
+\alias{readIniFile}
+\alias{read.sheet}
+\title{read configuration files as (list of) data frames.}
 \description{
 
-  reads a dcf file, assume it is structured as a sequence of definition
-  blocks with no intersection in the names used.
+  these functions are meant for reading various types of configuration
+  files, returning the content as (lists of) data frames.
+  
+  `read.sheet` reads a file that contains named data.frames and returns
+  the single requested sheet.
 
-  returns a list of data.frames.
+  `read.dcf.parsed` reads a dcf file as a list of data.frames, assume it
+  is structured as a sequence of definition blocks with no intersection
+  in the names used.
+  
+}
+\details{
 
   the first block is assumed to hold only one textual record.
 
@@ -56,8 +66,16 @@
     
 }
 \usage{
-conf.data <- read.dcf.parsed(filename)
+conf.data <- read.dcf.parsed(file, fileEncoding)
+read.sheet(file, sheet, header, sep, fileEncoding, ...)
 }
 \arguments{
-  \item{filename}{the name of the configuration file}
+  \item{file}{the name of the configuration file}
+  \item{sheet}{the name of the sheet to return}
+  \item{header}{in read.sheet, sets default value to TRUE, as opposed to
+    read.table, where it is FALSE.}
+  \item{sep}{in read.sheet, sets default value to "\\t", as opposed to
+    read.table, where it is " ".}
+  \item{fileEncoding}{the encoding of the file to be read.}
+  \item{...}{passed to included functions}
 }

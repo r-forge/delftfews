@@ -289,3 +289,65 @@ edit.zoo <- function(x) {
 findLocalMax <- function(x) c(FALSE, diff(diff(x) > 0) < 0, FALSE)
 
 findLocalMin <- function(x) c(FALSE, diff(diff(x) > 0) > 0, FALSE)
+
+
+readIniFile <- function(file, fileEncoding="", ...) {
+  if (is.character(file)) {
+    file <- if (nzchar(fileEncoding)) 
+      file(file, "rt", encoding = fileEncoding)
+    else file(file, "rt")
+    on.exit(close(file))
+  }
+  if (!inherits(file, "connection")) 
+    stop("'file' must be a character string or connection")
+  if (!isOpen(file, "rt")) {
+    open(file, "rt")
+    on.exit(close(file))
+  }
+
+  section <- ""
+  f <- function(x) {
+    if (length(x) == 1) section <<- gsub("[\\[\\]]", "", x, perl=TRUE)
+    if (length(x) <= 1) return()
+    c(section, x)
+  }
+
+  LinesRaw <- readLines(file)
+  Lines <- readLines(textConnection(LinesRaw))
+  Lines <- Lines[-grep("^[ \t]*[#;]", Lines)]
+  result <- data.frame(do.call("rbind", lapply(strsplit(Lines, "[ \t]*=[ \t]*"), f)))
+  names(result) <- c("section", "field", "value")
+  return(result)
+}
+
+
+read.sheet <- function(file, sheet=NULL, header=TRUE, sep="\t", fileEncoding="", ...) {
+
+  if(is.null(sheet))
+    ## sheets may have different structures.  we can't put more than
+    ## one at a time in one single data frame.
+    stop("you must specify the desired sheet.")
+
+  if (is.character(file)) {
+    file <- if (nzchar(fileEncoding)) 
+      file(file, "rt", encoding = fileEncoding)
+    else file(file, "rt")
+    on.exit(close(file))
+  }
+  if (!inherits(file, "connection")) 
+    stop("'file' must be a character string or connection")
+  if (!isOpen(file, "rt")) {
+    open(file, "rt")
+    on.exit(close(file))
+  }
+
+  LinesRaw <- readLines(file)
+  StartOfRequestedSheet <- grep(paste("--", sheet), LinesRaw, fixed=TRUE)
+  if(length(StartOfRequestedSheet) != 1)
+    stop("you cannot have more than one sheet with the same name.")
+  
+  SheetStartLines <- grepl("^-- ", LinesRaw)
+  SheetContent <- contiguous.stretch(SheetStartLines, StartOfRequestedSheet + 1, FALSE)
+
+  read.table(textConnection(LinesRaw[SheetContent]), header=header, sep=sep, ...)
+}
