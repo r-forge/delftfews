@@ -2,7 +2,6 @@
 
 \name{read.dcf.parsed}
 \alias{read.dcf.parsed}
-\alias{readIniFile}
 \alias{read.sheet}
 \title{read configuration files as (list of) data frames.}
 \description{
@@ -67,15 +66,19 @@
 }
 \usage{
 conf.data <- read.dcf.parsed(file, fileEncoding)
-read.sheet(file, sheet, header, sep, fileEncoding, ...)
+read.sheet(file, sheet, header, sep, fileEncoding, stringsAsFactors, strip.white, ...)
 }
 \arguments{
   \item{file}{the name of the configuration file}
-  \item{sheet}{the name of the sheet to return}
+  \item{sheet}{the name of the sheet that is to be read}
   \item{header}{in read.sheet, sets default value to TRUE, as opposed to
     read.table, where it is FALSE.}
   \item{sep}{in read.sheet, sets default value to "\\t", as opposed to
     read.table, where it is " ".}
   \item{fileEncoding}{the encoding of the file to be read.}
+  \item{stringsAsFactors}{in read.sheet, sets default value to FALSE, as opposed to
+    read.table, where it is TRUE.}
+  \item{strip.white}{in read.sheet, sets default value to TRUE, as opposed to
+    read.table, where it is FALSE.}
   \item{...}{passed to included functions}
 }

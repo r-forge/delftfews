@@ -290,42 +290,12 @@ findLocalMax <- function(x) c(FALSE, diff(diff(x) > 0) < 0, FALSE)
 
 findLocalMin <- function(x) c(FALSE, diff(diff(x) > 0) > 0, FALSE)
 
-
-readIniFile <- function(file, fileEncoding="", ...) {
-  if (is.character(file)) {
-    file <- if (nzchar(fileEncoding)) 
-      file(file, "rt", encoding = fileEncoding)
-    else file(file, "rt")
-    on.exit(close(file))
-  }
-  if (!inherits(file, "connection")) 
-    stop("'file' must be a character string or connection")
-  if (!isOpen(file, "rt")) {
-    open(file, "rt")
-    on.exit(close(file))
-  }
-
-  section <- ""
-  f <- function(x) {
-    if (length(x) == 1) section <<- gsub("[\\[\\]]", "", x, perl=TRUE)
-    if (length(x) <= 1) return()
-    c(section, x)
-  }
-
-  LinesRaw <- readLines(file)
-  Lines <- readLines(textConnection(LinesRaw))
-  Lines <- Lines[-grep("^[ \t]*[#;]", Lines)]
-  result <- data.frame(do.call("rbind", lapply(strsplit(Lines, "[ \t]*=[ \t]*"), f)))
-  names(result) <- c("section", "field", "value")
-  return(result)
-}
-
-
-read.sheet <- function(file, sheet=NULL, header=TRUE, sep="\t", fileEncoding="", ...) {
+read.sheet <- function(file, sheet=NULL, header=TRUE, sep="\t",
+                       fileEncoding="", stringsAsFactors=FALSE, strip.white=TRUE, ...) {
 
   if(is.null(sheet))
-    ## sheets may have different structures.  we can't put more than
-    ## one at a time in one single data frame.
+    ## sheets may have different structures.  this function returns
+    ## just one of them and you must decide which one.
     stop("you must specify the desired sheet.")
 
   if (is.character(file)) {
@@ -349,5 +319,9 @@ read.sheet <- function(file, sheet=NULL, header=TRUE, sep="\t", fileEncoding="",
   SheetStartLines <- grepl("^-- ", LinesRaw)
   SheetContent <- contiguous.stretch(SheetStartLines, StartOfRequestedSheet + 1, FALSE)
 
-  read.table(textConnection(LinesRaw[SheetContent]), header=header, sep=sep, ...)
+  connection <- textConnection(LinesRaw[SheetContent])
+  on.exit(close(connection))
+
+  read.table(connection, header=header, sep=sep,
+             strip.white=strip.white, stringsAsFactors=stringsAsFactors, ...)
 }
