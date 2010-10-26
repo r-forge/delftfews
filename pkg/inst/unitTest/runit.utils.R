@@ -502,7 +502,7 @@ DEBUG\t10
                       .Names = c("location", "id", "id1", "unit", "x", "y"),
                       class = "data.frame",
                       row.names = c(NA, -3L))
-  current <- read.sheet(textConnection(content), "ground locations")
+  current <- read.sheet(textConnection(content), "ground locations", stringsAsFactors=TRUE)
   checkEquals(target, current)
 
   target <- structure(list(loglevelname = structure(1L, .Label = "DEBUG", class = "factor"),
@@ -510,6 +510,6 @@ DEBUG\t10
                       .Names = c("loglevelname", "loglevel"),
                       class = "data.frame",
                       row.names = c(NA, -1L))
-  current <- read.sheet(textConnection(content), "globals")
+  current <- read.sheet(textConnection(content), "globals", stringsAsFactors=TRUE)
   checkEquals(target, current)
 }
