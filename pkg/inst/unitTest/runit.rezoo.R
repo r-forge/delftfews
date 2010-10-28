@@ -21,20 +21,20 @@ require(svUnit)
 
 EPOCH <- delftfews:::EPOCH
 
-'test.$<-.zoo.respects.derived.classes' <- function() {
+`test.$<-.zoo.respects.derived.classes` <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   checkTrue("delftfews" %in% class(FWS))
   FWS$a <- 4:7
   checkTrue("delftfews" %in% class(FWS))
 }
 
-'test.$.zoo.respects.derived.classes' <- function() {
+`test.$.zoo.respects.derived.classes` <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   checkTrue("delftfews" %in% class(FWS))
   checkTrue("delftfews" %in% class(FWS$a))
 }
 
-'test.$.zoo.does.not.drop.dimensions' <- function() {
+`test.$.zoo.does.not.drop.dimensions` <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   target.a <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, a=1)
   target.b <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, b=3)
@@ -42,7 +42,7 @@ EPOCH <- delftfews:::EPOCH
   checkEquals(target.b, FWS$b)
 }
 
-'test.[.zoo.does.not.drop.dimensions' <- function() {
+`test.[.zoo.does.not.drop.dimensions` <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   target.a <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, a=1)
   target.b <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, b=3)
@@ -50,7 +50,7 @@ EPOCH <- delftfews:::EPOCH
   checkEquals(target.b, FWS['b'])
 }
 
-'test.[.zoo.respects.derived.classes' <- function() {
+`test.[.zoo.respects.derived.classes` <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
   checkTrue("delftfews" %in% class(FWS))
   checkTrue("delftfews" %in% class(FWS['a']))
@@ -65,4 +65,11 @@ test.Ops.delftfews.keeps.class <- function() {
   checkTrue("delftfews" %in% class(FWSa + 0))
   checkTrue("delftfews" %in% class(FWSa * 1))
   checkTrue("delftfews" %in% class(FWSa / 1))
+}
+
+`test.[.zoo.first.parameter.bidimensional` <- function() {
+  FWS <- timeseries(from=1234567800, by=3600, length.out=4, a=1, b=1:4)
+  target <- `[`(FWS, `[`(FWS, , 'b', drop=TRUE) < 3, )
+  current <- `[`(FWS, `[`(FWS, , 'b', drop=FALSE) < 3, )
+  checkEquals(target, current)
 }

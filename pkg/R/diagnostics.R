@@ -45,7 +45,8 @@ setup.fewsdiagnostics <- function(filename) {
              formatter=formatter.fewsdiagnostics)
 }
 
-teardown.fewsdiagnostics <- function(filename) {
+teardown.fewsdiagnostics <- function(...) {
+  filename <- with(getHandler("diagnostics", logger = "fews.diagnostics"), file)
   cat('</Diag>\n', file=filename, append=TRUE)
   removeHandler('diagnostics', logger='fews.diagnostics')
 }
