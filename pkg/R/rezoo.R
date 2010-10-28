@@ -24,7 +24,7 @@
 ## initial date       :  20100806
 ##
 
-"[.zoo" <- function(x, i, j, drop = TRUE, ...)
+`[.zoo` <- function(x, i, j, drop = TRUE, ...)
 {
   if(!is.zoo(x)) stop("method is only for zoo objects")
   rval <- coredata(x)
@@ -32,13 +32,15 @@
   n2 <- if(nargs() == 1) length(as.vector(rval)) else n
   if(missing(i)) i <- seq_len(n)
 
+  if (inherits(i, "zoo"))
+    i <- coredata(i)
+  if (inherits(i, "matrix") && (ncol(i) == 1 || nrow(i) == 1))
+    i <- c(i)
   ## also support that i can be index:
   ## if i is not numeric/integer/logical, it is interpreted to be the index
   if (all(class(i) == "logical"))
-    i <- which(rep(i, length.out = n2))
-  else if (inherits(i, "zoo") && all(class(coredata(i)) == "logical")) {
-    i <- which(coredata(merge(zoo(,time(x)), i)))
-  } else if(!((all(class(i) == "numeric") || all(class(i) == "integer")))) 
+    i <- which(i)
+  else if(!((all(class(i) == "numeric") || all(class(i) == "integer")))) 
     i <- which(MATCH(index(x), i, nomatch = 0L) > 0L)
   
   if(length(dim(rval)) == 2) {
@@ -58,10 +60,10 @@
   return(rval)
 }
 
-"[<-.zoo" <- function (x, i, j, value) 
+`[<-.zoo` <- function (x, i, j, value) 
 {
   ## x[,j] <- value and x[] <- value can be handled by default method
-  if(missing(i)) return(NextMethod("[<-"))
+  if(missing(i)) return(NextMethod(`[<-`))
 
   ## otherwise do the necessary processing on i
   n <- NROW(coredata(x))
@@ -94,7 +96,7 @@
     n.ok <- all(i <= n)
   }
   if(!n.ok | any(i < 1)) stop("Out-of-range assignment not possible.")
-  rval <- NextMethod("[<-")
+  rval <- NextMethod(`[<-`)
 
   if(!is.null(value2)) {
     rval2 <- if(missing(j)) zoo(value2, i2) else {
@@ -108,14 +110,14 @@
   return(rval)
 }
 
-"$.zoo" <- function(object, x) {
+`$.zoo` <- function(object, x) {
   if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
   if(is.null(colnames(object))) stop("only possible for zoo series with column names")
   wi <- pmatch(x, colnames(object))
   if(is.na(wi)) NULL else object[, wi]
 }
 
-"$<-.zoo" <- function(object, x, value) {
+`$<-.zoo` <- function(object, x, value) {
   if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
   if(NCOL(object) > 0 & is.null(colnames(object))) stop("only possible for zoo series with column names")
   wi <- match(x, colnames(object))
