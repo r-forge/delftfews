@@ -11,7 +11,7 @@
   acknowledged and the date/time instants in the `timestamps` column
   will appear to you as shifted: keep in mind that a time instant is
   independent of the time zone concept: only its string representation
-  is affected.  the standard `format` function, will help you see tha
+  is affected.  the standard `format` function, will help you see the
   data in the same form as in the input, just specify the correct `tz`.
 
   the time series set read in the PI file is forced into a set of
@@ -27,8 +27,9 @@ pidata <- read.PI(filename[, step.minutes, na.action])
   \item{filename}{the name of the xml file containing the timeseries}
   \item{step.minutes}{the timestep in the timeseries.  it is inferred
     from the data if left unspecified}
-  \item{na.action}{what has to happen to NA values.  can be either
-    `na.fill` or `na.pass`.  defaults to `na.fill`.}
+  \item{na.action}{what has to happen to NA values.  can be any function
+    that operates on the NA values of a vector, as for example `na.pass`
+    or `na.zero`.  defaults to `na.fill`.}
 }
 \examples{
 \dontrun{pidata <- read.PI('pi.xml', step.minutes=15)}
