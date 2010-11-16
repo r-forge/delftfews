@@ -224,10 +224,16 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
         xmlNode(name = 'event', attrs=c(date=tsDate(ts), time=tsTime(ts), value=value, flag=0))
     }
 
+    ## timeStep
+    ## Time step for typical profile if variable to be defined for the historical event.
+    ## Attributes:
+    ## -unit: enumeration of: second, minute, hour, day, week, nonequidistant
+    ## -multiplier: defines the number of units given above in a time step (not relevant for nonequidistant time steps)
+    ## -divider: same function as the multiplier, but defines fraction of units in time step.
     if(nrow(data) != nrow(actualdata)) # we removed rows
       timeStepNode <- xmlNode('timeStep', attrs=c(unit="nonequidistant"))
     else
-      timeStepNode <- xmlNode('timeStep', attrs=c(unit="seconds", multiplier=timeStep))
+      timeStepNode <- xmlNode('timeStep', attrs=c(unit="second", multiplier=timeStep))
 
     headerNode <- xmlNode('header',
                           xmlNode('type', item[['type']]),
@@ -265,7 +271,7 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
   }
   TimeSeriesNode <- addChildren(TimeSeriesNode, kids=apply(data.description, 1, CreateSeriesNode))
 
-  saveXML(TimeSeriesNode, file=filename)
+  saveXML(TimeSeriesNode, file=filename, encoding="UTF-8")
 }
 
 read.BfG <- function(filename, column="value") {
