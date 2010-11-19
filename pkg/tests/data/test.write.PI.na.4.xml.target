@@ -6,7 +6,7 @@
    <type>instantaneous</type>
    <locationId>600-P1201</locationId>
    <parameterId>parameterId</parameterId>
-   <timeStep unit="seconds" multiplier="86400"/>
+   <timeStep unit="second" multiplier="86400"/>
    <startDate date="2009-10-04" time="00:00:00"/>
    <endDate date="2009-10-19" time="00:00:00"/>
    <missVal>-999</missVal>
@@ -36,7 +36,7 @@
    <type>instantaneous</type>
    <locationId>600-P1202</locationId>
    <parameterId>parameterId</parameterId>
-   <timeStep unit="seconds" multiplier="86400"/>
+   <timeStep unit="second" multiplier="86400"/>
    <startDate date="2009-10-04" time="00:00:00"/>
    <endDate date="2009-10-19" time="00:00:00"/>
    <missVal>-999</missVal>
@@ -66,7 +66,7 @@
    <type>instantaneous</type>
    <locationId>600-P1203</locationId>
    <parameterId>parameterId</parameterId>
-   <timeStep unit="seconds" multiplier="86400"/>
+   <timeStep unit="second" multiplier="86400"/>
    <startDate date="2009-10-04" time="00:00:00"/>
    <endDate date="2009-10-19" time="00:00:00"/>
    <missVal>-999</missVal>

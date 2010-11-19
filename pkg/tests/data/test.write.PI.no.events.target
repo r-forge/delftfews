@@ -6,7 +6,7 @@
    <type>instantaneous</type>
    <locationId>P1201</locationId>
    <parameterId>WNS954</parameterId>
-   <timeStep unit="seconds" multiplier="300"/>
+   <timeStep unit="second" multiplier="300"/>
    <startDate date="2009-02-13" time="23:30:00"/>
    <endDate date="2009-02-14" time="00:15:00"/>
   </header>

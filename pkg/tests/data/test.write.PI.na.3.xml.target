@@ -6,7 +6,7 @@
    <type>instantaneous</type>
    <locationId>600-P1201</locationId>
    <parameterId>WNS954-differences</parameterId>
-   <timeStep unit="seconds" multiplier="86400"/>
+   <timeStep unit="second" multiplier="86400"/>
    <startDate date="2009-10-04" time="00:00:00"/>
    <endDate date="2009-10-19" time="00:00:00"/>
   </header>
