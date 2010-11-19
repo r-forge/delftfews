@@ -271,7 +271,7 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
   }
   TimeSeriesNode <- addChildren(TimeSeriesNode, kids=apply(data.description, 1, CreateSeriesNode))
 
-  saveXML(TimeSeriesNode, file=filename, encoding="UTF-8")
+  saveXML(TimeSeriesNode, file=filename, prefix = '<?xml version="1.0" encoding="UTF-8"?>\n')
 }
 
 read.BfG <- function(filename, column="value") {
