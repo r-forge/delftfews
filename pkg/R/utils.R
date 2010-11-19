@@ -302,13 +302,13 @@ read.sheet <- function(file, sheet=NULL, header=TRUE, sep="\t",
     file <- if (nzchar(fileEncoding)) 
       file(file, "rt", encoding = fileEncoding)
     else file(file, "rt")
-    on.exit(close(file))
+    on.exit(close(file), add=TRUE)
   }
   if (!inherits(file, "connection")) 
     stop("'file' must be a character string or connection")
   if (!isOpen(file, "rt")) {
     open(file, "rt")
-    on.exit(close(file))
+    on.exit(close(file), add=TRUE)
   }
 
   LinesRaw <- readLines(file)
@@ -320,7 +320,7 @@ read.sheet <- function(file, sheet=NULL, header=TRUE, sep="\t",
   SheetContent <- contiguous.stretch(SheetStartLines, StartOfRequestedSheet + 1, FALSE)
 
   connection <- textConnection(LinesRaw[SheetContent])
-  on.exit(close(connection))
+  on.exit(close(connection), add=TRUE)
 
   read.table(connection, header=header, sep=sep,
              strip.white=strip.white, stringsAsFactors=stringsAsFactors, ...)
