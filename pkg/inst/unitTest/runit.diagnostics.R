@@ -19,8 +19,29 @@
 
 require(svUnit)
 
-test.formatter.fewsdiagnostics <- function() {
-  DEACTIVATED("formatter.fewsdiagnostics is not tested.")
+logged <- NULL
+mockAction <- function(msg, handler) {
+  ## replace the timestamp with a constant string!
+  parts <- unlist(strsplit(msg, " :: ", fixed=TRUE))
+  parts[2] <- "TS"
+  ## append the formatted message to the global 'logged' object
+  logged <<- c(logged, paste(parts, collapse=' :: '))
+}
+
+test.formatter.fewsdiagnostics.simple <- function() {
+  logReset()
+  addHandler(mockAction, level='DEBUG', logger='', formatter=delftfews:::formatter.fewsdiagnostics)
+  logged <<- NULL
+  loginfo("a simple string")
+  checkEquals('  <line level="3" description="LizardScripter :: TS :: a simple string"/>\n', logged)
+}
+
+test.formatter.fewsdiagnostics.entities <- function() {
+  logReset()
+  addHandler(mockAction, level='DEBUG', logger='', formatter=delftfews:::formatter.fewsdiagnostics)
+  logged <<- NULL
+  loginfo("a nasty string\"\'&<>")
+  checkEquals('  <line level="3" description="LizardScripter :: TS :: a nasty string&quot;&apos;&amp;&lt;&gt;"/>\n', logged)
 }
 
 test.setup.fewsdiagnostics <- function() {

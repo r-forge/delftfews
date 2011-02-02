@@ -21,18 +21,18 @@
   
 }
 \usage{
-pidata <- read.PI(filename[, step.minutes, na.action])
+pidata <- read.PI(filename[, step.seconds, na.action])
 }
 \arguments{
   \item{filename}{the name of the xml file containing the timeseries}
-  \item{step.minutes}{the timestep in the timeseries.  it is inferred
+  \item{step.seconds}{the timestep in the timeseries.  it is inferred
     from the data if left unspecified}
   \item{na.action}{what has to happen to NA values.  can be any function
     that operates on the NA values of a vector, as for example `na.pass`
     or `na.zero`.  defaults to `na.fill`.}
 }
 \examples{
-\dontrun{pidata <- read.PI('pi.xml', step.minutes=15)}
+\dontrun{pidata <- read.PI('pi.xml', step.seconds=900)}
 
 \dontrun{pidata <- read.PI('pi.xml')}
 

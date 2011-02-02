@@ -24,6 +24,15 @@
 ## initial date       :  20091120
 ##
 
+toValidXmlString <- function(s) {
+  s <- gsub("&", "&amp;", s)
+  s <- gsub("<", "&lt;", s)
+  s <- gsub(">", "&gt;", s)
+  s <- gsub('"', "&quot;", s)
+  s <- gsub("'", "&apos;", s)
+  s
+}
+
 formatter.fewsdiagnostics <- function(record) {
   if(record$level <= loglevels[['INFO']])
     level <- 3
@@ -34,7 +43,7 @@ formatter.fewsdiagnostics <- function(record) {
   else
     level <- 0
 
-  sprintf('  <line level="%d" description="LizardScripter :: %s :: %s"/>\n', level, record$timestamp, record$msg)
+  sprintf('  <line level="%d" description="LizardScripter :: %s :: %s"/>\n', level, record$timestamp, toValidXmlString(record$msg))
 }
 
 setup.fewsdiagnostics <- function(filename) {
