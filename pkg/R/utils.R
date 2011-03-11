@@ -175,7 +175,7 @@ get.step.zoo <- function(L, require.constant=FALSE) {
 }
 
 get.step.delftfews <- function(L, require.constant=FALSE) {
-  if ('timestep' %in% attributes(L))
+  if ('timestep' %in% names(attributes(L)))
     return (attr(L, 'timestep'))
   return (get.step.zoo(L, require.constant))
 }
