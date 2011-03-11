@@ -62,6 +62,9 @@ timeseries <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, order.by=NU
     }
   }
 
+  if (!is.null(by))
+    attr(result, 'timestep') <- by
+
   return(result)
 }
 

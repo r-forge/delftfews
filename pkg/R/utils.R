@@ -104,9 +104,11 @@ stretches <- function(input, gap=1, what="start", zero.surrounded=FALSE) {
 rollapply.delftfews <- function(data, ..., na.pad=TRUE, align='right') {
   class.data <- class(data)
   index.data <- index(data)
+  timestep.data <- attr(data, 'timestep')
   result <- NextMethod(na.pad=na.pad, align=align)
   class(result) <- class.data
   index(result) <- index.data
+  attr(result, 'timestep') <- timestep.data
   return(result)
 }
 
@@ -147,7 +149,10 @@ contiguous.stretch <- function(data, position, value=NULL, equality=TRUE) {
   return(id == id[position])
 }
 
-get.step <- function(L, require.constant=FALSE) {
+get.step <- function(L, require.constant=FALSE)
+  UseMethod('get.step')
+
+get.step.default <- function(L, require.constant=FALSE) {
   ## not exported, tested.
 
   ## returns the value of the most common difference between
@@ -163,6 +168,16 @@ get.step <- function(L, require.constant=FALSE) {
   if(require.constant && any(result != L))
     return(NA)
   return(result)
+}
+
+get.step.zoo <- function(L, require.constant=FALSE) {
+  return(get.step(index(L, require.constant)))
+}
+
+get.step.delftfews <- function(L, require.constant=FALSE) {
+  if ('timestep' %in% attributes(L))
+    return (attr(L, 'timestep'))
+  return (get.step.zoo(L, require.constant))
 }
 
 sum.first <- function(input, count=12) {

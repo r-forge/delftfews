@@ -138,6 +138,8 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
 
   ## column-bind the timestamps to the collected values
   result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index)
+  if (!is.null(step.seconds))
+    attr(result, 'timestep') <- step.seconds
   class(result) <- c("delftfews", class(result))
   return(result)
 }
@@ -161,7 +163,7 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
   ##1 instantaneous 155 Ai2 -999.0 m^3/min result
   ##2 instantaneous 156 Ai3 -999.0 mmHg check
 
-  timeStep <- get.step(index(data))
+  timeStep <- get.step(data)
 
   looksLikeNULL <- function(object, name) {
     if(!(name %in% names(object)))
@@ -182,7 +184,7 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
 
     ## cut uninteresting columns
     actualdata <- data.frame(seconds = as.seconds(index(data)))
-    actualdata$column <- data[item['column'], drop=TRUE]
+    actualdata$column <- as.vector(data[item['column']])
     ## cut rows that generate no 'event' node.
     if(looksLikeNULL(item, 'missVal')) {
       actualdata <- subset(actualdata, !is.na(column))

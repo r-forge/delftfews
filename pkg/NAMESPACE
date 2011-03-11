@@ -4,6 +4,7 @@ export(as.seconds,
        double.threshold,
        findLocalMin,
        findLocalMax,
+       get.step,
        multi.double.threshold,
        na.fill,
        na.interpolate,
@@ -52,3 +53,7 @@ S3method(as.seconds, difftime)
 
 S3method(write.PI, data.frame)
 S3method(write.PI, zoo)
+
+S3method(get.step, default)
+S3method(get.step, zoo)
+S3method(get.step, delftfews)
