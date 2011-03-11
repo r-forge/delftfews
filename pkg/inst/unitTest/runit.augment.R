@@ -77,7 +77,8 @@ test.timeseries.with.order.by <- function() {
   target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH))
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
   class(target) <- c("delftfews", class(target))
-  attr(target, 'timestep') <- 720*60
+  ## TODO: decide about this one!
+  ## attr(target, 'timestep') <- 720*60
 
   current <- timeseries(order.by=index(template), data=full)
   checkEquals(target, current)
