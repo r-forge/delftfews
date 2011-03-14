@@ -137,9 +137,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
   }
 
   ## column-bind the timestamps to the collected values
-  result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index)
-  if (!is.null(step.seconds))
-    attr(result, 'timestep') <- step.seconds
+  result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index, frequency=step.seconds)
   class(result) <- c("delftfews", class(result))
   return(result)
 }

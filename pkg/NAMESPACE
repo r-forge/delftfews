@@ -56,4 +56,3 @@ S3method(write.PI, zoo)
 
 S3method(get.step, default)
 S3method(get.step, zoo)
-S3method(get.step, delftfews)

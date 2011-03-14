@@ -144,7 +144,6 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
 
 "[.delftfews" <- function(x, i, j, drop = FALSE, ...) {
   class.x <- class(x)
-  timestep.x <- attr(x, 'timestep')
   try({
     result <- (if (missing(i))
                NextMethod(drop=drop)
@@ -153,7 +152,6 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
     else
                NextMethod(drop=drop))
     class(result) <- class.x
-    attr(result, 'timestep') <- timestep.x
     return(result)
   }, silent=TRUE)
   return(NULL)
@@ -161,7 +159,6 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
 
 "[<-.delftfews" <- function(x, i, j, value) {
   class.x <- class(x)
-  timestep.x <- attr(x, 'timestep')
   result <- (if (missing(i))
              NextMethod()
   else if (missing(j) && is.character(i))
@@ -169,24 +166,19 @@ select.percentiles <- function(input, percentiles, score.function=sum.first, ...
   else
              NextMethod())
   class(result) <- class.x
-  attr(result, 'timestep') <- timestep.x
   return(result)
 }
 
 '$.delftfews' <- function(object, ...) {
   class.object <- class(object)
-  timestep.object <- attr(object, 'timestep')
   result <- NextMethod()
   if(!is.null(result)) class(result) <- class.object
-  if(!is.null(result)) attr(result, 'timestep') <- timestep.object
   return(result)
 }
 
 '$<-.delftfews' <- function(object, ..., value) {
   class.object <- class(object)
-  timestep.object <- attr(object, 'timestep')
   result <- NextMethod()
   class(result) <- class.object
-  attr(result, 'timestep') <- timestep.object
   return(result)
 }

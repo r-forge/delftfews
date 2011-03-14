@@ -104,11 +104,9 @@ stretches <- function(input, gap=1, what="start", zero.surrounded=FALSE) {
 rollapply.delftfews <- function(data, ..., na.pad=TRUE, align='right') {
   class.data <- class(data)
   index.data <- index(data)
-  timestep.data <- attr(data, 'timestep')
   result <- NextMethod(na.pad=na.pad, align=align)
   class(result) <- class.data
   index(result) <- index.data
-  attr(result, 'timestep') <- timestep.data
   return(result)
 }
 
@@ -171,13 +169,9 @@ get.step.default <- function(L, require.constant=FALSE) {
 }
 
 get.step.zoo <- function(L, require.constant=FALSE) {
+  if ('frequency' %in% names(attributes(L)))
+    return (frequency(L))
   return(get.step(index(L, require.constant)))
-}
-
-get.step.delftfews <- function(L, require.constant=FALSE) {
-  if ('timestep' %in% names(attributes(L)))
-    return (attr(L, 'timestep'))
-  return (get.step.zoo(L, require.constant))
 }
 
 sum.first <- function(input, count=12) {
