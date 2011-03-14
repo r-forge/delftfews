@@ -334,3 +334,24 @@ test.cumulate.timeseries.all.NA <- function() {
   checkEquals(target, coredata(result$input.gross.duration))
   checkEquals(target, coredata(result$input.net.duration))
 }
+
+test.add.column.to.empty <- function() {
+  pidata <- timeseries(to=21000000*60, by=10800, length.out=1)
+  target <- c(NA)
+  pidata$z <- target
+  checkEquals(target, as.vector(pidata$z))
+}
+
+test.add.column.to.single.column <- function() {
+  pidata <- timeseries(to=21000000*60, by=10800, length.out=1, a=1)
+  target <- c(NA)
+  pidata$z <- target
+  checkEquals(target, as.vector(pidata$z))
+}
+
+test.add.column.to.multi.column <- function() {
+  pidata <- timeseries(to=21000000*60, by=10800, length.out=1, a=1, b=2)
+  target <- c(NA)
+  pidata$z <- target
+  checkEquals(target, as.vector(pidata$z))
+}

@@ -123,7 +123,7 @@
   wi <- match(x, colnames(object))
   if(is.na(wi)) {
     colnames.object <- colnames(object)
-    object <- cbind(object, value)
+    object <- zoo(cbind(coredata(object), value), index(object), frequency(object))
     if(is.null(dim(object))) dim(object) <- c(length(object), 1)
     colnames(object) <- c(colnames.object, x)
   } else {
