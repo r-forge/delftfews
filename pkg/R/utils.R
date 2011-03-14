@@ -170,7 +170,7 @@ get.step.default <- function(L, require.constant=FALSE) {
 
 get.step.zoo <- function(L, require.constant=FALSE) {
   if ('frequency' %in% names(attributes(L)))
-    return (frequency(L))
+    return (1.0 / frequency(L))
   return(get.step(index(L, require.constant)))
 }
 
@@ -333,4 +333,8 @@ read.sheet <- function(file, sheet=NULL, header=TRUE, sep="\t",
 
   read.table(connection, header=header, sep=sep,
              strip.white=strip.white, stringsAsFactors=stringsAsFactors, ...)
+}
+
+diff.delftfews <- function(x, ...) {
+  diff(coredata(x))
 }

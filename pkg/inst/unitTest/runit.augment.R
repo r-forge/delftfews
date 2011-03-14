@@ -24,7 +24,7 @@ EPOCH <- delftfews:::EPOCH
 test.timeseries.base <- function() {
   ## test equality except dimnames
   minutes <- (0:5) * 720
-  target <- zoo(data.frame(), as.POSIXct(minutes * 60, origin=EPOCH), 720*60)
+  target <- zoo(data.frame(), as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
   class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6)
   checkEqualsNumeric(target, current)
@@ -40,7 +40,7 @@ test.timeseries.dimnames <- function() {
 
 test.timeseries.with.one.column <- function() {
   minutes <- (0:5) * 720
-  target <- zoo(data.frame(a=1), as.POSIXct(minutes * 60, origin=EPOCH), 720*60)
+  target <- zoo(data.frame(a=1), as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
   class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6, a=1)
@@ -49,7 +49,7 @@ test.timeseries.with.one.column <- function() {
 
 test.timeseries.with.more.columns <- function() {
   minutes <- (0:5) * 720
-  target <- zoo(data.frame(a=1, b=1:6), as.POSIXct(minutes * 60, origin=EPOCH), 720*60)
+  target <- zoo(data.frame(a=1, b=1:6), as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
   class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6, a=1, b=1:6)
@@ -59,7 +59,7 @@ test.timeseries.with.more.columns <- function() {
 test.timeseries.with.data.frame <- function() {
   full <- data.frame(a=1, b=1:6, c=(0:5)*4)
   minutes <- (0:5) * 720
-  target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH), 720*60)
+  target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
   class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6, data=full)
@@ -70,7 +70,7 @@ test.timeseries.with.order.by <- function() {
   full <- data.frame(a=1, b=1:6, c=(0:5)*4)
   minutes <- (0:5) * 720
   template <- timeseries(from=0, by=720*60, length.out=6)
-  target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH))
+  target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
   class(target) <- c("delftfews", class(target))
 
