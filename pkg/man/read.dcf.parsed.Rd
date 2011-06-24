@@ -65,11 +65,12 @@
     
 }
 \usage{
-conf.data <- read.dcf.parsed(file, fileEncoding)
+read.dcf.parsed(filename)
 read.sheet(file, sheet, header, sep, fileEncoding, stringsAsFactors, strip.white, ...)
 }
 \arguments{
-  \item{file}{the name of the configuration file}
+  \item{filename}{the name of the configuration file}
+  \item{file}{the name of -or an open connection to- the configuration file.}
   \item{sheet}{the name of the sheet that is to be read}
   \item{header}{in read.sheet, sets default value to TRUE, as opposed to
     read.table, where it is FALSE.}

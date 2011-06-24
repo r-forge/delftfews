@@ -21,7 +21,7 @@
   
 }
 \usage{
-pidata <- read.PI(filename[, step.seconds, na.action])
+read.PI(filename, step.seconds = NA, na.action = na.fill)
 }
 \arguments{
   \item{filename}{the name of the xml file containing the timeseries}

@@ -23,12 +23,20 @@
   
 }
 \usage{
-augmented <- cumulate.timeseries(input, column, gap)
+cumulate.timeseries(input, column = "input", gap = 1,
+                    integration.method = 3, units = "secs")
 }
 \arguments{
   \item{input}{data.frame; the time series set to be augmented.}
   \item{column}{character; the name of the data holding column.}
   \item{gap}{numeric; the size of the minimal gap that interrupts gross stretches.}
+  \item{integration.method}{numeric; refers to the overview presented
+    in http://portal.acm.org/citation.cfm?id=578374, figure 7.2.  1:
+    rectangular (top left), 2: rectangular (midpoint), 3: trapezoid,
+    4: simpson's..}
+  \item{units}{character; this is passed to as.double for converting
+    differences in timestamps.  all units
+    acceptable there can be used here.}
 }
 \examples{
 input <- c(0, 0, 0, 5, 6, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0)

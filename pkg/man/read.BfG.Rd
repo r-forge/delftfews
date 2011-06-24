@@ -7,7 +7,7 @@
   reads a BfG file into a data.frame with one column
 }
 \usage{
-pidata <- read.BfG(filename[, column])
+read.BfG(filename, column = "value")
 }
 \arguments{
   \item{filename}{the name of the file containing the timeseries}
