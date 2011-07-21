@@ -151,8 +151,6 @@ get.step <- function(L, require.constant=FALSE)
   UseMethod('get.step')
 
 get.step.default <- function(L, require.constant=FALSE) {
-  ## not exported, tested.
-
   ## returns the value of the most common difference between
   ## subsequent elements.
 
