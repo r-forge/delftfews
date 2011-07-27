@@ -111,8 +111,6 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
     grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
 
     if(as.zoo) {
-      print(node)
-      print(grouped)
       result <- zoo(cbind(grouped$v), order.by=EPOCH + grouped$s)
     } else {
       column <- rep(NA, length(result.index))
