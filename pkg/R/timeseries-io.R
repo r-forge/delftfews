@@ -76,8 +76,9 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
   ## reset the name of the elements in seriesNodes from the general
   ## "series" to "lp".location.parameter
   lp <- sapply(c("locationId", "parameterId"),
-               function(name) sapply(headerNodes, function(el) xmlValue(xmlElementsByTagName(el, name)[[1]])))
-  names(seriesNodes) <- paste("lp", lp[,"locationId"], lp[,"parameterId"], sep=".")
+               function(name) sapply(headerNodes, function(el) xmlValue(xmlElementsByTagName(el, name)[[1]])),
+               simplify=FALSE)
+  names(seriesNodes) <- paste("lp", lp$locationId, lp$parameterId, sep=".")
 
   ## scan the document to find the first and the last (step-valid)
   ## timestamps.  use them to initialize the result data.frame.
