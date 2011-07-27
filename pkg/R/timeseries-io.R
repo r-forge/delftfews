@@ -110,6 +110,8 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
     grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
 
     if(as.zoo) {
+      print(node)
+      print(grouped)
       result <- zoo(cbind(grouped$v), order.by=EPOCH + grouped$s)
     } else {
       column <- rep(NA, length(result.index))
@@ -129,6 +131,9 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
       ## of the time scale.
 
       seconds <- unique(ceiling(seconds/step.seconds)*step.seconds)
+    } else {
+      ## no granularity means keep data precise to the second.
+      step.seconds <- 1
     }
     
     result.index <- EPOCH + seconds
@@ -140,7 +145,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
       colnames(result.new) <- c(colnames(result), name)
       item <- getValues(seriesNodes[[name]], as.zoo=TRUE)
       result <- result.new
-      result[which(index(result) %in% index(item)), name] <- coredata(item)  # using `which` to speed up
+      result[which(result.index %in% index(item)), name] <- coredata(item)  # using `which` to speed up
     }
 
     result <- result[, -1]  # remove unnamed dummy first column

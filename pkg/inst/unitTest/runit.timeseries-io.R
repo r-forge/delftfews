@@ -30,23 +30,6 @@ test.read.PI.just.reading <- function() {
   checkEquals("delftfews", class(pidata)[1])
 }
 
-## test.computing.decumulative <- function() {
-##   DEACTIVATED("this is not a unit test, it's a usage example.")
-##   pidata <- read.PI('data/decumulative.input.xml')
-
-##   current <- data.frame(timestamps=index(pidata)[-1]) # drop first timestamp
-##   current$P1201 <- diff(pidata[, 'lp.600-P1201.WNS954'])
-##   current$P1202 <- diff(pidata[, 'lp.600-P1202.WNS954'])
-##   current$P1203 <- diff(pidata[, 'lp.600-P1203.WNS954'])
-
-##   pidata.out <- read.PI('data/decumulative.output.xml')
-
-##   checkEquals(index(pidata.out), index(current))
-##   checkEquals(pidata.out[, 'lp.600-P1201.WNS954.omgezet'], current$P1201)
-##   checkEquals(pidata.out[, 'lp.600-P1202.WNS954.omgezet'], current$P1202)
-##   checkEquals(pidata.out[, 'lp.600-P1203.WNS954.omgezet'], current$P1203)
-## }
-
 test.read.PI.na.pass.base <- function() {
   ## value is not at all present for timestamp.
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
@@ -97,6 +80,73 @@ test.read.PI.timezone.2 <- function() {
 
   target <- EPOCH + seq(from=1270245600, to=1271023200, by=86400)
   checkEqualsNumeric(target, index(pidata))
+}
+
+test.read.PI.is.irregular.TRUE <- function() {
+  pidata <- read.PI('data/peilschalen-3.xml', is.irregular=TRUE)
+
+  target <- structure(c(1282644388, 1282645827, 1282719141,
+                        1284544972, 1284556921, 1287647956,
+                        1287654592, 1287656862, 1289923706,
+                        1290006858, 1290007205, 1292332479,
+                        1292332731, 1292334625, 1295262137,
+                        1295264053, 1295270062, 1297845318,
+                        1297856502, 1300283068, 1300285031,
+                        1300286755, 1302783719, 1302852032,
+                        1305552626, 1305552905, 1308582513,
+                        1308583235, 1308734339 ), class =
+                      c("POSIXct", "POSIXt"))
+  current <- index(pidata)
+  checkEqualsNumeric(target, index(pidata))
+
+  target <- structure(c(1282645827, 1287647956, 1289923706,
+                        1292334625, 1295264053, 1300285031,
+                        1308734339), class = c("POSIXct", "POSIXt"))
+  current <- index(pidata[!is.na(pidata[,1])])
+  checkEqualsNumeric(target, current)
+
+  target <- structure(c(1282644388, 1284544972, 1287654592,
+                        1290006858, 1292332479, 1295262137,
+                        1297845318, 1300283068, 1302783719,
+                        1305552626, 1308582513), class =
+                      c("POSIXct", "POSIXt"))
+  current <- index(pidata[!is.na(pidata[,2])])
+  checkEqualsNumeric(target, current)
+
+  target <- structure(c(1282719141, 1284556921, 1287656862,
+                        1290007205, 1292332731, 1295270062,
+                        1297856502, 1300286755, 1302852032,
+                        1305552905, 1308583235 ), class =
+                      c("POSIXct", "POSIXt"))
+  current <- index(pidata[!is.na(pidata[,3])])
+  checkEqualsNumeric(target, current)
+
+}
+
+test.read.PI.is.irregular.TRUE.granularity.3600 <- function() {
+  pidata <- read.PI('data/peilschalen-3.xml', is.irregular=TRUE, step.seconds=3600)
+
+  target <- structure(c(1282647600, 1282719600, 1284548400,
+                        1284559200, 1287648000, 1287655200,
+                        1287658800, 1289926800, 1290009600,
+                        1292335200, 1295265600, 1295272800,
+                        1297846800, 1297857600, 1300284000,
+                        1300287600, 1302786000, 1302854400,
+                        1305554400, 1308585600, 1308736800), class =
+                        c("POSIXct", "POSIXt"))
+  current <- index(pidata)
+  checkEqualsNumeric(target, current)
+
+  checkEqualsNumeric(c(0.37, NA, NA), pidata[8])
+  checkEqualsNumeric(c(NA, -1.7, -1.79), pidata[9])
+  checkEqualsNumeric(c(0.37, -1.75, -1.79), pidata[10])
+}
+
+test.read.PI.select.on.parameterId <- function() {
+  pidata <- read.PI('data/combined-3.xml', is.irregular=TRUE, step.seconds=3600)
+  checkEquals(5, ncol(pidata))
+  pidata <- read.PI('data/combined-3.xml', parameterId="WNSHDB38", is.irregular=TRUE, step.seconds=3600)
+  checkEqualsNumeric(3, ncol(pidata))
 }
 
 test.write.PI.na.missing.elements <- function() {
