@@ -28,7 +28,7 @@ EPOCH <- as.POSIXct("1970-01-01 00:00:00", "%Y-%m-%d %H:%M:%S", tz="UTC")
 require("XML")
 require("logging")
 
-read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
+read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA, is.irregular=FALSE) {
   ## creates a data.frame containing all data in matrix form.
 
   groupByStep <- function(seconds, values, step.seconds, flags=NA, missVal=NA) {
@@ -59,22 +59,25 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
   ## columns corresponding to each series nodes.
 
   ## Read XML file
-  doc <- xmlTreeParse(filename)
-  TimeSeriesNode <- xmlRoot(doc)
+  doc <- XmlDoc$new(filename)
 
   ## time offset in seconds from the timeZone element (which is in hours)
-  timeOffset <- as.double(xmlValue(TimeSeriesNode[["timeZone"]])) * 60 * 60
+  timeOffset <- as.double(doc$getText("/TimeSeries/timeZone")) * 60 * 60
 
   ## we only operate on the "series" nodes.
-  seriesNodes <- xmlElementsByTagName(TimeSeriesNode, "series")
+  if(is.na(parameterId)) {
+    seriesNodes <- doc$.getNodeSet("/TimeSeries/series")
+    headerNodes <- doc$.getNodeSet("/TimeSeries/series/header")
+  } else {
+    seriesNodes <- doc$.getNodeSet("/TimeSeries/series[./header/parameterId='%s']", parameterId)
+    headerNodes <- doc$.getNodeSet("/TimeSeries/series/header[./parameterId='%s']", parameterId)
+  }
 
   ## reset the name of the elements in seriesNodes from the general
   ## "series" to "lp".location.parameter
-  getSeriesName <- function(node) {
-    headerValues <- xmlSApply(node[["header"]], xmlValue)
-    paste("lp", headerValues$locationId, headerValues$parameterId, sep=".")
-  }
-  names(seriesNodes) <- mapply(getSeriesName, seriesNodes)
+  lp <- sapply(c("locationId", "parameterId"),
+               function(name) sapply(headerNodes, function(el) xmlValue(xmlElementsByTagName(el, name)[[1]])))
+  names(seriesNodes) <- paste("lp", lp[,"locationId"], lp[,"parameterId"], sep=".")
 
   ## scan the document to find the first and the last (step-valid)
   ## timestamps.  use them to initialize the result data.frame.
@@ -88,56 +91,89 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill) {
     as.numeric(difftime(timestamps, EPOCH, tz="UTC"), units="secs")
   }
 
-  seconds <- sapply(seriesNodes, getElementSeconds, tagname='event')
-
-  if(max(sapply(seconds, length)) == 0) {
-    ## we have only series without events, so we make a fictive
-    ## `seconds` list from startDate, endDate and `step.seconds`.
-    if (is.na(step.seconds))
-      stop("no events, we really need `step.seconds`.")
-    getHeaderSeconds <- function(node, tagname) {
-      headerNodeList <- xmlElementsByTagName(node, 'header')
-      startDate <- sapply(headerNodeList, getElementSeconds, tagname='startDate')
-      endDate <- sapply(headerNodeList, getElementSeconds, tagname='endDate')
-      seq(from=startDate, to=endDate, by=step.seconds)
-    }
-    seconds <- sapply(seriesNodes, getHeaderSeconds)
-  }
-
-  if (is.na(step.seconds))
-    step.seconds <- get.step(seconds)
-
-  startsAndEnds <- range(seconds)
-  first <- floor(startsAndEnds[1]/step.seconds)*step.seconds
-  last <- ceiling(startsAndEnds[2]/step.seconds)*step.seconds
-
-  ## result zoo is indexed on timestamps.  you can retrieve them using the `index` function.
-  result.index <- EPOCH + seq(from=first, to=last, by=step.seconds) - timeOffset
-
   ## finally extract all the timestamped values and fill in the blanks
-  getValues <- function(node) {
+  getValues <- function(node, as.zoo=FALSE) {
     ## get the values as a named column
     header <- xmlElementsByTagName(node, "header")[[1]]
     missVal <- xmlElementsByTagName(header, 'missVal')[[1]]
     missVal <- as.numeric(xmlValue(missVal))
-
+    
     eventNodeList <- xmlElementsByTagName(node, "event")
     dates <- sapply(eventNodeList, xmlGetAttr, name = "date")
     times <- sapply(eventNodeList, xmlGetAttr, name = "time")
     values <- as.numeric(sapply(eventNodeList, xmlGetAttr, name = "value"))
     flags <- as.numeric(sapply(eventNodeList, xmlGetAttr, name = "flag"))
-
+    
     timestamps <- as.POSIXct(paste(dates, times), "%Y-%m-%d %H:%M:%S", tz="UTC")
     seconds <- as.numeric(difftime(timestamps, EPOCH, tz="UTC"), units="secs")
 
     grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
-    column <- rep(NA, length(result.index))
-    column[as.seconds(result.index) %in% (grouped$s - timeOffset)] <- grouped$v
-    na.action(column)
+
+    if(as.zoo) {
+      result <- zoo(cbind(grouped$v), order.by=EPOCH + grouped$s)
+    } else {
+      column <- rep(NA, length(result.index))
+      column[as.seconds(result.index) %in% (grouped$s - timeOffset)] <- grouped$v
+      result <- na.action(column)
+    }      
+    return(result)
   }
 
-  ## column-bind the timestamps to the collected values
-  result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index, frequency=1.0/step.seconds)
+  seconds <- sapply(seriesNodes, getElementSeconds, tagname='event')
+
+  if(is.irregular) {
+    seconds <- sort(unique(unlist(seconds)))
+
+    if (!is.na(step.seconds)) {
+      ## for irregular series, step.seconds indicates the granularity
+      ## of the time scale.
+
+      seconds <- unique(ceiling(seconds/step.seconds)*step.seconds)
+    }
+    
+    result.index <- EPOCH + seconds
+    
+    result <- zoo(cbind(dummy=NA), order.by=result.index)  # need an unnamed dummy first column
+
+    for(name in names(seriesNodes)) {
+      result.new <- cbind(result, NA)
+      colnames(result.new) <- c(colnames(result), name)
+      item <- getValues(seriesNodes[[name]], as.zoo=TRUE)
+      result <- result.new
+      result[which(index(result) %in% index(item)), name] <- coredata(item)  # using `which` to speed up
+    }
+
+    result <- result[, -1]  # remove unnamed dummy first column
+
+  } else {
+    
+    if(all(lapply(seconds, length) == 0)) {
+      ## we have only series without events, so we make a fictive
+      ## `seconds` list from startDate, endDate and `step.seconds`.
+      if (is.na(step.seconds))
+        stop("no events, we really need `step.seconds`.")
+      getHeaderSeconds <- function(node, tagname) {
+        headerNodeList <- xmlElementsByTagName(node, 'header')
+        startDate <- sapply(headerNodeList, getElementSeconds, tagname='startDate')
+        endDate <- sapply(headerNodeList, getElementSeconds, tagname='endDate')
+        seq(from=startDate, to=endDate, by=step.seconds)
+      }
+      seconds <- sapply(seriesNodes, getHeaderSeconds)
+    }
+    
+    if (is.na(step.seconds))
+      step.seconds <- get.step(seconds)
+
+    startsAndEnds <- range(seconds)
+    first <- floor(startsAndEnds[1]/step.seconds)*step.seconds
+    last <- ceiling(startsAndEnds[2]/step.seconds)*step.seconds
+
+    ## result zoo is indexed on timestamps.  you can retrieve them using the `index` function.
+    result.index <- EPOCH + seq(from=first, to=last, by=step.seconds) - timeOffset
+
+    ## column-bind the timestamps to the collected values
+    result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index, frequency=1.0/step.seconds)
+  }
   class(result) <- c("delftfews", class(result))
   return(result)
 }

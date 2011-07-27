@@ -21,7 +21,8 @@
   
 }
 \usage{
-read.PI(filename, step.seconds = NA, na.action = na.fill)
+read.PI(filename, step.seconds = NA, na.action = na.fill, parameterId =
+NA, is.irregular = FALSE)
 }
 \arguments{
   \item{filename}{the name of the xml file containing the timeseries}
@@ -30,6 +31,10 @@ read.PI(filename, step.seconds = NA, na.action = na.fill)
   \item{na.action}{what has to happen to NA values.  can be any function
     that operates on the NA values of a vector, as for example `na.pass`
     or `na.zero`.  defaults to `na.fill`.}
+  \item{parameterId}{character: if specified, indicates that we are
+    interested in one parameter, not the whole file.}
+  \item{is.irregular}{logic: if TRUE, indicates that the resulting time
+    series set is not regularly spaced.}
 }
 \examples{
 \dontrun{pidata <- read.PI('pi.xml', step.seconds=900)}

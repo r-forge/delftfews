@@ -28,6 +28,7 @@ export(as.seconds,
        timestamp.in.range.weekday,
        timestamp.in.weekend,
        write.PI,
+       XmlDoc,
        Ops.zoo, # modified from new version
        "$.zoo", # UNmodified from new version
        "$<-.zoo", # modified from new version
