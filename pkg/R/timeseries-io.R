@@ -28,8 +28,9 @@ EPOCH <- as.POSIXct("1970-01-01 00:00:00", "%Y-%m-%d %H:%M:%S", tz="UTC")
 require("XML")
 require("logging")
 
-read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA, is.irregular=FALSE) {
+read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA, is.irregular=FALSE, filter.timestamp) {
   ## creates a data.frame containing all data in matrix form.
+  isToBeFiltered <- !missing(filter.timestamp)
 
   groupByStep <- function(seconds, values, step.seconds, flags=NA, missVal=NA) {
     ## groups the values by seconds, one each step.
@@ -110,6 +111,13 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
 
     grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
 
+    ## 3106 - this is the place for filtering the data.  we just read
+    ## it, modified according to the settings, but we have not yet
+    ## stored it in the partial result.
+
+    if(isToBeFiltered)
+      grouped <- grouped[sapply(EPOCH + grouped$s, filter.timestamp), ]
+    
     if(as.zoo) {
       result <- zoo(cbind(grouped$v), order.by=EPOCH + grouped$s)
     } else {
@@ -136,6 +144,8 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
     }
     
     result.index <- EPOCH + seconds
+    if(isToBeFiltered)
+      result.index <- result.index[sapply(result.index, filter.timestamp)]
     
     result <- zoo(cbind(dummy=NA), order.by=result.index)  # need an unnamed dummy first column
 
@@ -174,6 +184,8 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
 
     ## result zoo is indexed on timestamps.  you can retrieve them using the `index` function.
     result.index <- EPOCH + seq(from=first, to=last, by=step.seconds) - timeOffset
+    if(isToBeFiltered)
+      result.index <- result.index[sapply(result.index, filter.timestamp)]
 
     ## column-bind the timestamps to the collected values
     result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index, frequency=1.0/step.seconds)

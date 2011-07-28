@@ -22,7 +22,7 @@
 }
 \usage{
 read.PI(filename, step.seconds = NA, na.action = na.fill, parameterId =
-NA, is.irregular = FALSE)
+NA, is.irregular = FALSE, filter.timestamp)
 }
 \arguments{
   \item{filename}{the name of the xml file containing the timeseries}
@@ -35,6 +35,9 @@ NA, is.irregular = FALSE)
     interested in one parameter, not the whole file.}
   \item{is.irregular}{logic: if TRUE, indicates that the resulting time
     series set is not regularly spaced.}
+  \item{filter.timestamp}{logic function: if specified, it is used to
+    decide whether an event has to be memorized.}
+
 }
 \examples{
 \dontrun{pidata <- read.PI('pi.xml', step.seconds=900)}

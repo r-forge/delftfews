@@ -149,6 +149,47 @@ test.read.PI.select.on.parameterId <- function() {
   checkEqualsNumeric(3, ncol(pidata))
 }
 
+test.read.PI.filter.timestamp <- function() {
+
+  peilschalen <- read.PI('data/combined-3.xml', parameterId="WNSHDB38", is.irregular=TRUE, step.seconds=60)
+
+  timestamps <- index(peilschalen)
+  passes <- function(candidate) {
+    index <- c(which(candidate < timestamps), -1)[[1]]
+    if(index == -1) return(FALSE)
+    return(as.seconds(difftime(timestamps[[index]], candidate)) < 86400)
+  }
+  
+  pidata <- read.PI('data/combined-3.xml', is.irregular=TRUE, parameterId="WNSHDB1", filter.timestamp=passes, step.seconds=60)
+
+  checkEquals(42, nrow(pidata))
+  checkEquals(c(1305459000, 1305477900, 1305481500, 1305482400, 1305485880, 
+                1305486900, 1305487680, 1305492300, 1305496800, 1305497700, 1305500400, 
+                1305500640, 1305517500, 1305525600, 1305526500, 1305535500, 1305540120, 
+                1305549000, 1305549900, 1308496680, 1308504600, 1308505500, 1308507240, 
+                1308508200, 1308512700, 1308519000, 1308519900, 1308521760, 1308522600, 
+                1308523440, 1308524400, 1308524520, 1308528960, 1308536100, 1308544200, 
+                1308545100, 1308550560, 1308559500, 1308564000, 1308564900, 1308572160, 
+                1308579300), as.seconds(index(pidata)))
+}
+
+test.read.PI.filter.timestamp.small <- function() {
+
+  peilschalen <- read.PI('data/combined-small-3.xml', parameterId="WNSHDB38", is.irregular=TRUE, step.seconds=60)
+
+  timestamps <- index(peilschalen)
+  passes <- function(candidate) {
+    index <- c(which(candidate < timestamps), -1)[[1]]
+    if(index == -1) return(FALSE)
+    return(as.seconds(difftime(timestamps[[index]], candidate)) < 86400)
+  }
+  
+  pidata <- read.PI('data/combined-small-3.xml', is.irregular=TRUE, parameterId="WNSHDB1", filter.timestamp=passes, step.seconds=60)
+
+  checkEquals(6, nrow(pidata))
+  checkEquals(c(1305459000, 1305492300, 1308521760, 1308523440, 1308544200, 1308579300), index(pidata))
+}
+
 test.write.PI.na.missing.elements <- function() {
   ## if no missVal is given: skip the element
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
