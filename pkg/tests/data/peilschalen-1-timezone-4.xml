@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeSeries xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd" version="1.9">
+    <timeZone>4.0</timeZone>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>MPN101</locationId>
+            <parameterId>WNSHDB38</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2011-04-15" time="10:00:00"/>
+            <endDate date="2011-04-20" time="10:00:00"/>
+            <missVal>NaN</missVal>
+            <stationName>MPN101 - Stuw Lage Zoom/De Wippe, instroom</stationName>
+            <lat>51.72605392219187</lat>
+            <lon>3.7821341261256407</lon>
+            <x>44109.98</x>
+            <y>416480.59</y>
+            <z>0.0</z>
+            <units>mNAP</units>
+        </header>
+        <event date="2011-04-15" time="10:00:00" value="-1.6" flag="0"/>
+        <event date="2011-04-16" time="10:00:00" value="-1.59" flag="0"/>
+        <event date="2011-04-17" time="10:00:00" value="-1.59" flag="0"/>
+        <event date="2011-04-18" time="10:00:00" value="-1.59" flag="0"/>
+        <event date="2011-04-19" time="10:00:00" value="-1.59" flag="0"/>
+        <event date="2011-04-20" time="10:00:00" value="-1.62" flag="0"/>
+    </series>
+</TimeSeries>

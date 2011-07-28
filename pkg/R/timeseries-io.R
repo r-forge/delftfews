@@ -99,13 +99,13 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
     header <- xmlElementsByTagName(node, "header")[[1]]
     missVal <- xmlElementsByTagName(header, 'missVal')[[1]]
     missVal <- as.numeric(xmlValue(missVal))
-    
+
     eventNodeList <- xmlElementsByTagName(node, "event")
     dates <- sapply(eventNodeList, xmlGetAttr, name = "date")
     times <- sapply(eventNodeList, xmlGetAttr, name = "time")
     values <- as.numeric(sapply(eventNodeList, xmlGetAttr, name = "value"))
     flags <- as.numeric(sapply(eventNodeList, xmlGetAttr, name = "flag"))
-    
+
     timestamps <- as.POSIXct(paste(dates, times), "%Y-%m-%d %H:%M:%S", tz="UTC")
     seconds <- as.numeric(difftime(timestamps, EPOCH, tz="UTC"), units="secs")
 
@@ -116,15 +116,15 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
     ## stored it in the partial result.
 
     if(isToBeFiltered)
-      grouped <- grouped[sapply(EPOCH + grouped$s, filter.timestamp), ]
-    
+      grouped <- grouped[sapply(EPOCH + grouped$s - timeOffset, filter.timestamp), ]
+
     if(as.zoo) {
-      result <- zoo(cbind(grouped$v), order.by=EPOCH + grouped$s)
+      result <- zoo(cbind(grouped$v), order.by=EPOCH + grouped$s - timeOffset)
     } else {
       column <- rep(NA, length(result.index))
       column[as.seconds(result.index) %in% (grouped$s - timeOffset)] <- grouped$v
       result <- na.action(column)
-    }      
+    }
     return(result)
   }
 
@@ -142,11 +142,11 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
       ## no granularity means keep data precise to the second.
       step.seconds <- 1
     }
-    
-    result.index <- EPOCH + seconds
+
+    result.index <- EPOCH + seconds - timeOffset
     if(isToBeFiltered)
       result.index <- result.index[sapply(result.index, filter.timestamp)]
-    
+
     result <- zoo(cbind(dummy=NA), order.by=result.index)  # need an unnamed dummy first column
 
     for(name in names(seriesNodes)) {
@@ -160,7 +160,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
     result <- result[, -1]  # remove unnamed dummy first column
 
   } else {
-    
+
     if(all(lapply(seconds, length) == 0)) {
       ## we have only series without events, so we make a fictive
       ## `seconds` list from startDate, endDate and `step.seconds`.
@@ -174,13 +174,13 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
       }
       seconds <- sapply(seriesNodes, getHeaderSeconds)
     }
-    
-    if (is.na(step.seconds))
-      step.seconds <- get.step(seconds)
 
+    if (is.na(step.seconds)) {
+      step.seconds <- get.step(seconds)
+    }
     startsAndEnds <- range(seconds)
-    first <- floor(startsAndEnds[1]/step.seconds)*step.seconds
-    last <- ceiling(startsAndEnds[2]/step.seconds)*step.seconds
+    first <- startsAndEnds[1]
+    last <- first + ceiling(diff(startsAndEnds) / step.seconds) * step.seconds
 
     ## result zoo is indexed on timestamps.  you can retrieve them using the `index` function.
     result.index <- EPOCH + seq(from=first, to=last, by=step.seconds) - timeOffset

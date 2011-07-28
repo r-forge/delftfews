@@ -142,6 +142,20 @@ test.read.PI.is.irregular.TRUE.granularity.3600 <- function() {
   checkEqualsNumeric(c(0.37, -1.75, -1.79), pidata[10])
 }
 
+test.read.PI.timeZone.4.is.irregular.TRUE <- function() {
+  pidata <- read.PI('data/peilschalen-1-timezone-4.xml', is.irregular=TRUE)
+  target <- c(1302847200, 1302933600, 1303020000, 1303106400, 1303192800, 1303279200)
+  current <- as.seconds(index(pidata))
+  checkEquals(target, current)
+}
+
+test.read.PI.timeZone.4.is.irregular.FALSE <- function() {
+  pidata <- read.PI('data/peilschalen-1-timezone-4.xml')
+  target <- c(1302847200, 1302933600, 1303020000, 1303106400, 1303192800, 1303279200)
+  current <- as.seconds(index(pidata))
+  checkEquals(target, current)
+}
+
 test.read.PI.select.on.parameterId <- function() {
   pidata <- read.PI('data/combined-3.xml', is.irregular=TRUE, step.seconds=3600)
   checkEquals(5, ncol(pidata))
