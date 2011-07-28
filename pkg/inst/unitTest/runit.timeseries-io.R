@@ -187,7 +187,7 @@ test.read.PI.filter.timestamp.small <- function() {
   pidata <- read.PI('data/combined-small-3.xml', is.irregular=TRUE, parameterId="WNSHDB1", filter.timestamp=passes, step.seconds=60)
 
   checkEquals(6, nrow(pidata))
-  checkEquals(c(1305459000, 1305492300, 1308521760, 1308523440, 1308544200, 1308579300), index(pidata))
+  checkEquals(c(1305459000, 1305492300, 1308521760, 1308523440, 1308544200, 1308579300), as.seconds(index(pidata)))
 }
 
 test.write.PI.na.missing.elements <- function() {
