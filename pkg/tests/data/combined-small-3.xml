@@ -1,0 +1,532 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeSeries xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd" version="1.9">
+    <timeZone>1.0</timeZone>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>KGM1</locationId>
+            <parameterId>WNSHDB1</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2011-04-15" time="14:05:36"/>
+            <endDate date="2011-06-30" time="23:01:40"/>
+            <missVal>NaN</missVal>
+            <stationName>KGM1 - gemaal Vliegveld</stationName>
+            <lat>51.717849718394625</lat>
+            <lon>3.716914368486771</lon>
+            <x>39583.7</x>
+            <y>415669.43</y>
+            <z>0.0</z>
+            <units>mNAP</units>
+        </header>
+        <event date="2011-04-15" time="14:05:36" value="2.72" flag="0"/>
+        <event date="2011-04-15" time="21:25:36" value="2.66" flag="0"/>
+        <event date="2011-04-15" time="21:31:36" value="2.64" flag="0"/>
+        <event date="2011-04-16" time="00:19:36" value="2.66" flag="0"/>
+        <event date="2011-04-16" time="02:09:36" value="2.68" flag="0"/>
+        <event date="2011-04-16" time="14:15:36" value="2.7" flag="0"/>
+        <event date="2011-04-16" time="14:21:36" value="2.68" flag="0"/>
+        <event date="2011-04-16" time="17:19:37" value="2.66" flag="0"/>
+        <event date="2011-04-16" time="19:11:36" value="2.68" flag="0"/>
+        <event date="2011-04-17" time="07:35:36" value="2.73" flag="0"/>
+        <event date="2011-04-17" time="07:41:36" value="2.71" flag="0"/>
+        <event date="2011-04-17" time="08:07:36" value="2.61" flag="0"/>
+        <event date="2011-04-17" time="08:33:36" value="2.63" flag="0"/>
+        <event date="2011-04-17" time="19:37:36" value="2.73" flag="0"/>
+        <event date="2011-04-17" time="23:01:37" value="2.74" flag="0"/>
+        <event date="2011-04-18" time="01:47:36" value="2.64" flag="0"/>
+        <event date="2011-04-18" time="01:51:36" value="2.62" flag="0"/>
+        <event date="2011-04-18" time="09:52:21" value="2.7" flag="0"/>
+        <event date="2011-04-18" time="10:01:48" value="2.71" flag="0"/>
+        <event date="2011-04-18" time="19:49:36" value="2.73" flag="0"/>
+        <event date="2011-04-18" time="19:55:36" value="2.71" flag="0"/>
+        <event date="2011-04-18" time="20:21:36" value="2.61" flag="0"/>
+        <event date="2011-04-18" time="20:47:36" value="2.63" flag="0"/>
+        <event date="2011-04-19" time="05:07:45" value="2.71" flag="0"/>
+        <event date="2011-04-19" time="08:41:36" value="2.73" flag="0"/>
+        <event date="2011-04-19" time="16:29:36" value="2.73" flag="0"/>
+        <event date="2011-04-19" time="16:33:37" value="2.71" flag="0"/>
+        <event date="2011-04-19" time="19:01:36" value="2.65" flag="0"/>
+        <event date="2011-04-19" time="20:55:36" value="2.67" flag="0"/>
+        <event date="2011-04-20" time="10:11:36" value="2.75" flag="0"/>
+        <event date="2011-04-20" time="12:31:36" value="2.73" flag="0"/>
+        <event date="2011-04-20" time="12:59:37" value="2.63" flag="0"/>
+        <event date="2011-04-20" time="13:03:36" value="2.61" flag="0"/>
+        <event date="2011-04-20" time="21:09:36" value="2.7" flag="0"/>
+        <event date="2011-04-20" time="23:01:37" value="2.71" flag="0"/>
+        <event date="2011-04-21" time="09:37:36" value="2.69" flag="0"/>
+        <event date="2011-04-21" time="09:43:36" value="2.67" flag="0"/>
+        <event date="2011-04-21" time="12:01:36" value="2.65" flag="0"/>
+        <event date="2011-04-21" time="14:07:36" value="2.67" flag="0"/>
+        <event date="2011-04-22" time="07:07:36" value="2.75" flag="0"/>
+        <event date="2011-04-22" time="07:21:36" value="2.73" flag="0"/>
+        <event date="2011-04-22" time="07:49:36" value="2.63" flag="0"/>
+        <event date="2011-04-22" time="07:55:36" value="2.61" flag="0"/>
+        <event date="2011-04-22" time="18:39:36" value="2.71" flag="0"/>
+        <event date="2011-04-22" time="23:01:36" value="2.72" flag="0"/>
+        <event date="2011-04-23" time="07:13:36" value="2.66" flag="0"/>
+        <event date="2011-04-23" time="07:19:36" value="2.64" flag="0"/>
+        <event date="2011-04-23" time="16:27:36" value="2.7" flag="0"/>
+        <event date="2011-04-23" time="20:39:36" value="2.72" flag="0"/>
+        <event date="2011-04-24" time="07:31:37" value="2.69" flag="0"/>
+        <event date="2011-04-24" time="07:37:37" value="2.67" flag="0"/>
+        <event date="2011-04-24" time="10:17:36" value="2.65" flag="0"/>
+        <event date="2011-04-24" time="12:39:37" value="2.67" flag="0"/>
+        <event date="2011-04-25" time="07:35:37" value="2.75" flag="0"/>
+        <event date="2011-04-25" time="08:59:36" value="2.73" flag="0"/>
+        <event date="2011-04-25" time="09:25:36" value="2.63" flag="0"/>
+        <event date="2011-04-25" time="09:31:36" value="2.61" flag="0"/>
+        <event date="2011-04-25" time="17:49:36" value="2.69" flag="0"/>
+        <event date="2011-04-25" time="21:49:36" value="2.71" flag="0"/>
+        <event date="2011-04-26" time="11:41:36" value="2.71" flag="0"/>
+        <event date="2011-04-26" time="11:47:36" value="2.69" flag="0"/>
+        <event date="2011-04-26" time="12:51:36" value="2.63" flag="0"/>
+        <event date="2011-04-26" time="14:51:36" value="2.65" flag="0"/>
+        <event date="2011-04-27" time="03:27:36" value="2.72" flag="0"/>
+        <event date="2011-04-27" time="07:21:36" value="2.73" flag="0"/>
+        <event date="2011-04-27" time="16:47:36" value="2.67" flag="0"/>
+        <event date="2011-04-27" time="16:53:36" value="2.65" flag="0"/>
+        <event date="2011-04-27" time="22:19:36" value="2.67" flag="0"/>
+        <event date="2011-04-27" time="23:01:36" value="2.67" flag="0"/>
+        <event date="2011-04-28" time="14:39:37" value="2.75" flag="0"/>
+        <event date="2011-04-28" time="17:29:40" value="2.73" flag="0"/>
+        <event date="2011-04-28" time="19:25:37" value="2.64" flag="0"/>
+        <event date="2011-04-28" time="21:37:36" value="2.66" flag="0"/>
+        <event date="2011-04-29" time="16:04:56" value="2.74" flag="0"/>
+        <event date="2011-04-29" time="16:37:37" value="2.75" flag="0"/>
+        <event date="2011-04-29" time="20:27:36" value="2.65" flag="0"/>
+        <event date="2011-04-29" time="20:33:36" value="2.63" flag="0"/>
+        <event date="2011-04-30" time="03:47:37" value="2.68" flag="0"/>
+        <event date="2011-04-30" time="07:41:36" value="2.7" flag="0"/>
+        <event date="2011-04-30" time="12:51:36" value="2.72" flag="0"/>
+        <event date="2011-04-30" time="19:47:36" value="2.74" flag="0"/>
+        <event date="2011-05-01" time="05:15:37" value="2.64" flag="0"/>
+        <event date="2011-05-01" time="05:19:36" value="2.62" flag="0"/>
+        <event date="2011-05-01" time="23:01:36" value="2.71" flag="0"/>
+        <event date="2011-05-02" time="03:33:36" value="2.73" flag="0"/>
+        <event date="2011-05-02" time="20:03:40" value="2.67" flag="0"/>
+        <event date="2011-05-02" time="20:09:39" value="2.65" flag="0"/>
+        <event date="2011-05-03" time="01:13:37" value="2.66" flag="0"/>
+        <event date="2011-05-03" time="04:53:39" value="2.68" flag="0"/>
+        <event date="2011-05-04" time="07:01:52" value="2.75" flag="0"/>
+        <event date="2011-05-04" time="07:39:38" value="2.75" flag="0"/>
+        <event date="2011-05-04" time="11:45:38" value="2.65" flag="0"/>
+        <event date="2011-05-04" time="11:49:36" value="2.63" flag="0"/>
+        <event date="2011-05-04" time="18:55:38" value="2.67" flag="0"/>
+        <event date="2011-05-04" time="23:01:37" value="2.68" flag="0"/>
+        <event date="2011-05-06" time="06:21:38" value="2.72" flag="0"/>
+        <event date="2011-05-06" time="06:27:37" value="2.7" flag="0"/>
+        <event date="2011-05-06" time="08:53:38" value="2.64" flag="0"/>
+        <event date="2011-05-06" time="11:53:38" value="2.66" flag="0"/>
+        <event date="2011-05-07" time="17:08:58" value="2.73" flag="0"/>
+        <event date="2011-05-07" time="17:48:41" value="2.73" flag="0"/>
+        <event date="2011-05-08" time="10:05:38" value="2.69" flag="0"/>
+        <event date="2011-05-08" time="10:11:37" value="2.67" flag="0"/>
+        <event date="2011-05-08" time="14:19:36" value="2.65" flag="0"/>
+        <event date="2011-05-08" time="16:39:50" value="2.66" flag="0"/>
+        <event date="2011-05-09" time="06:55:38" value="2.7" flag="0"/>
+        <event date="2011-05-09" time="08:01:42" value="2.71" flag="0"/>
+        <event date="2011-05-10" time="14:53:37" value="2.73" flag="0"/>
+        <event date="2011-05-10" time="14:59:42" value="2.71" flag="0"/>
+        <event date="2011-05-10" time="16:29:41" value="2.63" flag="0"/>
+        <event date="2011-05-10" time="19:33:47" value="2.65" flag="0"/>
+        <event date="2011-05-11" time="23:01:45" value="2.72" flag="0"/>
+        <event date="2011-05-12" time="07:27:44" value="2.74" flag="0"/>
+        <event date="2011-05-13" time="23:01:36" value="2.75" flag="0"/>
+        <event date="2011-05-14" time="03:29:41" value="2.73" flag="0"/>
+        <event date="2011-05-14" time="03:57:45" value="2.63" flag="0"/>
+        <event date="2011-05-14" time="04:01:38" value="2.61" flag="0"/>
+        <event date="2011-05-14" time="23:01:48" value="2.69" flag="0"/>
+        <event date="2011-05-15" time="05:47:50" value="2.71" flag="0"/>
+        <event date="2011-05-16" time="13:41:48" value="2.73" flag="0"/>
+        <event date="2011-05-16" time="15:11:41" value="2.74" flag="0"/>
+        <event date="2011-05-17" time="15:11:45" value="2.75" flag="0"/>
+        <event date="2011-05-17" time="21:11:45" value="2.75" flag="0"/>
+        <event date="2011-05-18" time="19:01:37" value="2.76" flag="0"/>
+        <event date="2011-05-18" time="21:11:45" value="2.75" flag="0"/>
+        <event date="2011-05-19" time="01:33:45" value="2.67" flag="0"/>
+        <event date="2011-05-19" time="01:39:48" value="2.65" flag="0"/>
+        <event date="2011-05-19" time="09:11:37" value="2.66" flag="0"/>
+        <event date="2011-05-19" time="13:29:38" value="2.68" flag="0"/>
+        <event date="2011-05-20" time="05:55:36" value="2.7" flag="0"/>
+        <event date="2011-05-20" time="09:11:48" value="2.71" flag="0"/>
+        <event date="2011-05-21" time="09:11:38" value="2.72" flag="0"/>
+        <event date="2011-05-21" time="11:05:44" value="2.72" flag="0"/>
+        <event date="2011-05-22" time="03:11:44" value="2.73" flag="0"/>
+        <event date="2011-05-22" time="09:11:51" value="2.73" flag="0"/>
+        <event date="2011-05-22" time="21:11:41" value="2.72" flag="0"/>
+        <event date="2011-05-22" time="23:01:48" value="2.73" flag="0"/>
+        <event date="2011-05-23" time="15:10:26" value="2.73" flag="0"/>
+        <event date="2011-05-23" time="20:05:18" value="2.72" flag="0"/>
+        <event date="2011-05-24" time="15:11:45" value="2.72" flag="0"/>
+        <event date="2011-05-24" time="21:11:52" value="2.72" flag="0"/>
+        <event date="2011-05-25" time="09:55:37" value="2.72" flag="0"/>
+        <event date="2011-05-25" time="15:09:47" value="2.72" flag="0"/>
+        <event date="2011-05-26" time="15:09:40" value="2.71" flag="0"/>
+        <event date="2011-05-26" time="15:19:41" value="2.71" flag="0"/>
+        <event date="2011-05-27" time="15:09:39" value="2.72" flag="0"/>
+        <event date="2011-05-27" time="21:09:43" value="2.72" flag="0"/>
+        <event date="2011-05-28" time="08:14:24" value="2.72" flag="0"/>
+        <event date="2011-05-28" time="08:19:52" value="2.72" flag="0"/>
+        <event date="2011-05-28" time="21:09:47" value="2.71" flag="0"/>
+        <event date="2011-05-28" time="23:01:52" value="2.71" flag="0"/>
+        <event date="2011-05-30" time="02:24:06" value="2.71" flag="0"/>
+        <event date="2011-05-30" time="05:37:41" value="2.71" flag="0"/>
+        <event date="2011-05-30" time="11:37:38" value="2.71" flag="0"/>
+        <event date="2011-05-30" time="17:37:38" value="2.71" flag="0"/>
+        <event date="2011-05-31" time="16:49:43" value="2.71" flag="0"/>
+        <event date="2011-05-31" time="17:36:07" value="2.7" flag="0"/>
+        <event date="2011-06-01" time="17:31:48" value="2.7" flag="0"/>
+        <event date="2011-06-01" time="23:31:53" value="2.69" flag="0"/>
+        <event date="2011-06-02" time="17:31:38" value="2.69" flag="0"/>
+        <event date="2011-06-02" time="23:31:39" value="2.69" flag="0"/>
+        <event date="2011-06-03" time="23:31:47" value="2.68" flag="0"/>
+        <event date="2011-06-04" time="05:31:42" value="2.68" flag="0"/>
+        <event date="2011-06-05" time="05:31:37" value="2.67" flag="0"/>
+        <event date="2011-06-05" time="11:31:44" value="2.67" flag="0"/>
+        <event date="2011-06-06" time="10:23:45" value="2.68" flag="0"/>
+        <event date="2011-06-06" time="16:19:45" value="2.7" flag="0"/>
+        <event date="2011-06-07" time="13:53:38" value="2.71" flag="0"/>
+        <event date="2011-06-07" time="19:01:44" value="2.71" flag="0"/>
+        <event date="2011-06-08" time="12:36:01" value="2.71" flag="0"/>
+        <event date="2011-06-08" time="13:01:44" value="2.71" flag="0"/>
+        <event date="2011-06-09" time="13:01:48" value="2.69" flag="0"/>
+        <event date="2011-06-09" time="19:01:45" value="2.69" flag="0"/>
+        <event date="2011-06-10" time="09:15:30" value="2.68" flag="0"/>
+        <event date="2011-06-10" time="13:01:48" value="2.68" flag="0"/>
+        <event date="2011-06-11" time="12:59:56" value="2.71" flag="0"/>
+        <event date="2011-06-11" time="18:25:43" value="2.71" flag="0"/>
+        <event date="2011-06-12" time="06:59:52" value="2.72" flag="0"/>
+        <event date="2011-06-12" time="08:01:56" value="2.72" flag="0"/>
+        <event date="2011-06-13" time="00:59:56" value="2.71" flag="0"/>
+        <event date="2011-06-13" time="06:59:45" value="2.71" flag="0"/>
+        <event date="2011-06-14" time="06:59:42" value="2.71" flag="0"/>
+        <event date="2011-06-14" time="11:47:54" value="2.7" flag="0"/>
+        <event date="2011-06-15" time="00:59:45" value="2.69" flag="0"/>
+        <event date="2011-06-15" time="06:59:45" value="2.69" flag="0"/>
+        <event date="2011-06-15" time="23:01:45" value="2.68" flag="0"/>
+        <event date="2011-06-16" time="00:59:36" value="2.68" flag="0"/>
+        <event date="2011-06-16" time="14:33:38" value="2.73" flag="0"/>
+        <event date="2011-06-16" time="14:39:38" value="2.71" flag="0"/>
+        <event date="2011-06-16" time="15:07:46" value="2.61" flag="0"/>
+        <event date="2011-06-16" time="15:29:44" value="2.63" flag="0"/>
+        <event date="2011-06-17" time="00:59:42" value="2.71" flag="0"/>
+        <event date="2011-06-17" time="04:13:48" value="2.73" flag="0"/>
+        <event date="2011-06-17" time="15:19:41" value="2.7" flag="0"/>
+        <event date="2011-06-17" time="15:25:42" value="2.68" flag="0"/>
+        <event date="2011-06-17" time="18:59:38" value="2.65" flag="0"/>
+        <event date="2011-06-17" time="20:43:38" value="2.67" flag="0"/>
+        <event date="2011-06-18" time="09:15:44" value="2.73" flag="0"/>
+        <event date="2011-06-18" time="12:15:43" value="2.73" flag="0"/>
+        <event date="2011-06-19" time="06:15:52" value="2.75" flag="0"/>
+        <event date="2011-06-19" time="08:39:44" value="2.73" flag="0"/>
+        <event date="2011-06-19" time="09:07:47" value="2.63" flag="0"/>
+        <event date="2011-06-19" time="09:11:44" value="2.61" flag="0"/>
+        <event date="2011-06-19" time="22:15:45" value="2.69" flag="0"/>
+        <event date="2011-06-19" time="22:44:00" value="2.69" flag="0"/>
+        <event date="2011-06-20" time="18:13:58" value="2.72" flag="0"/>
+        <event date="2011-06-20" time="23:01:40" value="2.73" flag="0"/>
+        <event date="2011-06-21" time="18:13:52" value="2.73" flag="0"/>
+        <event date="2011-06-21" time="23:01:46" value="2.73" flag="0"/>
+        <event date="2011-06-22" time="19:59:38" value="2.73" flag="0"/>
+        <event date="2011-06-22" time="22:59:50" value="2.73" flag="0"/>
+        <event date="2011-06-23" time="22:59:50" value="2.73" flag="0"/>
+        <event date="2011-06-23" time="23:01:47" value="2.73" flag="0"/>
+        <event date="2011-06-24" time="22:57:59" value="2.71" flag="0"/>
+        <event date="2011-06-24" time="23:01:45" value="2.71" flag="0"/>
+        <event date="2011-06-25" time="22:57:42" value="2.72" flag="0"/>
+        <event date="2011-06-25" time="23:01:38" value="2.72" flag="0"/>
+        <event date="2011-06-26" time="14:25:49" value="2.72" flag="0"/>
+        <event date="2011-06-26" time="14:35:40" value="2.72" flag="0"/>
+        <event date="2011-06-26" time="23:03:38" value="2.72" flag="0"/>
+        <event date="2011-06-27" time="04:57:43" value="2.72" flag="0"/>
+        <event date="2011-06-28" time="04:57:38" value="2.7" flag="0"/>
+        <event date="2011-06-28" time="10:56:37" value="2.7" flag="0"/>
+        <event date="2011-06-28" time="23:05:37" value="2.7" flag="0"/>
+        <event date="2011-06-29" time="04:30:21" value="2.7" flag="0"/>
+        <event date="2011-06-29" time="22:14:10" value="2.7" flag="0"/>
+        <event date="2011-06-29" time="23:01:38" value="2.7" flag="0"/>
+        <event date="2011-06-30" time="23:01:37" value="2.69" flag="0"/>
+        <event date="2011-06-30" time="23:01:40" value="2.71" flag="0"/>
+    </series>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>KGM10</locationId>
+            <parameterId>WNSHDB1</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2011-04-15" time="14:30:00"/>
+            <endDate date="2011-07-21" time="23:00:00"/>
+            <missVal>NaN</missVal>
+            <stationName>KGM10 - gemaal De Bulke</stationName>
+            <lat>51.73053206781411</lat>
+            <lon>3.921841358070942</lon>
+            <x>53771.08</x>
+            <y>416775.07</y>
+            <z>0.0</z>
+            <units>mNAP</units>
+        </header>
+        <event date="2011-04-15" time="14:30:00" value="-0.75" flag="0"/>
+        <event date="2011-04-15" time="17:00:00" value="-0.78" flag="0"/>
+        <event date="2011-04-15" time="21:15:00" value="-0.75" flag="0"/>
+        <event date="2011-04-16" time="02:45:00" value="-0.76" flag="0"/>
+        <event date="2011-04-16" time="17:45:00" value="-0.75" flag="0"/>
+        <event date="2011-04-16" time="20:45:00" value="-0.76" flag="0"/>
+        <event date="2011-04-17" time="05:15:00" value="-0.76" flag="0"/>
+        <event date="2011-04-17" time="16:00:00" value="-0.75" flag="0"/>
+        <event date="2011-04-17" time="21:15:00" value="-0.79" flag="0"/>
+        <event date="2011-04-17" time="23:00:00" value="-0.75" flag="0"/>
+        <event date="2011-04-18" time="18:00:00" value="-0.8" flag="0"/>
+        <event date="2011-04-18" time="20:00:00" value="-0.75" flag="0"/>
+        <event date="2011-04-19" time="04:15:00" value="-0.84" flag="0"/>
+        <event date="2011-04-19" time="06:45:00" value="-0.84" flag="0"/>
+        <event date="2011-04-19" time="18:00:00" value="-0.79" flag="0"/>
+        <event date="2011-04-19" time="20:15:00" value="-0.83" flag="0"/>
+        <event date="2011-04-20" time="05:00:00" value="-0.75" flag="0"/>
+        <event date="2011-04-20" time="14:30:00" value="-0.76" flag="0"/>
+        <event date="2011-04-20" time="20:45:00" value="-0.75" flag="0"/>
+        <event date="2011-04-20" time="23:00:00" value="-0.76" flag="0"/>
+        <event date="2011-04-21" time="16:45:00" value="-0.82" flag="0"/>
+        <event date="2011-04-21" time="19:15:00" value="-0.76" flag="0"/>
+        <event date="2011-04-22" time="06:30:00" value="-0.75" flag="0"/>
+        <event date="2011-04-22" time="12:00:00" value="-0.77" flag="0"/>
+        <event date="2011-04-22" time="20:45:00" value="-0.76" flag="0"/>
+        <event date="2011-04-23" time="01:45:00" value="-0.77" flag="0"/>
+        <event date="2011-04-23" time="19:00:00" value="-0.76" flag="0"/>
+        <event date="2011-04-23" time="21:00:00" value="-0.75" flag="0"/>
+        <event date="2011-04-24" time="08:00:00" value="-0.77" flag="0"/>
+        <event date="2011-04-24" time="17:15:00" value="-0.81" flag="0"/>
+        <event date="2011-04-24" time="23:00:00" value="-0.76" flag="0"/>
+        <event date="2011-04-25" time="09:00:00" value="-0.76" flag="0"/>
+        <event date="2011-04-25" time="20:30:00" value="-0.77" flag="0"/>
+        <event date="2011-04-25" time="21:45:00" value="-0.78" flag="0"/>
+        <event date="2011-04-26" time="14:15:00" value="-0.78" flag="0"/>
+        <event date="2011-04-26" time="18:00:00" value="-0.79" flag="0"/>
+        <event date="2011-04-27" time="07:00:00" value="-0.76" flag="0"/>
+        <event date="2011-04-27" time="09:00:00" value="-0.77" flag="0"/>
+        <event date="2011-04-28" time="06:30:00" value="-0.76" flag="0"/>
+        <event date="2011-04-28" time="13:30:00" value="-0.78" flag="0"/>
+        <event date="2011-04-28" time="22:45:00" value="-0.76" flag="0"/>
+        <event date="2011-04-29" time="03:30:00" value="-0.75" flag="0"/>
+        <event date="2011-04-29" time="19:15:00" value="-0.78" flag="0"/>
+        <event date="2011-04-29" time="21:15:00" value="-0.76" flag="0"/>
+        <event date="2011-04-30" time="07:00:00" value="-0.75" flag="0"/>
+        <event date="2011-04-30" time="12:30:00" value="-0.78" flag="0"/>
+        <event date="2011-04-30" time="22:45:00" value="-0.75" flag="0"/>
+        <event date="2011-05-01" time="03:30:00" value="-0.83" flag="0"/>
+        <event date="2011-05-01" time="13:30:00" value="-0.79" flag="0"/>
+        <event date="2011-05-01" time="19:00:00" value="-0.8" flag="0"/>
+        <event date="2011-05-02" time="17:15:00" value="-0.75" flag="0"/>
+        <event date="2011-05-02" time="19:15:00" value="-0.76" flag="0"/>
+        <event date="2011-05-03" time="05:00:00" value="-0.75" flag="0"/>
+        <event date="2011-05-03" time="15:00:00" value="-0.78" flag="0"/>
+        <event date="2011-05-04" time="01:30:00" value="-0.77" flag="0"/>
+        <event date="2011-05-04" time="11:45:00" value="-0.76" flag="0"/>
+        <event date="2011-05-04" time="23:00:00" value="-0.75" flag="0"/>
+        <event date="2011-05-05" time="05:00:00" value="-0.75" flag="0"/>
+        <event date="2011-05-05" time="20:00:00" value="-0.78" flag="0"/>
+        <event date="2011-05-06" time="00:30:00" value="-0.76" flag="0"/>
+        <event date="2011-05-06" time="19:15:00" value="-0.78" flag="0"/>
+        <event date="2011-05-06" time="21:45:00" value="-0.77" flag="0"/>
+        <event date="2011-05-07" time="10:30:00" value="-0.76" flag="0"/>
+        <event date="2011-05-07" time="17:30:00" value="-0.81" flag="0"/>
+        <event date="2011-05-08" time="03:45:00" value="-0.76" flag="0"/>
+        <event date="2011-05-08" time="14:30:00" value="-0.76" flag="0"/>
+        <event date="2011-05-08" time="22:30:00" value="-0.76" flag="0"/>
+        <event date="2011-05-09" time="04:00:00" value="-0.75" flag="0"/>
+        <event date="2011-05-09" time="20:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-10" time="00:30:00" value="-0.75" flag="0"/>
+        <event date="2011-05-10" time="13:15:00" value="-0.76" flag="0"/>
+        <event date="2011-05-10" time="20:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-11" time="07:45:00" value="-0.76" flag="0"/>
+        <event date="2011-05-11" time="18:45:00" value="-0.78" flag="0"/>
+        <event date="2011-05-12" time="07:30:00" value="-0.75" flag="0"/>
+        <event date="2011-05-12" time="14:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-13" time="06:15:00" value="-0.75" flag="0"/>
+        <event date="2011-05-13" time="18:30:00" value="-0.77" flag="0"/>
+        <event date="2011-05-14" time="03:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-14" time="14:15:00" value="-0.76" flag="0"/>
+        <event date="2011-05-15" time="02:30:00" value="-0.75" flag="0"/>
+        <event date="2011-05-15" time="05:00:00" value="-0.75" flag="0"/>
+        <event date="2011-05-15" time="11:30:00" value="-0.76" flag="0"/>
+        <event date="2011-05-15" time="20:45:00" value="-0.75" flag="0"/>
+        <event date="2011-05-16" time="19:15:00" value="-0.75" flag="0"/>
+        <event date="2011-05-17" time="01:00:00" value="-0.75" flag="0"/>
+        <event date="2011-05-17" time="17:30:00" value="-0.75" flag="0"/>
+        <event date="2011-05-17" time="20:45:00" value="-0.75" flag="0"/>
+        <event date="2011-05-18" time="19:30:00" value="-0.78" flag="0"/>
+        <event date="2011-05-18" time="22:00:00" value="-0.75" flag="0"/>
+        <event date="2011-05-19" time="18:15:00" value="-0.78" flag="0"/>
+        <event date="2011-05-19" time="21:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-20" time="14:30:00" value="-0.75" flag="0"/>
+        <event date="2011-05-20" time="18:15:00" value="-0.78" flag="0"/>
+        <event date="2011-05-21" time="02:00:00" value="-0.75" flag="0"/>
+        <event date="2011-05-21" time="07:45:00" value="-0.77" flag="0"/>
+        <event date="2011-05-22" time="05:30:00" value="-0.85" flag="0"/>
+        <event date="2011-05-22" time="09:30:00" value="-0.75" flag="0"/>
+        <event date="2011-05-22" time="22:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-23" time="04:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-24" time="01:45:00" value="-0.75" flag="0"/>
+        <event date="2011-05-24" time="04:15:00" value="-0.77" flag="0"/>
+        <event date="2011-05-24" time="21:45:00" value="-0.77" flag="0"/>
+        <event date="2011-05-25" time="05:30:00" value="-0.75" flag="0"/>
+        <event date="2011-05-26" time="11:15:00" value="-0.75" flag="0"/>
+        <event date="2011-05-26" time="15:30:00" value="-0.76" flag="0"/>
+        <event date="2011-05-27" time="02:30:00" value="-0.83" flag="0"/>
+        <event date="2011-05-27" time="08:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-27" time="23:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-28" time="07:30:00" value="-0.76" flag="0"/>
+        <event date="2011-05-28" time="20:15:00" value="-0.76" flag="0"/>
+        <event date="2011-05-29" time="04:15:00" value="-0.75" flag="0"/>
+        <event date="2011-05-29" time="19:00:00" value="-0.76" flag="0"/>
+        <event date="2011-05-29" time="21:30:00" value="-0.76" flag="0"/>
+        <event date="2011-05-30" time="16:45:00" value="-0.79" flag="0"/>
+        <event date="2011-05-30" time="20:15:00" value="-0.82" flag="0"/>
+        <event date="2011-05-31" time="08:15:00" value="-0.76" flag="0"/>
+        <event date="2011-05-31" time="18:30:00" value="-0.76" flag="0"/>
+        <event date="2011-06-01" time="15:15:00" value="-0.77" flag="0"/>
+        <event date="2011-06-01" time="21:45:00" value="-0.75" flag="0"/>
+        <event date="2011-06-02" time="21:15:00" value="-0.75" flag="0"/>
+        <event date="2011-06-02" time="23:30:00" value="-0.76" flag="0"/>
+        <event date="2011-06-03" time="12:00:00" value="-0.78" flag="0"/>
+        <event date="2011-06-03" time="20:45:00" value="-0.75" flag="0"/>
+        <event date="2011-06-04" time="20:45:00" value="-0.77" flag="0"/>
+        <event date="2011-06-05" time="05:15:00" value="-0.76" flag="0"/>
+        <event date="2011-06-06" time="06:45:00" value="-0.76" flag="0"/>
+        <event date="2011-06-06" time="09:15:00" value="-0.77" flag="0"/>
+        <event date="2011-06-06" time="18:45:00" value="-0.75" flag="0"/>
+        <event date="2011-06-06" time="22:15:00" value="-0.76" flag="0"/>
+        <event date="2011-06-07" time="06:30:00" value="-0.75" flag="0"/>
+        <event date="2011-06-07" time="11:30:00" value="-0.76" flag="0"/>
+        <event date="2011-06-07" time="22:00:00" value="-0.75" flag="0"/>
+        <event date="2011-06-08" time="00:30:00" value="-0.76" flag="0"/>
+        <event date="2011-06-08" time="11:00:00" value="-0.77" flag="0"/>
+        <event date="2011-06-08" time="14:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-09" time="01:45:00" value="-0.76" flag="0"/>
+        <event date="2011-06-09" time="15:00:00" value="-0.75" flag="0"/>
+        <event date="2011-06-10" time="03:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-10" time="06:45:00" value="-0.76" flag="0"/>
+        <event date="2011-06-10" time="19:30:00" value="-0.77" flag="0"/>
+        <event date="2011-06-10" time="21:00:00" value="-0.75" flag="0"/>
+        <event date="2011-06-11" time="03:45:00" value="-0.8" flag="0"/>
+        <event date="2011-06-11" time="08:00:00" value="-0.75" flag="0"/>
+        <event date="2011-06-11" time="20:30:00" value="-0.75" flag="0"/>
+        <event date="2011-06-11" time="23:15:00" value="-0.8" flag="0"/>
+        <event date="2011-06-12" time="20:30:00" value="-0.78" flag="0"/>
+        <event date="2011-06-13" time="01:15:00" value="-0.78" flag="0"/>
+        <event date="2011-06-13" time="19:30:00" value="-0.76" flag="0"/>
+        <event date="2011-06-13" time="23:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-14" time="17:45:00" value="-0.75" flag="0"/>
+        <event date="2011-06-14" time="20:30:00" value="-0.77" flag="0"/>
+        <event date="2011-06-15" time="18:45:00" value="-0.81" flag="0"/>
+        <event date="2011-06-15" time="21:30:00" value="-0.76" flag="0"/>
+        <event date="2011-06-16" time="07:00:00" value="-0.77" flag="0"/>
+        <event date="2011-06-16" time="08:15:00" value="-0.75" flag="0"/>
+        <event date="2011-06-16" time="12:00:00" value="-0.75" flag="0"/>
+        <event date="2011-06-16" time="14:00:00" value="-0.79" flag="0"/>
+        <event date="2011-06-16" time="19:00:00" value="-0.81" flag="0"/>
+        <event date="2011-06-16" time="21:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-17" time="09:15:00" value="-0.82" flag="0"/>
+        <event date="2011-06-17" time="14:15:00" value="-0.75" flag="0"/>
+        <event date="2011-06-18" time="02:30:00" value="-0.83" flag="0"/>
+        <event date="2011-06-18" time="05:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-18" time="14:15:00" value="-0.75" flag="0"/>
+        <event date="2011-06-18" time="17:30:00" value="-0.76" flag="0"/>
+        <event date="2011-06-19" time="06:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-19" time="10:15:00" value="-0.76" flag="0"/>
+        <event date="2011-06-20" time="04:30:00" value="-0.77" flag="0"/>
+        <event date="2011-06-20" time="14:15:00" value="-0.75" flag="0"/>
+        <event date="2011-06-21" time="06:30:00" value="-0.75" flag="0"/>
+        <event date="2011-06-21" time="10:15:00" value="-0.77" flag="0"/>
+        <event date="2011-06-21" time="21:45:00" value="-0.75" flag="0"/>
+        <event date="2011-06-22" time="05:15:00" value="-0.83" flag="0"/>
+        <event date="2011-06-22" time="17:30:00" value="-0.76" flag="0"/>
+        <event date="2011-06-22" time="22:45:00" value="-0.75" flag="0"/>
+        <event date="2011-06-23" time="16:45:00" value="-0.78" flag="0"/>
+        <event date="2011-06-23" time="20:45:00" value="-0.76" flag="0"/>
+        <event date="2011-06-24" time="13:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-24" time="19:00:00" value="-0.75" flag="0"/>
+        <event date="2011-06-25" time="08:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-25" time="12:15:00" value="-0.75" flag="0"/>
+        <event date="2011-06-26" time="01:30:00" value="-0.75" flag="0"/>
+        <event date="2011-06-26" time="07:00:00" value="-0.82" flag="0"/>
+        <event date="2011-06-27" time="01:00:00" value="-0.77" flag="0"/>
+        <event date="2011-06-27" time="07:15:00" value="-0.76" flag="0"/>
+        <event date="2011-06-27" time="21:00:00" value="-0.78" flag="0"/>
+        <event date="2011-06-28" time="02:00:00" value="-0.77" flag="0"/>
+        <event date="2011-06-28" time="10:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-28" time="12:15:00" value="-0.75" flag="0"/>
+        <event date="2011-06-28" time="18:30:00" value="-0.77" flag="0"/>
+        <event date="2011-06-28" time="21:45:00" value="-0.75" flag="0"/>
+        <event date="2011-06-29" time="05:15:00" value="-0.75" flag="0"/>
+        <event date="2011-06-29" time="08:15:00" value="-0.76" flag="0"/>
+        <event date="2011-06-29" time="23:00:00" value="-0.76" flag="0"/>
+        <event date="2011-06-30" time="15:45:00" value="-0.75" flag="0"/>
+        <event date="2011-06-30" time="23:00:00" value="-0.75" flag="0"/>
+    </series>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>MPN97</locationId>
+            <parameterId>WNSHDB38</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2011-03-25" time="06:42:52"/>
+            <endDate date="2011-06-20" time="15:07:29"/>
+            <missVal>NaN</missVal>
+            <stationName>MPN97 - Duiker, Boumansweg, Haamstede</stationName>
+            <lat>51.70553475802721</lat>
+            <lon>3.765898835957174</lon>
+            <x>42937.59</x>
+            <y>414223.02</y>
+            <z>0.0</z>
+            <units>mNAP</units>
+        </header>
+        <event date="2011-03-25" time="06:42:52" value="-2.43" flag="0"/>
+        <event date="2011-04-15" time="07:12:36" value="-2.51" flag="0"/>
+        <event date="2011-05-16" time="10:38:01" value="-2.56" flag="0"/>
+        <event date="2011-06-20" time="15:07:29" value="-2.45" flag="0"/>
+    </series>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>MPN98</locationId>
+            <parameterId>WNSHDB38</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2011-03-24" time="10:02:07"/>
+            <endDate date="2011-06-20" time="15:09:56"/>
+            <missVal>NaN</missVal>
+            <stationName>MPN98 - Stuw Armhoeksweg, instroom</stationName>
+            <lat>51.705117973433715</lat>
+            <lon>3.7578146837735247</lon>
+            <x>42377.85</x>
+            <y>414189.14</y>
+            <z>0.0</z>
+            <units>mNAP</units>
+        </header>
+        <event date="2011-03-24" time="10:02:07" value="-1.6" flag="0"/>
+        <event date="2011-04-14" time="12:15:29" value="-1.63" flag="0"/>
+        <event date="2011-05-16" time="13:24:40" value="-1.65" flag="0"/>
+        <event date="2011-06-20" time="15:09:56" value="-1.55" flag="0"/>
+    </series>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>MPN99</locationId>
+            <parameterId>WNSHDB38</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2011-03-24" time="10:02:43"/>
+            <endDate date="2011-06-20" time="15:09:29"/>
+            <missVal>NaN</missVal>
+            <stationName>MPN99 - Stuw Pauwlijntjesweg, instroom</stationName>
+            <lat>51.712115771622926</lat>
+            <lon>3.756971536668419</lon>
+            <x>42337.02</x>
+            <y>414968.84</y>
+            <z>0.0</z>
+            <units>mNAP</units>
+        </header>
+        <event date="2011-03-24" time="10:02:43" value="-1.27" flag="0"/>
+        <event date="2011-04-14" time="12:19:28" value="-1.28" flag="0"/>
+        <event date="2011-05-16" time="13:27:40" value="-1.28" flag="0"/>
+        <event date="2011-06-20" time="15:09:29" value="-1.31" flag="0"/>
+    </series>
+</TimeSeries>
