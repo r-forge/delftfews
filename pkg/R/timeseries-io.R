@@ -70,8 +70,8 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
     seriesNodes <- doc$.getNodeSet("/TimeSeries/series")
     headerNodes <- doc$.getNodeSet("/TimeSeries/series/header")
   } else {
-    seriesNodes <- doc$.getNodeSet("/TimeSeries/series[./header/parameterId='%s']", parameterId)
-    headerNodes <- doc$.getNodeSet("/TimeSeries/series/header[./parameterId='%s']", parameterId)
+    seriesNodes <- doc$.getNodeSet(paste("/TimeSeries/series[", paste(sprintf("./header/parameterId='%s'", parameterId), collapse=" or "), "]", sep=""))
+    headerNodes <- doc$.getNodeSet(paste("/TimeSeries/series/header[", paste(sprintf("./parameterId='%s'", parameterId), collapse=" or "), "]", sep=""))
   }
 
   ## reset the name of the elements in seriesNodes from the general

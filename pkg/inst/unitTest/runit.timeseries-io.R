@@ -163,6 +163,13 @@ test.read.PI.select.on.parameterId <- function() {
   checkEqualsNumeric(3, ncol(pidata))
 }
 
+test.read.PI.select.on.two.parameterId <- function() {
+  pidata <- read.PI('data/combined-3.xml', is.irregular=TRUE, step.seconds=3600)
+  checkEquals(5, ncol(pidata))
+  pidata <- read.PI('data/combined-3.xml', parameterId=c("WNSHDB1", "WNSHDB3"), is.irregular=TRUE, step.seconds=3600)
+  checkEqualsNumeric(2, ncol(pidata))
+}
+
 test.read.PI.filter.timestamp <- function() {
 
   peilschalen <- read.PI('data/combined-3.xml', parameterId="WNSHDB38", is.irregular=TRUE, step.seconds=60)

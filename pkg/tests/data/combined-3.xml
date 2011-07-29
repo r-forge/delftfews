@@ -962,17 +962,17 @@
     <series>
         <header>
             <type>instantaneous</type>
-            <locationId>KGM10</locationId>
-            <parameterId>WNSHDB1</parameterId>
+            <locationId>KGM11</locationId>
+            <parameterId>WNSHDB3</parameterId>
             <timeStep unit="nonequidistant"/>
-            <startDate date="2011-04-15" time="14:30:00"/>
-            <endDate date="2011-07-21" time="23:00:00"/>
+            <startDate date="2011-04-15" time="13:30:55"/>
+            <endDate date="2011-07-21" time="23:00:56"/>
             <missVal>NaN</missVal>
-            <stationName>KGM10 - gemaal De Bulke</stationName>
-            <lat>51.73053206781411</lat>
-            <lon>3.921841358070942</lon>
-            <x>53771.08</x>
-            <y>416775.07</y>
+            <stationName>KGM11 - gemaal Noordgouwe</stationName>
+            <lat>51.687492982413254</lat>
+            <lon>3.9393204929355896</lon>
+            <x>54883.18</x>
+            <y>411963.3</y>
             <z>0.0</z>
             <units>mNAP</units>
         </header>
