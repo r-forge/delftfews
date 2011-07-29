@@ -181,7 +181,7 @@ test.read.PI.filter.timestamp <- function() {
     return(as.seconds(difftime(timestamps[[index]], candidate)) < 86400)
   }
   
-  pidata <- read.PI('data/combined-3.xml', is.irregular=TRUE, parameterId="WNSHDB1", filter.timestamp=passes, step.seconds=60)
+  pidata <- read.PI('data/combined-3.xml', is.irregular=TRUE, parameterId=c("WNSHDB1", "WNSHDB3"), filter.timestamp=passes, step.seconds=60)
 
   checkEquals(42, nrow(pidata))
   checkEquals(c(1305459000, 1305477900, 1305481500, 1305482400, 1305485880, 

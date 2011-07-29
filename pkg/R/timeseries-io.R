@@ -28,7 +28,7 @@ EPOCH <- as.POSIXct("1970-01-01 00:00:00", "%Y-%m-%d %H:%M:%S", tz="UTC")
 require("XML")
 require("logging")
 
-read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA, is.irregular=FALSE, filter.timestamp) {
+read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, is.irregular=FALSE, filter.timestamp) {
   ## creates a data.frame containing all data in matrix form.
   isToBeFiltered <- !missing(filter.timestamp)
 
@@ -66,7 +66,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId=NA
   timeOffset <- as.double(doc$getText("/TimeSeries/timeZone")) * 60 * 60
 
   ## we only operate on the "series" nodes.
-  if(is.na(parameterId)) {
+  if(missing(parameterId)) {
     seriesNodes <- doc$.getNodeSet("/TimeSeries/series")
     headerNodes <- doc$.getNodeSet("/TimeSeries/series/header")
   } else {
