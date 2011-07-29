@@ -147,17 +147,13 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
     if(isToBeFiltered)
       result.index <- result.index[sapply(result.index, filter.timestamp)]
 
-    result <- zoo(cbind(dummy=NA), order.by=result.index)  # need an unnamed dummy first column
+    result <- zoo(order.by=result.index)  # need an unnamed dummy first column
 
     for(name in names(seriesNodes)) {
-      result.new <- cbind(result, NA)
-      colnames(result.new) <- c(colnames(result), name)
       item <- getValues(seriesNodes[[name]], as.zoo=TRUE)
-      result <- result.new
-      result[which(result.index %in% index(item)), name] <- coredata(item)  # using `which` to speed up
+      colnames(item) <- name
+      result <- cbind(result, item)
     }
-
-    result <- result[, -1]  # remove unnamed dummy first column
 
   } else {
 
