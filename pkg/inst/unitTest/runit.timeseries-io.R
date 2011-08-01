@@ -196,6 +196,8 @@ test.read.PI.filter.timestamp <- function() {
 
 test.read.PI.skip.short.lived.60 <- function() {
 
+  ## read twice the same data, select just the second column, then
+  ## check the effect of the optional parameter skip.short.lived
   pidata <- read.PI('data/peilschalen-3-with-corrections.xml', is.irregular=TRUE, skip.short.lived=60)
   corrected.peilschaal <- pidata[!is.na(pidata[, 2]), 2]
   pidata <- read.PI('data/peilschalen-3-with-corrections.xml', is.irregular=TRUE)
