@@ -194,6 +194,21 @@ test.read.PI.filter.timestamp <- function() {
                 1308579300), as.seconds(index(pidata)))
 }
 
+test.read.PI.skip.short.lived.60 <- function() {
+
+  pidata <- read.PI('data/peilschalen-3-with-corrections.xml', is.irregular=TRUE, skip.short.lived=60)
+  corrected.peilschaal <- pidata[!is.na(pidata[, 2]), 2]
+  pidata <- read.PI('data/peilschalen-3-with-corrections.xml', is.irregular=TRUE)
+  uncorrected.peilschaal <- pidata[!is.na(pidata[, 2]), 2]
+
+  ## correction removes timestamps without altering any
+  checkTrue(all(index(corrected.peilschaal) %in% index(uncorrected.peilschaal)))
+  ## third timestamp gets removed
+  checkEquals(c(TRUE, TRUE, FALSE), (index(uncorrected.peilschaal) %in% index(corrected.peilschaal))[1:3])
+  ## only one timestamp is removed
+  checkEquals(1, nrow(uncorrected.peilschaal) - nrow(corrected.peilschaal))
+}
+
 test.read.PI.filter.timestamp.small <- function() {
 
   peilschalen <- read.PI('data/combined-small-3.xml', parameterId="WNSHDB38", is.irregular=TRUE, step.seconds=60)

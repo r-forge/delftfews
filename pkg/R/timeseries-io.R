@@ -28,11 +28,11 @@ EPOCH <- as.POSIXct("1970-01-01 00:00:00", "%Y-%m-%d %H:%M:%S", tz="UTC")
 require("XML")
 require("logging")
 
-read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, is.irregular=FALSE, filter.timestamp) {
+read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, is.irregular=FALSE, filter.timestamp, skip.short.lived=NA) {
   ## creates a data.frame containing all data in matrix form.
   isToBeFiltered <- !missing(filter.timestamp)
 
-  groupByStep <- function(seconds, values, step.seconds, flags=NA, missVal=NA) {
+  groupByStep <- function(seconds, values, step.seconds, flags=NA, missVal=NA, keepThese=TRUE) {
     ## groups the values by seconds, one each step.
     ##
     ## a value may be NA, or be flagged as NA (flag 9), or be equivalent
@@ -51,6 +51,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
     } else {
       result <- subset(data.frame(s='', v=FALSE), c(FALSE))
     }
+    result <- result[keepThese, ]
 
     return (result)
   }
@@ -109,7 +110,11 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
     timestamps <- as.POSIXct(paste(dates, times), "%Y-%m-%d %H:%M:%S", tz="UTC")
     seconds <- as.numeric(difftime(timestamps, EPOCH, tz="UTC"), units="secs")
 
-    grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
+    if(!is.na(skip.short.lived)) {
+      grouped <- groupByStep(seconds, values, step.seconds, flags, missVal, c(diff(seconds) > skip.short.lived, TRUE))
+    } else {
+      grouped <- groupByStep(seconds, values, step.seconds, flags, missVal)
+    }
 
     ## 3106 - this is the place for filtering the data.  we just read
     ## it, modified according to the settings, but we have not yet
@@ -131,23 +136,12 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
   seconds <- sapply(seriesNodes, getElementSeconds, tagname='event')
 
   if(is.irregular) {
-    seconds <- sort(unique(unlist(seconds)))
-
-    if (!is.na(step.seconds)) {
-      ## for irregular series, step.seconds indicates the granularity
-      ## of the time scale.
-
-      seconds <- unique(ceiling(seconds/step.seconds)*step.seconds)
-    } else {
+    if (is.na(step.seconds)) {  # here step.seconds means granularity and must be set.
       ## no granularity means keep data precise to the second.
       step.seconds <- 1
     }
 
-    result.index <- EPOCH + seconds - timeOffset
-    if(isToBeFiltered)
-      result.index <- result.index[sapply(result.index, filter.timestamp)]
-
-    result <- zoo(order.by=result.index)  # need an unnamed dummy first column
+    result <- zoo(order.by=structure(numeric(0), class=c("POSIXct", "POSIXt")))
 
     for(name in names(seriesNodes)) {
       item <- getValues(seriesNodes[[name]], as.zoo=TRUE)

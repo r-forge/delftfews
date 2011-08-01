@@ -21,8 +21,8 @@
   
 }
 \usage{
-read.PI(filename, step.seconds = NA, na.action = na.fill, parameterId =
-NA, is.irregular = FALSE, filter.timestamp)
+read.PI(filename, step.seconds = NA, na.action = na.fill, parameterId, is.irregular = FALSE, filter.timestamp,
+                 skip.short.lived = NA)
 }
 \arguments{
   \item{filename}{the name of the xml file containing the timeseries}
@@ -37,7 +37,9 @@ NA, is.irregular = FALSE, filter.timestamp)
     series set is not regularly spaced.}
   \item{filter.timestamp}{logic function: if specified, it is used to
     decide whether an event has to be memorized.}
-
+  \item{skip.short.lived}{numeric: if available, indicates the required
+    lifespan for a value.  all values lasting shorter than this are
+    considered invalid and overwritten by the first following value.}
 }
 \examples{
 \dontrun{pidata <- read.PI('pi.xml', step.seconds=900)}
