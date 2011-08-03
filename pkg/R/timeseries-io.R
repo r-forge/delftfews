@@ -46,12 +46,11 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
       values[flags == 9] <- NA
 
     if(length(!is.na(values)) > 0) {
-      result <- aggregate(values, by=list(ceiling(seconds/step.seconds)*step.seconds), function(x) tail(x, n=1))
+      result <- aggregate(values[keepThese], by=list(ceiling(seconds[keepThese]/step.seconds)*step.seconds), function(x) tail(x, n=1))
       colnames(result) <- c('s', "v")
     } else {
       result <- subset(data.frame(s='', v=FALSE), c(FALSE))
     }
-    result <- result[keepThese, ]
 
     return (result)
   }
@@ -120,8 +119,11 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
     ## it, modified according to the settings, but we have not yet
     ## stored it in the partial result.
 
-    if(isToBeFiltered)
+    if(isToBeFiltered) {
+      old.length <- length(grouped$v)
       grouped <- grouped[sapply(EPOCH + grouped$s - timeOffset, filter.timestamp), ]
+      logdebug("filtering, %d/%d values survive", length(grouped$v), old.length)
+    }
 
     if(as.zoo) {
       result <- zoo(cbind(grouped$v), order.by=EPOCH + grouped$s - timeOffset)
@@ -144,7 +146,11 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
     result <- zoo(order.by=structure(numeric(0), class=c("POSIXct", "POSIXt")))
 
     for(name in names(seriesNodes)) {
+      logdebug("doing column '%s'", name)
       item <- getValues(seriesNodes[[name]], as.zoo=TRUE)
+      if(nrow(item) == 0) {
+        item <- zoo(cbind(v=NA), order.by=index(result))
+      }
       colnames(item) <- name
       result <- cbind(result, item)
     }
@@ -180,6 +186,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
     ## column-bind the timestamps to the collected values
     result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index, frequency=1.0/step.seconds)
   }
+  
   class(result) <- c("delftfews", class(result))
   return(result)
 }
@@ -224,7 +231,7 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
 
     ## cut uninteresting columns
     actualdata <- data.frame(seconds = as.seconds(index(data)))
-    actualdata$column <- as.vector(data[item['column']])
+    actualdata$column <- as.vector(data[, item[['column']]])
     ## cut rows that generate no 'event' node.
     if(looksLikeNULL(item, 'missVal')) {
       actualdata <- subset(actualdata, !is.na(column))
