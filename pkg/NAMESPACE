@@ -1,5 +1,5 @@
 export(as.seconds,
-       cumulate.timeseries,
+       cumulate,
        contiguous.stretch,
        double.threshold,
        findLocalMin,
@@ -38,6 +38,8 @@ export(as.seconds,
        "[.delftfews",
        "$<-.delftfews",
        "$.delftfews")
+
+S3method(cumulate, zoo)
 
 S3method(double.threshold, default)
 S3method(double.threshold, data.frame)

@@ -2,7 +2,7 @@
 
 \name{cumulate}
 \alias{cumulate}
-\alias{cumulate.timeseries}
+\alias{cumulate.zoo}
 \title{augments a time series set with net and gross sums of one data column}
 \description{
   
@@ -18,17 +18,16 @@
   other entries are `NA`.
 
   it's best to specify `data.description$missVal = NULL` when passing
-  the result of `cumulate.timeseries` to `write.PI`.  `NA` events (no
+  the result of `cumulate.zoo to `write.PI`.  `NA` events (no
   event) will be omitted.
   
 }
 \usage{
-cumulate.timeseries(input, column = "input", gap = 1,
-                    integration.method = 3, units = "secs")
+cumulate(input, gap = 1,
+                    integration.method = 3, units = "secs", \dots)
 }
 \arguments{
-  \item{input}{data.frame; the time series set to be augmented.}
-  \item{column}{character; the name of the data holding column.}
+  \item{input}{zoo; a single column zoo object.}
   \item{gap}{numeric; the size of the minimal gap that interrupts gross stretches.}
   \item{integration.method}{numeric; refers to the overview presented
     in http://portal.acm.org/citation.cfm?id=578374, figure 7.2.  1:
@@ -37,9 +36,10 @@ cumulate.timeseries(input, column = "input", gap = 1,
   \item{units}{character; this is passed to as.double for converting
     differences in timestamps.  all units
     acceptable there can be used here.}
+  \item{\dots}{placeholder for future extensions}
 }
 \examples{
 input <- c(0, 0, 0, 5, 6, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0)
 result <- timeseries(20580000, by=5, length.out=length(input), input=input)
-cumulate.timeseries(result, gap=3)
+cumulate(result, gap=3)
 }

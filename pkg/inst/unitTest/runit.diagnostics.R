@@ -20,7 +20,7 @@
 require(svUnit)
 
 logged <- NULL
-mockAction <- function(msg, handler) {
+mockAction <- function(msg, handler, ...) {
   ## replace the timestamp with a constant string!
   parts <- unlist(strsplit(msg, " :: ", fixed=TRUE))
   parts[2] <- "TS"
@@ -30,7 +30,7 @@ mockAction <- function(msg, handler) {
 
 test.formatter.fewsdiagnostics.simple <- function() {
   logReset()
-  addHandler(mockAction, level='DEBUG', logger='', formatter=delftfews:::formatter.fewsdiagnostics)
+  addHandler(mockAction, action=mockAction, level='DEBUG', logger='', formatter=delftfews:::formatter.fewsdiagnostics)
   logged <<- NULL
   loginfo("a simple string")
   checkEquals('  <line level="3" description="LizardScripter :: TS :: a simple string"/>\n', logged)
