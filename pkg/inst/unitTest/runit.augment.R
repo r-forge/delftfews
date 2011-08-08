@@ -84,11 +84,32 @@ test.cumulate.zoo.one.net.stretch <- function() {
   ## 0 0 0 5 5 5 0 0 0 0
   pidata <- timeseries(1234567800, by=5*60, length.out=10, input=data)
 
-  result <- cumulate(pidata[, 1], integration.method=1)
+  result <- cumulate(pidata[, 1], integration.method=1, with.partials=TRUE)
 
   target <- rep(NA, 10)
   target[4:6] <- 25*60
   checkEquals(target, coredata(result$partials))
+
+  target <- rep(NA, 10)
+  target[4] <- 75*60
+  checkEquals(target, coredata(result$gross))
+  checkEquals(target, coredata(result$net))
+
+  target <- rep(NA, 10)
+  target[4] <- 15 * 60
+  checkEquals(target, coredata(result$gross.duration))
+  checkEquals(target, coredata(result$net.duration))
+}
+
+test.cumulate.zoo.one.net.stretch.no.partials <- function() {
+  data <- rep(NA, 10)
+  data[4:6] <- 5
+  ## 0 0 0 5 5 5 0 0 0 0
+  pidata <- timeseries(1234567800, by=5*60, length.out=10, input=data)
+
+  result <- cumulate(pidata[, 1], integration.method=1)
+
+  checkEquals(FALSE, 'partials' %in% colnames(result))
 
   target <- rep(NA, 10)
   target[4] <- 75*60
@@ -108,7 +129,7 @@ test.cumulate.zoo.one.net.stretch.trapezoid <- function() {
   ## 0 0 0 2 4 2 0 0 0 0
   pidata <- timeseries(1234567800, by=5*60, length.out=10, input=data)
 
-  result <- cumulate(pidata[, 1], integration.method=3)
+  result <- cumulate(pidata[, 1], integration.method=3, with.partials=TRUE)
   ## input duration partials totals
   ##     0       NA       NA     NA
   ##     0       NA       NA     NA
@@ -231,7 +252,7 @@ test.cumulate.zoo.two.net.stretches.trapezoid <- function() {
   ## 14 2009-02-14 00:35:00     0
   ## 15 2009-02-14 00:40:00     0
 
-  result <- cumulate(pidata[, 1], gap=3, integration.method=3)
+  result <- cumulate(pidata[, 1], gap=3, integration.method=3, with.partials=TRUE)
 
   ##    input gross.partials net.partials
   ## 1      0             NA           NA

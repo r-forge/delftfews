@@ -24,7 +24,8 @@
 }
 \usage{
 
-cumulate(input, gap = 1, integration.method = 3, units = "secs", \dots)
+cumulate(input, gap = 1, integration.method = 3, units = "secs",
+with.partials = FALSE, \dots)
 
 }
 \arguments{
@@ -37,6 +38,9 @@ cumulate(input, gap = 1, integration.method = 3, units = "secs", \dots)
   \item{units}{character; this is passed to as.double for converting
     differences in timestamps.  all units
     acceptable there can be used here.}
+  \item{with.partials}{logic; whether the output should contain the
+    partials used in the calculations.  in this case, this will be the
+    fifth column in the output.}
   \item{\dots}{placeholder for future extensions}
 }
 \examples{
