@@ -85,6 +85,7 @@ test.cumulate.zoo.one.net.stretch <- function() {
   pidata <- timeseries(1234567800, by=5*60, length.out=10, input=data)
 
   result <- cumulate(pidata[, 1], integration.method=1, with.partials=TRUE)
+  checkEquals(TRUE, is.zoo(result))
 
   target <- rep(NA, 10)
   target[4:6] <- 25*60

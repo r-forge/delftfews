@@ -66,12 +66,12 @@ timeseries <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, order.by=NU
   return(result)
 }
 
-cumulate <- function(input, gap=1, integration.method=3, units="secs", with.partials=FALSE, ...)
+cumulate <- function(input, gap=1, integration.method=3, with.partials=FALSE, ...)
   UseMethod('cumulate')
 
-cumulate.default <- function(input, gap=1, integration.method=3, units="secs", with.partials=FALSE, ...) NULL
+cumulate.default <- function(input, ...) NULL
 
-cumulate.zoo <- function(input, gap=1, integration.method=3, units="secs", with.partials=FALSE, ...) {
+cumulate.zoo <- function(input, gap=1, integration.method=3, with.partials=FALSE, units="secs", ...) {
   ## given an univariate series, indexed on POSIXct time stamps,
   ## return a series set containing four columns, the netto and gross
   ## cumulative summarization of input.  the 'integration.method'
@@ -114,7 +114,7 @@ cumulate.zoo <- function(input, gap=1, integration.method=3, units="secs", with.
     
     ## '<<-' modifies surrounding environment
     result[keys[start], type] <<- sum(partials, na.rm=TRUE)
-    result[keys[start], paste(type, 'duration', sep=".")] <<- as.double(end.ts - start.ts, units='secs')
+    result[keys[start], paste(type, 'duration', sep=".")] <<- as.double(end.ts - start.ts, units=units)
     if(with.partials)
       result[keys[start:end], 'partials'] <<- partials
     return(invisible())

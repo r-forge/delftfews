@@ -24,8 +24,9 @@
 }
 \usage{
 
-cumulate(input, gap = 1, integration.method = 3, units = "secs",
-with.partials = FALSE, \dots)
+cumulate(input, gap = 1, integration.method = 3, with.partials = FALSE, \dots)
+cumulate.zoo(input, gap = 1, integration.method = 3, with.partials =
+FALSE, units="secs", \dots)
 
 }
 \arguments{
