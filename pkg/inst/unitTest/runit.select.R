@@ -118,6 +118,13 @@ test.timestamp.in.range.hour.b <- function() {
   checkEquals(expect, in.period)
 }
 
+test.reformat.date <- function() {
+  ## testing internal function .reformat.date
+  checkEquals("0101", delftfews:::.reformat.date("0101"))
+  checkEquals("0101", delftfews:::.reformat.date("01/01"))
+  checkEquals("0101", delftfews:::.reformat.date("01-01"))
+}
+
 test.timestamp.in.range.calendar.contiguous.1.a <- function() {
   pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=720*60, length.out=14)
   ## 0213 0214 0214 0215 0215 0216 0216 0217 0217 0218 0218 0219 0219 0220

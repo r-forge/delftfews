@@ -70,14 +70,26 @@ timestamp.in.range.hour <- function(data, from, to, tz="CET") {
   timestamp.in.range(data, from, to, 24, 'hours', 0, tz=tz)
 }
 
+.reformat.date <- function(datestring) {
+  ## transforms date with some separator to MMDD
+  ## not exported, needed by timestamp.in.range.calendar.
+
+  parts <- strsplit(datestring, '[/-]')[[1]]
+  if(length(parts) == 1) {
+    if(nchar(datestring) != 4)
+      stop("invalid date string")
+    return(datestring)
+  }
+  return(paste(sprintf("%02d", as.numeric(parts)), collapse=''))
+}
 
 timestamp.in.range.calendar <- function(data, from, to, tz="CET") {
   ## returns whether the timestamps of a timeseries are between start and end date
 
   dates <- format.Date(index(data), format="%m%d")
 
-  from <- reformat.date(from)
-  to <- reformat.date(to)
+  from <- .reformat.date(from)
+  to <- .reformat.date(to)
 
   if(from < to)
     result <- (dates >= from) & (dates < to)
