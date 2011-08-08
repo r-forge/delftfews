@@ -3,31 +3,32 @@
 \name{cumulate}
 \alias{cumulate}
 \alias{cumulate.zoo}
-\title{augments a time series set with net and gross sums of one data column}
+\title{augments a time series with net and gross sums of one data column}
 \description{
   
-  performs a discrete integration.  given the `input` timeseries set,
-  uses its `minutes` data and the indicated `column` data to compute the
-  integral value of the data.
+  given the univariate `input` timeseries, performs a discrete
+  integration of its non-zero stretches of data.
 
+}
+\details{
   stretches are integrated "net" and "gross", where the gaps between
   "gross" stretches are at most `gap` wide.
 
   numeric values thus computed can be seen as events and they are
-  located at the timestamp of the earliest number of the stretch.  all
-  other entries are `NA`.
+  located at the timestamp of the earliest non-zero entry of the
+  stretch.  all other entries are `NA`.
 
   it's best to specify `data.description$missVal = NULL` when passing
   the result of `cumulate.zoo to `write.PI`.  `NA` events (no
   event) will be omitted.
-  
 }
 \usage{
-cumulate(input, gap = 1,
-                    integration.method = 3, units = "secs", \dots)
+
+cumulate(input, gap = 1, integration.method = 3, units = "secs", \dots)
+
 }
 \arguments{
-  \item{input}{zoo; a single column zoo object.}
+  \item{input}{zoo; an univariate zoo series, indexed on POSIXct timestamps.}
   \item{gap}{numeric; the size of the minimal gap that interrupts gross stretches.}
   \item{integration.method}{numeric; refers to the overview presented
     in http://portal.acm.org/citation.cfm?id=578374, figure 7.2.  1:
@@ -40,6 +41,10 @@ cumulate(input, gap = 1,
 }
 \examples{
 input <- c(0, 0, 0, 5, 6, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0)
-result <- timeseries(20580000, by=5, length.out=length(input), input=input)
-cumulate(result, gap=3)
+
+inputAsDelftfews <- timeseries(20580000, by=5, length.out=length(input), input=input)
+cumulate(inputAsDelftfews, gap=3)
+
+inputAsZoo <- zoo(input, order.by = structure(seq(20580000, 20580075, 5), class = c("POSIXct","POSIXt")))
+cumulate(inputAsZoo, gap=3)
 }

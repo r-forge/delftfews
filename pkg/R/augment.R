@@ -69,28 +69,30 @@ timeseries <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, order.by=NU
 cumulate <- function(input, gap=1, integration.method=3, units="secs", ...)
   UseMethod('cumulate')
 
+cumulate.default <- function(input, gap=1, integration.method=3, units="secs", ...) NULL
+
 cumulate.zoo <- function(input, gap=1, integration.method=3, units="secs", ...) {
-  ## given a single timeseries column, return a timeseries set
-  ## containing four columns, the netto and gross cumulative
-  ## summarization of input.  the 'integration.method' refers to the
-  ## overview presented in
+  ## given an univariate series, indexed on POSIXct time stamps,
+  ## return a series set containing four columns, the netto and gross
+  ## cumulative summarization of input.  the 'integration.method'
+  ## refers to the overview presented in
   ## http://portal.acm.org/citation.cfm?id=578374, figure 7.2.  1:
   ## rectangular (top left), 2: rectangular (midpoint), 3: trapezoid,
   ## 4: simpson's.  the methods are implemented taking into account
   ## the two 0 measurements outside the stretch under examination.
 
-  result <- zoo(cbind(gross.partials=NA, gross.totals=NA, gross.duration=NA,
-                      net.partials=NA, net.totals=NA, net.duration=NA), order.by=index(input))
+  keys <- index(input)
+  result <- zoo(cbind(partials=NA, gross=NA, gross.duration=NA,
+                      net=NA, net.duration=NA), order.by=keys)
 
   augment <- function(start, end, type) {
-    start.ts <- index(input)[start]
-    if(end >= length(input)) {
-      end.ts <- index(input)[end] + (index(input)[end] - index(input)[end - 1])
-      timestamps <- index(input)[start:end]
-      timestamps <- c(timestamps, end.ts)
+    start.ts <- keys[start]
+    if(end == length(input)) {
+      end.ts <- keys[end] + (keys[end] - keys[end - 1])
+      timestamps <- c(keys[start:end], end.ts)
     } else {
-      end.ts <- index(input)[end+1]
-      timestamps <- index(input)[start:(end+1)]
+      end.ts <- keys[end+1]
+      timestamps <- keys[start:(end+1)]
     }
 
     ## prepare local data that is used more than once
@@ -109,9 +111,9 @@ cumulate.zoo <- function(input, gap=1, integration.method=3, units="secs", ...) 
     partials <- values * intervals
     
     ## '<<-' modifies surrounding environment
-    result[start:end, paste(type, 'partials', sep=".")] <<- partials
-    result[start, paste(type, 'totals', sep=".")] <<- sum(partials, na.rm=TRUE)
-    result[start, paste(type, 'duration', sep=".")] <<- as.double(end.ts - start.ts, units='secs')
+    result[keys[start:end], 'partials'] <<- partials
+    result[keys[start], type] <<- sum(partials, na.rm=TRUE)
+    result[keys[start], paste(type, 'duration', sep=".")] <<- as.double(end.ts - start.ts, units='secs')
   }
 
   mapply(augment,
