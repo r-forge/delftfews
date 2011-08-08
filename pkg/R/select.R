@@ -71,20 +71,6 @@ timestamp.in.range.hour <- function(data, from, to, tz="CET") {
 }
 
 
-reformat.date <- function(datestring) {
-  ## transforms date with some separator to MMDD
-  ##
-
-  parts <- strsplit(datestring, '[/-]')[[1]]
-  if(length(parts) == 1) {
-    if(nchar(datestring) != 4)
-      stop("invalid date string")
-    return(datestring)
-  }
-  return(paste(sprintf("%02d", as.numeric(parts)), collapse=''))
-}
-
-
 timestamp.in.range.calendar <- function(data, from, to, tz="CET") {
   ## returns whether the timestamps of a timeseries are between start and end date
 

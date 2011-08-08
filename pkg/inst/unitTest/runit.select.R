@@ -25,8 +25,22 @@ test.timestamp.in.range <- function() {
   DEACTIVATED("timestamp.in.range is not tested.")
 }
 
-test.timestamp.in.range.weekday <- function() {
-  DEACTIVATED("timestamp.in.range.weekday is not tested.")
+test.timestamp.in.range.weekday.workday <- function() {
+  pidata <- timeseries(as.POSIXct(1263553200, origin=EPOCH), by=15*60, length.out=289, H.gewogen=-1.5)
+
+  in.workweek <- timestamp.in.range.weekday(pidata, tz="UTC", from=1, to=6)
+  target <- rep(TRUE, 289)
+  target[53:244] <- FALSE
+  checkEquals(target, in.workweek)
+}
+
+test.timestamp.in.range.weekday.saturday <- function() {
+  pidata <- timeseries(as.POSIXct(1263553200, origin=EPOCH), by=15*60, length.out=289, H.gewogen=-1.5)
+
+  on.saturday <- timestamp.in.range.weekday(pidata, tz="UTC", from=6, to=7)
+  target <- rep(FALSE, 289)
+  target[53:148] <- TRUE
+  checkEquals(target, on.saturday)
 }
 
 test.timestamp.in.weekend <- function() {
@@ -102,10 +116,6 @@ test.timestamp.in.range.hour.b <- function() {
   in.period <- timestamp.in.range.hour(pidata, 17, 10, tz="UTC")
   expect <- c(T, T, T, F, F, T, T, T, T, T, F, F, T, T)
   checkEquals(expect, in.period)
-}
-
-test.reformat.date <- function() {
-  DEACTIVATED("reformat.date is not tested.")
 }
 
 test.timestamp.in.range.calendar.contiguous.1.a <- function() {
