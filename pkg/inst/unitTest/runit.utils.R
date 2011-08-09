@@ -192,7 +192,8 @@ test.rollingSum.delftfews <- function() {
   checkEquals(length(target.numeric), length(result))
   checkEqualsNumeric(target.numeric, result)
   target <- timeseries(from=0, by=720*60, length.out=20, b=target.numeric)
-  checkEquals(target, result)
+  checkEqualsNumeric(target, result)
+  checkEqualsNumeric(index(target), index(result))
 }
 
 test.shift.vector <- function() {

@@ -208,7 +208,7 @@ test.read.PI.skip.short.lived.60 <- function() {
   ## third timestamp gets removed
   checkEquals(c(TRUE, TRUE, FALSE), (index(uncorrected.peilschaal) %in% index(corrected.peilschaal))[1:3])
   ## only one timestamp is removed
-  checkEquals(1, nrow(uncorrected.peilschaal) - nrow(corrected.peilschaal))
+  checkEquals(1, length(index(uncorrected.peilschaal)) - length(index(corrected.peilschaal)))
 }
 
 test.read.PI.filter.timestamp.small <- function() {
