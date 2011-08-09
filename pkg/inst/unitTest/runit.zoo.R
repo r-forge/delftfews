@@ -126,3 +126,16 @@ test.rollapply <- function() {
   checkEquals(expect, result)
   
 }
+
+test.rollapply.keeps.tzone.unidimensional <- function() {
+  input <- zoo(1:9, order.by=structure(seq(0, by=60, length=9), class = c("POSIXct", "POSIXt"), tzone="UTC"))
+  result <- rollapply(input, 5, sum)
+  checkEquals("UTC", attr(index(result), 'tzone'))
+}
+
+test.rollapply.keeps.tzone.bidimensional <- function() {
+  DEACTIVATED("waiting for the zoo group to fix a bug in rollapply")
+  input <- zoo(cbind(a=1:9), order.by=structure(seq(0, by=60, length=9), class = c("POSIXct", "POSIXt"), tzone="UTC"))
+  result <- rollapply(input, 5, sum)
+  checkEquals("UTC", attr(index(result), 'tzone'))
+}
