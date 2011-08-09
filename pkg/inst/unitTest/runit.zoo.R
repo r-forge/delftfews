@@ -23,15 +23,15 @@ EPOCH <- delftfews:::EPOCH
 
 `test.$<-.zoo.respects.derived.classes` <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  checkTrue("delftfews" %in% class(FWS))
+  orig.class <- class(FWS) <- c('some.other.class', class(FWS))
   FWS$a <- 4:7
-  checkTrue("delftfews" %in% class(FWS))
+  checkEquals(orig.class, class(FWS))
 }
 
 `test.$.zoo.respects.derived.classes` <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  checkTrue("delftfews" %in% class(FWS))
-  checkTrue("delftfews" %in% class(FWS$a))
+  orig.class <- class(FWS) <- c('some.other.class', class(FWS))
+  checkEquals(class(FWS), class(FWS$a))
 }
 
 `test.$.zoo.does.not.drop.dimensions` <- function() {
@@ -43,33 +43,48 @@ EPOCH <- delftfews:::EPOCH
 }
 
 `test.[.zoo.does.not.drop.dimensions` <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  target.a <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, a=1)
-  target.b <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, b=3)
-  checkEquals(target.a, FWS['a'])
-  checkEquals(target.b, FWS['b'])
+  FWS <- zoo(cbind(a=1, b=3), order.by=1:4)
+  target.a <- zoo(cbind(a=1), order.by=1:4)
+  target.b <- zoo(cbind(b=3), order.by=1:4)
+  checkEquals(target.a, FWS[, 'a'])
+  checkEquals(target.b, FWS[, 'b'])
 }
 
 `test.[.zoo.respects.derived.classes` <- function() {
   FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  checkTrue("delftfews" %in% class(FWS))
-  checkTrue("delftfews" %in% class(FWS['a']))
+  class(FWS) <- c('some.other.class', class(FWS))
+  checkEquals(class(FWS), class(FWS[, 'a']))
 }
 
-test.Ops.delftfews.keeps.class <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+test.Ops.zoo.keeps.class.numeric <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=4:7)
+  class(FWS) <- c('some.other.class', class(FWS))
   FWSa <- FWS$a
-  class(FWSa) <- class(FWS)
-  checkTrue("delftfews" %in% class(FWSa > 0))
-  checkTrue("delftfews" %in% class(FWSa - 0))
-  checkTrue("delftfews" %in% class(FWSa + 0))
-  checkTrue("delftfews" %in% class(FWSa * 1))
-  checkTrue("delftfews" %in% class(FWSa / 1))
+  checkEquals(class(FWS), class(FWSa - 0))
+  checkEquals(class(FWS), class(FWSa + 0))
+  checkEquals(class(FWS), class(FWSa * 1))
+  checkEquals(class(FWS), class(FWSa / 1))
 }
 
-`test.[.zoo.first.parameter.bidimensional` <- function() {
-  FWS <- timeseries(from=1234567800, by=3600, length.out=4, a=1, b=1:4)
-  target <- `[`(FWS, `[`(FWS, , 'b', drop=TRUE) < 3, )
-  current <- `[`(FWS, `[`(FWS, , 'b', drop=FALSE) < 3, )
+test.Ops.zoo.keeps.class.logic <- function() {
+  DEACTIVATED("waiting for the zoo group to fix a bug in Ops.zoo")
+  FWS <- zoo(cbind(a=1, b=3), order.by=1:4)
+  class(FWS) <- c('some.other.class', class(FWS))
+  FWSa <- FWS$a
+  checkEquals(class(FWS), class(FWSa > 0))
+}
+
+`test.[.zoo.first.parameter.univariate.logic` <- function() {
+  FWS <- zoo(cbind(a=1, b=1:4), order.by=1:4)
+  target <- FWS[as.vector(FWS[, 'b', drop=TRUE] < 3)]
+  current <- FWS[FWS[, 'b', drop=TRUE] < 3]
+  checkEquals(target, current)
+}
+
+`test.[.zoo.first.parameter.multivariate.logic.one.column` <- function() {
+  DEACTIVATED("waiting for the zoo group to define what is the correct behaviour")
+  FWS <- zoo(cbind(a=1, b=1:4), order.by=1:4)
+  target <- FWS[as.vector(FWS[, 'b', drop=FALSE] < 3)]
+  current <- FWS[FWS[, 'b', drop=FALSE] < 3]
   checkEquals(target, current)
 }

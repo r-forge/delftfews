@@ -3,19 +3,15 @@
 
 \name{rollingSum}
 \alias{rollingSum}
-\alias{rollapply.default}
-\alias{rollapply.delftfews}
 \title{apply aggregating functions to contiguous stretches of data}
 \description{  
 
   `rollingSum` is a commodity function invoking `zoo::rollapply` with
   `FUN=sum`.
 
-  `zoo::rollapply` does not define a default method.  we do so in the
-  package delftfews.
-
   `rollapply.delftfews` overrides `rollapply.zoo` defaults for `na.pad`
-  (set to TRUE) and `align` (set to 'right').
+  (set to TRUE) and `align` (set to 'right').  this can also be done by
+  changing global settings at the moment you load the library.
 
 }
 \usage{

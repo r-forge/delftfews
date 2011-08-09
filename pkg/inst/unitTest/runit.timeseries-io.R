@@ -27,7 +27,7 @@ EPOCH <- delftfews:::EPOCH
 
 test.read.PI.just.reading <- function() {
   pidata <- read.PI('data/decumulative.input.xml')
-  checkEquals("delftfews", class(pidata)[1])
+  checkTrue(is.zoo(pidata))
 }
 
 test.read.PI.na.pass.base <- function() {

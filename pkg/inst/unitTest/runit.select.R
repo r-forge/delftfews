@@ -212,7 +212,7 @@ test.select.percentiles.timeseries.30.80.10 <- function() {
   colnames(l) <- rep('a', 10)
   pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
   current <- select.percentiles(pidata, c(30, 80))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=3, a.80=8)
+  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=3L, a.80=8L)
   checkEquals(target, current)
 }
 
@@ -223,7 +223,7 @@ test.select.percentiles.timeseries.10.20.90.100.10 <- function() {
   colnames(l) <- rep('a', 10)
   pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
   current <- select.percentiles(pidata, c(10, 20, 90, 100))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.10=1, a.20=2, a.90=9, a.100=10)
+  target <- timeseries(21000000*60, by=5*60, length.out=22, a.10=1L, a.20=2L, a.90=9L, a.100=10L)
   checkEquals(target, current)
 }
 
@@ -234,7 +234,7 @@ test.select.percentiles.timeseries.30.80.100 <- function() {
   colnames(l) <- rep('a', 100)
   pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
   current <- select.percentiles(pidata, c(30, 80))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=30, a.80=80)
+  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=30L, a.80=80L)
   checkEquals(target, current)
 }
 
@@ -250,7 +250,7 @@ test.select.percentiles.timeseries.with.four.NA.columns <- function() {
   colnames(l) <- rep('a', 104)
   pidata <- timeseries(21000000*60, by=5*60, length.out=22, data=l)
   current <- select.percentiles(pidata, c(30, 80))
-  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=30, a.80=80)
+  target <- timeseries(21000000*60, by=5*60, length.out=22, a.30=30L, a.80=80L)
   checkEquals(target, current)
 }
 
@@ -266,92 +266,104 @@ test.select.percentiles.timeseries.with.only.NA.columns <- function() {
   checkEquals(target, current)
 }
 
-## selecting complete rows and columns.
-
-test.getitem.delftfews.character <- function() {
-  ## overridden: selects by COLUMN
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  checkEquals(FWS[,'a', drop=FALSE], FWS['a'])
-  checkEquals(FWS[,'b', drop=FALSE], FWS['b'])
-  checkEquals(FWS[,c('a', 'b'), drop=FALSE], FWS[c('a', 'b')])
+test.timeseries.zoo.equivalent <- function() {
+  FWS1 <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+  FWS2 <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
+  checkEquals(FWS1, FWS2)
 }
 
-'test.[.delftfews.numeric' <- function() {
-  ## must decide what to do here.  as of now, selects by ROW!
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+## selecting complete rows and columns.
+
+`test.[.zoo.by.column` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
+  checkEquals(FWS[,'a', drop=FALSE], FWS[, 'a'])
+  checkEquals(FWS[,'b', drop=FALSE], FWS[, 'b'])
+  checkEquals(FWS[,c('a', 'b'), drop=FALSE], FWS[, c('a', 'b')])
+}
+
+`test.[.zoo.by.row.numeric` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   checkEquals(FWS[2], FWS[2.0])
   checkEquals(FWS[2], FWS[2L])
 }
 
-'test.[.delftfews.timestamp' <- function() {
-  ## choosing by timestamp selects by ROW!
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+`test.[.zoo.by.row.timestamp` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   checkEquals(FWS[1, 1:2], FWS[as.POSIXct(1234567800, origin=EPOCH)])
   checkEquals(FWS[2, 1:2], FWS[as.POSIXct(1234567800 + 57600*60, origin=EPOCH)])
 }
 
-'test.[<-.delftfews.character' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  FWS['a'] <- 5:8
-  checkEqualsNumeric(5:8, FWS['a'])
+`test.$.zoo.non.existing` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
+  checkTrue(is.null(FWS$c))
 }
 
-'test.[<-.delftfews.character.new.column' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  FWS['d'] <- 5:8
+`test.[.zoo.non.existing` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
+  checkTrue(is.null(FWS[, 'c']))
+}
+
+`test.[<-.zoo.by.column.redefine` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
+  FWS[, 'a'] <- 5:8
+  checkEqualsNumeric(5:8, FWS[, 'a'])
+}
+
+`test.[<-.zoo.by.column.new` <- function() {
+  DEACTIVATED("waiting for the zoo group to fix a bug in [<-.zoo")
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
+  FWS[, 'd'] <- 5:8
   checkEqualsNumeric(5:8, FWS[, 'd'])
 }
 
-'test.[<-.delftfews.character.adding.named.column' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  FWS['d'] <- FWS$a
+`test.[<-.zoo.character.adding.named.column` <- function() {
+  DEACTIVATED("waiting for the zoo group to correct a bug in [<-.zoo")
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
+  FWS[, 'd'] <- FWS$a
   checkEqualsNumeric(rep(1, 4), FWS[, 'd'])
 }
 
-'test.$<-.delftfews.redefining' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+`test.$<-.zoo.redefining` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   FWS$a <- 4:7
   checkEqualsNumeric(4:7, FWS[, 'a'])
 }
 
-'test.$.delftfews.non.existing' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  checkTrue(is.null(FWS$c))
-}
-
-'test.$<-.delftfews.keeps.other.names' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+`test.$<-.zoo.keeps.other.names` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   colnames(FWS) <- c('ab-c','d,e,f')
   FWS$a <- 4:7
   checkEquals(c('ab-c','d,e,f', 'a'), colnames(FWS))
 }
 
-'test.[.delftfews.non.existing' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  checkTrue(is.null(FWS['c']))
-}
-
-'test.[<-.delftfews.keeps.other.names' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+`test.[<-.zoo.keeps.other.names` <- function() {
+  DEACTIVATED("waiting for the zoo group to correct a bug in [<-.zoo")
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   colnames(FWS) <- c('ab-c','d,e,f')
-  FWS['a'] <- 4:7
+  FWS[, 'a'] <- 4:7
   checkEquals(c('ab-c','d,e,f', 'a'), colnames(FWS))
 }
 
-'test.$<-.delftfews.adding.to.existing' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+`test.$<-.zoo.adding.to.existing` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   FWS$d <- 4:7
   checkEqualsNumeric(4:7, FWS[, 'd'])
 }
 
-'test.$<-.delftfews.adding.to.empty' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4)
+`test.$<-.zoo.adding.to.empty` <- function() {
+  FWS <- zoo(order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   FWS$d <- 4:7
   checkEqualsNumeric(4:7, FWS[, 'd'])
 }
 
-'test.$<-.delftfews.character.adding.named.column' <- function() {
-  FWS <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
+`test.$<-.zoo.adding.to.single.column` <- function() {
+  FWS <- zoo(cbind(a=1), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
+  FWS$d <- 4:7
+  checkEqualsNumeric(4:7, FWS[, 'd'])
+}
+
+`test.$<-.zoo.character.adding.named.column` <- function() {
+  FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   FWS$d <- FWS$a
   checkEqualsNumeric(rep(1, 4), FWS[, 'd'])
 }

@@ -187,7 +187,6 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
     result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index, frequency=1.0/step.seconds)
   }
   
-  class(result) <- c("delftfews", class(result))
   return(result)
 }
 
@@ -197,7 +196,6 @@ write.PI <- function(data, data.description, filename, global.data)
 
 write.PI.data.frame <- function(data, data.description, filename, global.data=NA) {
   data <- zoo(data[-1], order.by=data$timestamps)
-  class(data) <- c('delftfews', class(data))
   return(write.PI.zoo(data, data.description, filename, global.data=global.data))
 }
 

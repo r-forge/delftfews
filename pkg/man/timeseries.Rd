@@ -2,11 +2,7 @@
 
 \name{timeseries}
 \alias{timeseries}
-\alias{$.delftfews}
-\alias{$<-.delftfews}
-\alias{[.delftfews}
-\alias{[<-.delftfews}
-\title{overriding zoo creator and accessors}
+\title{extra zoo creator}
 \description{
   
   using three of the four \code{from}, \code{to}, \code{by},

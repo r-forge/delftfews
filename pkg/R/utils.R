@@ -101,15 +101,6 @@ stretches <- function(input, gap=1, what="start", zero.surrounded=FALSE) {
   return(result)
 }
 
-rollapply.delftfews <- function(data, ..., na.pad=TRUE, align='right') {
-  class.data <- class(data)
-  index.data <- index(data)
-  result <- NextMethod(na.pad=na.pad, align=align)
-  class(result) <- class.data
-  index(result) <- index.data
-  return(result)
-}
-
 rollingSum <- function(data, width, na.action=na.zero) {
   ## commodity function
   ## na.zero specifies that NA will be summed as zero.
@@ -178,29 +169,6 @@ sum.first <- function(input, count=12) {
   ## accepts a data.frame and returns the vector of the sum of the
   ## first 12 rows of each column
   colSums(input[1:count,])
-}
-
-rollapply.default <- function(data, width, FUN, ...) {
-  ## returns the rolling application of `FUN` to data (nth element in
-  ## returned vector is `FUN` of width elements in data from n-width
-  ## to n.)
-
-  apply.na.action <- function(data, na.action=na.pass, ...) na.action(data)
-  data <- apply.na.action(data, ...)
-
-  ## width must be positive.
-  ## result is same length as data (starts with `width-1` NA).
-
-  len <- length(data)
-  if(width < 1) {
-    ## Only positive width allowed
-    return(rep(NA, len))
-  }
-  if(width > len) {
-    rep(NA, len)
-  } else {
-    c( rep(NA, width - 1) , apply(embed(data, width), 1, FUN) )
-  }
 }
 
 double.threshold <- function(data, threshold.false, threshold.true, initial.status=FALSE, on.equality=FALSE)
@@ -333,6 +301,6 @@ read.sheet <- function(file, sheet=NULL, header=TRUE, sep="\t",
              strip.white=strip.white, stringsAsFactors=stringsAsFactors, ...)
 }
 
-diff.delftfews <- function(x, ...) {
+diff.zoo <- function(x, ...) {
   diff(coredata(x))
 }

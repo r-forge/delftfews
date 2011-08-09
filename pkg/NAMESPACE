@@ -13,8 +13,6 @@ export(as.seconds,
        read.PI,
        read.dcf.parsed,
        read.sheet,
-       rollapply.delftfews,
-       rollapply.default,
        rollingSum,
        select.percentiles,
        setup.fewsdiagnostics,
@@ -28,16 +26,10 @@ export(as.seconds,
        timestamp.in.range.weekday,
        timestamp.in.weekend,
        write.PI,
-       XmlDoc,
-       Ops.zoo, # modified from new version
-       "$.zoo", # UNmodified from new version
-       "$<-.zoo", # modified from new version
-       "[<-.zoo", # modified from new version
-       "[.zoo", # modified from new version
-       "[<-.delftfews",
-       "[.delftfews",
-       "$<-.delftfews",
-       "$.delftfews")
+       "[.zoo",
+       "$.zoo",
+       "$<-.zoo",
+       XmlDoc)
 
 S3method(cumulate, zoo)
 

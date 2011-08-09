@@ -25,7 +25,7 @@
 \usage{
 
 cumulate(input, gap = 1, integration.method = 3, with.partials = FALSE, \dots)
-cumulate.zoo(input, gap = 1, integration.method = 3, with.partials =
+\method{cumulate}{zoo}(input, gap = 1, integration.method = 3, with.partials =
 FALSE, units="secs", \dots)
 
 }

@@ -4,7 +4,6 @@
 \alias{get.step}
 \alias{get.step.default}
 \alias{get.step.zoo}
-\alias{get.step.delftfews}
 \title{returns the timestep in the object}
 \description{
   the \code{get.step} functions take an object and depending on its

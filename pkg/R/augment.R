@@ -49,8 +49,6 @@ timeseries <- function(from=NULL, to=NULL, by=NULL, length.out=NULL, order.by=NU
   result <- zoo(data.frame(...), order.by=timestamps, frequency=1.0/by)
   ## we make no use of rowname information, they only confuse our tests.
   rownames(result) <- NULL
-  ## following trick allows us override specific methods
-  class(result) <- c("delftfews", class(result))
 
   params <- list(...)
   if(length(params) == 1) {
