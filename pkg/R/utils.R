@@ -104,7 +104,7 @@ stretches <- function(input, gap=1, what="start", zero.surrounded=FALSE) {
 rollingSum <- function(data, width, na.action=na.zero) {
   ## commodity function
   ## na.zero specifies that NA will be summed as zero.
-  rollapply(na.action(data), width, FUN=sum)
+  rollapply(na.action(data), width, FUN=sum, fill=NA, align='right')
 }
 
 shift.vector <- function(v, by) {

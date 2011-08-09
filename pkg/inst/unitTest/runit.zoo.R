@@ -88,3 +88,41 @@ test.Ops.zoo.keeps.class.logic <- function() {
   current <- FWS[FWS[, 'b', drop=FALSE] < 3]
   checkEquals(target, current)
 }
+
+test.rollapply <- function() {
+  input <- c(rep(1:3, 2), NA, 4, 4, 4)
+  ##  [1]  1  2  3  1  2  3 NA  4  4  4
+
+  result <- rollapply(input, 2, sum)
+  expect <- c(3, 5, 4, 3, 5, NA, NA, 8, 8)
+  checkEquals(expect, result)
+
+  result <- rollapply(input, 2, sum, fill=NA)
+  expect <- c(3, 5, 4, 3, 5, NA, NA, 8, 8, NA)
+  checkEquals(expect, result)
+
+  result <- rollapply(input, 2, sum, fill=NA, align='right')
+  expect <- c(NA, 3, 5, 4, 3, 5, NA, NA, 8, 8)
+  checkEquals(expect, result)
+
+  result <- rollapply(na.zero(input), 2, sum, fill=NA, align='right')
+  expect <- c(NA, 3, 5, 4, 3, 5, 3, 4, 8, 8)
+  checkEquals(expect, result)
+
+  result <- rollapply(na.zero(input), 4, sum, fill=NA, align='right')
+  expect <- c(NA, NA, NA, 7, 8, 9, 6, 9, 11, 12)
+  checkEquals(expect, result)
+  
+  result <- rollapply(na.zero(input), 4, max, fill=NA, align='right')
+  expect <- c(NA, NA, NA, 3, 3, 3, 3, 4, 4, 4)
+  checkEquals(expect, result)
+  
+  result <- rollapply(na.zero(input), 4, mean, fill=NA, align='right')
+  expect <- c(NA, NA, NA, 1.75, 2.00, 2.25, 1.50, 2.25, 2.75, 3.00)
+  checkEquals(expect, result)
+  
+  result <- rollapply(na.zero(input), 2, min, fill=NA, align='right')
+  expect <- c(NA, 1, 2, 1, 1, 2, 0, 0, 4, 4)
+  checkEquals(expect, result)
+  
+}

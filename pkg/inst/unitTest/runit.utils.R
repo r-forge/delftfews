@@ -195,36 +195,6 @@ test.rollingSum.delftfews <- function() {
   checkEquals(target, result)
 }
 
-test.rollapply <- function() {
-  input <- c(rep(1:3, 2), NA, 4, 4, 4)
-  ##  [1]  1  2  3  1  2  3 NA  4  4  4
-
-  result <- rollapply(input, 2, sum)
-  expect <- c(NA, 3, 5, 4, 3, 5, NA, NA, 8, 8)
-  checkEquals(expect, result)
-
-  result <- rollapply(input, 2, sum, na.action=na.zero)
-  expect <- c(NA, 3, 5, 4, 3, 5, 3, 4, 8, 8)
-  checkEquals(expect, result)
-
-  result <- rollapply(input, 4, sum, na.action=na.zero)
-  expect <- c(NA, NA, NA, 7, 8, 9, 6, 9, 11, 12)
-  checkEquals(expect, result)
-  
-  result <- rollapply(input, 4, max, na.action=na.zero)
-  expect <- c(NA, NA, NA, 3, 3, 3, 3, 4, 4, 4)
-  checkEquals(expect, result)
-  
-  result <- rollapply(input, 4, mean, na.action=na.zero)
-  expect <- c(NA, NA, NA, 1.75, 2.00, 2.25, 1.50, 2.25, 2.75, 3.00)
-  checkEquals(expect, result)
-  
-  result <- rollapply(input, 2, min, na.action=na.zero)
-  expect <- c(NA, 1, 2, 1, 1, 2, 0, 0, 4, 4)
-  checkEquals(expect, result)
-  
-}
-
 test.shift.vector <- function() {
   checkEquals(c(NA, NA, 1), shift.vector(c(1, 2, 3), 2))
   checkEquals(c(2, 3, NA), shift.vector(c(1, 2, 3), -1))

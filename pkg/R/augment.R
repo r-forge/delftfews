@@ -102,7 +102,7 @@ cumulate.zoo <- function(input, gap=1, integration.method=3, with.partials=FALSE
       values <- input[start:end]
     } else if (integration.method == 3) {
       ## trapezoid
-      values <- rollapply(c(0, input[start:end], 0), 2, mean, na.action=na.zero)[-1]
+      values <- rollapply(c(0, na.zero(input[start:end]), 0), 2, mean)
       intervals[length(intervals) + 1] <- intervals[length(intervals)]
       end <- end + 1
     } else {

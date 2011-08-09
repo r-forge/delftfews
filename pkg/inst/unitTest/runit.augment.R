@@ -89,17 +89,17 @@ test.cumulate.zoo.one.net.stretch <- function() {
 
   target <- rep(NA, 10)
   target[4:6] <- 25*60
-  checkEquals(target, coredata(result$partials))
+  checkEquals(target, as.vector(result$partials))
 
   target <- rep(NA, 10)
   target[4] <- 75*60
-  checkEquals(target, coredata(result$gross))
-  checkEquals(target, coredata(result$net))
+  checkEquals(target, as.vector(result$gross))
+  checkEquals(target, as.vector(result$net))
 
   target <- rep(NA, 10)
   target[4] <- 15 * 60
-  checkEquals(target, coredata(result$gross.duration))
-  checkEquals(target, coredata(result$net.duration))
+  checkEquals(target, as.vector(result$gross.duration))
+  checkEquals(target, as.vector(result$net.duration))
 }
 
 test.cumulate.zoo.one.net.stretch.no.partials <- function() {
@@ -114,13 +114,13 @@ test.cumulate.zoo.one.net.stretch.no.partials <- function() {
 
   target <- rep(NA, 10)
   target[4] <- 75*60
-  checkEquals(target, coredata(result$gross))
-  checkEquals(target, coredata(result$net))
+  checkEquals(target, as.vector(result$gross))
+  checkEquals(target, as.vector(result$net))
 
   target <- rep(NA, 10)
   target[4] <- 15 * 60
-  checkEquals(target, coredata(result$gross.duration))
-  checkEquals(target, coredata(result$net.duration))
+  checkEquals(target, as.vector(result$gross.duration))
+  checkEquals(target, as.vector(result$net.duration))
 }
 
 test.cumulate.zoo.one.net.stretch.trapezoid <- function() {
@@ -128,7 +128,7 @@ test.cumulate.zoo.one.net.stretch.trapezoid <- function() {
   data[4:6] <- 2
   data[5] <- 4
   ## 0 0 0 2 4 2 0 0 0 0
-  pidata <- timeseries(1234567800, by=5*60, length.out=10, input=data)
+  pidata <- zoo(cbind(input=data), order.by=EPOCH + seq(1234567800, by=5*60, length.out=10))
 
   result <- cumulate(pidata[, 1], integration.method=3, with.partials=TRUE)
   ## input duration partials totals
@@ -146,18 +146,18 @@ test.cumulate.zoo.one.net.stretch.trapezoid <- function() {
   target <- rep(NA, 10)
   target[c(4,7)] <- 5 * 60
   target[c(5,6)] <- 15 * 60
-  checkEquals(target, coredata(result$partials))
+  checkEquals(target, as.vector(result$partials))
 
   target <- rep(NA, 10)
   target[4] <- 40 * 60
-  checkEquals(target, coredata(result$gross))
-  checkEquals(target, coredata(result$net))
+  checkEquals(target, as.vector(result$gross))
+  checkEquals(target, as.vector(result$net))
 
   ## TODO - now same duration as integration.method 1
   target <- rep(NA, 10)
   target[4] <- 15 * 60
-  checkEquals(target, coredata(result$gross.duration))
-  checkEquals(target, coredata(result$net.duration))
+  checkEquals(target, as.vector(result$gross.duration))
+  checkEquals(target, as.vector(result$net.duration))
 }
 
 test.cumulate.zoo.two.net.stretches <- function() {
@@ -202,10 +202,10 @@ test.cumulate.zoo.two.net.stretches <- function() {
   ## 15     0                  0                0
   target <- rep(NA, 15)
   target[4] <- 100 * 60
-  checkEquals(target, coredata(result$gross))
+  checkEquals(target, as.vector(result$gross))
   target[4] <- 75 * 60
   target[9] <- 25 * 60
-  checkEquals(target, coredata(result$net))
+  checkEquals(target, as.vector(result$net))
 
   ##    input gross.duration net.duration 
   ## 1      0                    0                  0 
@@ -225,10 +225,10 @@ test.cumulate.zoo.two.net.stretches <- function() {
   ## 15     0                    0                  0 
   target <- rep(NA, 15)
   target[4] <- 30 * 60
-  checkEquals(target, coredata(result$gross.duration))
+  checkEquals(target, as.vector(result$gross.duration))
   target[4] <- 15 * 60
   target[9] <- 5 * 60
-  checkEquals(target, coredata(result$net.duration))
+  checkEquals(target, as.vector(result$net.duration))
 }
 
 test.cumulate.zoo.two.net.stretches.trapezoid <- function() {
@@ -275,7 +275,7 @@ test.cumulate.zoo.two.net.stretches.trapezoid <- function() {
   target[4:10] <- 12.5 * 60
   target[5:6] <- 25 * 60
   target[8] <- 0
-  checkEquals(target, coredata(result$partials))
+  checkEquals(target, as.vector(result$partials))
 }
 
 test.cumulate.zoo.two.net.stretches.near.borders <- function() {
@@ -310,10 +310,10 @@ test.cumulate.zoo.two.net.stretches.near.borders <- function() {
   ## 10     5                  0|               0|
   target <- rep(NA, 10)
   target[2] <- 175 * 60
-  checkEquals(target, coredata(result$gross))
+  checkEquals(target, as.vector(result$gross))
   target[2] <- 125 * 60
   target[9] <- 50 * 60
-  checkEquals(target, coredata(result$net))
+  checkEquals(target, as.vector(result$net))
 
   ##    input gross.duration net.duration 
   ## 1      0                    0                  0 
@@ -328,10 +328,10 @@ test.cumulate.zoo.two.net.stretches.near.borders <- function() {
   ## 10     5                    0|                 0|
   target <- rep(NA, 10)
   target[2] <- 45 * 60
-  checkEquals(target, coredata(result$gross.duration))
+  checkEquals(target, as.vector(result$gross.duration))
   target[2] <- 25 * 60
   target[9] <- 10 * 60
-  checkEquals(target, coredata(result$net.duration))
+  checkEquals(target, as.vector(result$net.duration))
 }
 
 test.cumulate.zoo.all.NA <- function() {
@@ -341,10 +341,10 @@ test.cumulate.zoo.all.NA <- function() {
   result <- cumulate(pidata[, 1], integration.method=1)
 
   target <- rep(NA, 10)
-  checkEquals(target, coredata(result$gross))
-  checkEquals(target, coredata(result$net))
-  checkEquals(target, coredata(result$gross.duration))
-  checkEquals(target, coredata(result$net.duration))
+  checkEquals(target, as.vector(result$gross))
+  checkEquals(target, as.vector(result$net))
+  checkEquals(target, as.vector(result$gross.duration))
+  checkEquals(target, as.vector(result$net.duration))
 }
 
 test.add.column.to.empty.shortcut <- function() {
