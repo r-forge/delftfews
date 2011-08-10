@@ -25,7 +25,6 @@ test.timeseries.base <- function() {
   ## test equality except dimnames
   minutes <- (0:5) * 720
   target <- zoo(data.frame(), as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
-  class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6)
   checkEqualsNumeric(target, current)
 }
@@ -42,7 +41,6 @@ test.timeseries.with.one.column <- function() {
   minutes <- (0:5) * 720
   target <- zoo(data.frame(a=1), as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
-  class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6, a=1)
   checkEquals(target, current)
 }
@@ -51,7 +49,6 @@ test.timeseries.with.more.columns <- function() {
   minutes <- (0:5) * 720
   target <- zoo(data.frame(a=1, b=1:6), as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
-  class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6, a=1, b=1:6)
   checkEquals(target, current)
 }
@@ -61,7 +58,6 @@ test.timeseries.with.data.frame <- function() {
   minutes <- (0:5) * 720
   target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
-  class(target) <- c("delftfews", class(target))
   current <- timeseries(from=0, by=720*60, length.out=6, data=full)
   checkEquals(target, current)
 }
@@ -72,7 +68,6 @@ test.timeseries.with.order.by <- function() {
   template <- timeseries(from=0, by=720*60, length.out=6)
   target <- zoo(full, as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
   dimnames(target) <- list(NULL, dimnames(target)[[2]])
-  class(target) <- c("delftfews", class(target))
 
   current <- timeseries(order.by=index(template), data=full)
   checkEquals(target, current)
