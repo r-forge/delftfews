@@ -208,6 +208,17 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
   ##1 instantaneous 155 Ai2 -999.0 m^3/min result
   ##2 instantaneous 156 Ai3 -999.0 mmHg check
 
+  if(missing(data.description)) {
+    data.description <- data.frame(column=colnames(data),
+                                   type='instantaneous',
+                                   locationId=sapply(strsplit(colnames(data), '.', fixed=TRUE), function(x) x[2]),
+                                   parameterId=sapply(strsplit(colnames(data), '.', fixed=TRUE), function(x) paste(x[-(1:2)], collapse='.')),
+                                   units='-',
+                                   InfVal=-999,
+                                   stationName='-',
+                                   longName='-')
+  }
+
   timeStep <- get.step(data)
 
   looksLikeNULL <- function(object, name) {

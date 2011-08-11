@@ -446,6 +446,18 @@ test.write.PI.missVal.NA.InfVal.999.content.one.Inf.further.empty.no.time.indica
   checkEquals(current, expect)
 }
 
+test.write.PI.no.data.description <- function() {
+  ## the data contains in this case, you want only one event
+  pidata <- zoo(cbind(lp.locA.par1=1:2, lp.locB.par2=101:102),
+                order.by=structure(seq(0,21600,21600), class = c("POSIXct","POSIXt")))
+  ts <- index(pidata)
+
+  write.PI(pidata, filename='data/write.PI.no.data.description.current')
+  expect <- readLines('data/write.PI.no.data.description.target')
+  current <- readLines('data/write.PI.no.data.description.current')
+  checkEquals(current, expect)
+}
+
 test.splitToNumeric <- function() {
   input.m <- matrix(c("nat", "-0.38", "-0.40", "300.0",
                       "droog", "-0.42", "-0.44", "300.0"),
