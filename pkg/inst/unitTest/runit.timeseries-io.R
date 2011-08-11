@@ -253,9 +253,9 @@ test.write.PI.na.NULL.elements <- function() {
                      locationId='600-P1201', parameterId='WNS954-differences',
                      timeStep=1440, startDate=20910240, endDate=20931840)
 
-  result <- timeseries(P1201=diff(pidata['lp.600-P1201.WNS954']), order.by=index(pidata)[-1])
+  result <- timeseries(P1201=diff(pidata[, 'lp.600-P1201.WNS954']), order.by=index(pidata)[-1])
 
-  conf$missVal <- "NULL"
+  conf$missVal <- NULL
   write.PI(result, conf, 'data/test.write.PI.na.1.xml.current')
   expect <- readLines('data/test.write.PI.na.1.xml.target')
   current <- readLines('data/test.write.PI.na.1.xml.current')
@@ -372,7 +372,7 @@ test.write.PI.no.events <- function() {
 
   conf <- data.frame(column=c('column1', 'column2'), type='instantaneous',
                      locationId=c('P1201', 'P1202'), parameterId='WNS954',
-                     timeStep=5*60, startDate=20576130*60, endDate=20576175*60)
+                     timeStep=5*60)
 
   conf$missVal <- NULL # causes empty line
 
@@ -395,6 +395,44 @@ test.write.PI.one.event <- function() {
   write.PI(pidata, conf, 'data/test.write.PI.one.event.current')
   expect <- readLines('data/test.write.PI.one.event.target')
   current <- readLines('data/test.write.PI.one.event.current')
+  checkEquals(current, expect)
+}
+
+test.write.PI.missVal.NA.InfVal.999.content.one.Inf.further.empty <- function() {
+  ## the data contains in this case, you want only one event
+  pidata <- zoo(cbind(a=NA, b=NA), order.by=structure(seq(0,86400,21600), class = c("POSIXct","POSIXt")))
+  ts <- index(pidata)
+
+  pidata[ts[3], 'b'] <- Inf
+
+  conf <- data.frame(column=c('a', 'b'), type='instantaneous',
+                     locationId='600-P1201', parameterId=c('a', 'b'),
+                     timeStep=1440, startDate=20910240, endDate=20931840)
+
+  conf$missVal <- NULL  # removed column, elements will be missing
+  conf$InfVal <- -999  # 
+  write.PI(pidata, conf, 'data/write.PI.missVal.NA.InfVal.999.content.one.Inf.further.empty.current')
+  expect <- readLines('data/write.PI.missVal.NA.InfVal.999.content.one.Inf.further.empty.target')
+  current <- readLines('data/write.PI.missVal.NA.InfVal.999.content.one.Inf.further.empty.current')
+  checkEquals(current, expect)
+}
+
+test.write.PI.missVal.NA.InfVal.999.content.one.Inf.further.empty.no.time.indication <- function() {
+  ## the data contains in this case, you want only one event
+  pidata <- zoo(cbind(a=NA, b=NA), order.by=structure(seq(0,86400,21600), class = c("POSIXct","POSIXt")))
+  ts <- index(pidata)
+
+  pidata[ts[3], 'b'] <- Inf
+
+  conf <- data.frame(column=c('a', 'b'), type='instantaneous',
+                     locationId='600-P1201', parameterId=c('a', 'b'),
+                     timeStep=1440)
+
+  conf$missVal <- NULL  # removed column, elements will be missing
+  conf$InfVal <- -999  # 
+  write.PI(pidata, conf, 'data/write.PI.missVal.NA.InfVal.999.content.one.Inf.further.empty.no.time.indication.current')
+  expect <- readLines('data/write.PI.missVal.NA.InfVal.999.content.one.Inf.further.empty.no.time.indication.target')
+  current <- readLines('data/write.PI.missVal.NA.InfVal.999.content.one.Inf.further.empty.no.time.indication.current')
   checkEquals(current, expect)
 }
 

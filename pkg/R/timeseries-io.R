@@ -183,7 +183,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
     if(isToBeFiltered)
       result.index <- result.index[sapply(result.index, filter.timestamp)]
 
-    ## column-bind the timestamps to the collected values
+    ## column-bind the timestamps to the collected values.  column names are taken from names(seriesNodes).
     result <- zoo(cbind(mapply(getValues, seriesNodes)), order.by=result.index, frequency=1.0/step.seconds)
   }
   
@@ -238,12 +238,17 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
       actualdata <- subset(actualdata, !is.infinite(column))
     }
 
-    if(length(actualdata$column) == 0)
-      return(invisible())
-
     ## what are the true start and end instants of this series?
-    start <- EPOCH + min(actualdata$seconds)
-    end <- EPOCH + max(actualdata$seconds)
+    if(nrow(actualdata) != 0) {
+      start <- EPOCH + min(actualdata$seconds)
+      end <- EPOCH + max(actualdata$seconds)
+    } else {
+      start <- end <- EPOCH
+      if('startDate' %in% names(item))
+        start <- EPOCH + as.numeric(item[['startDate']]) * 60
+      if('endDate' %in% names(item))
+        end <- EPOCH + as.numeric(item[['endDate']]) * 60
+    }
 
     tsDate <- function(x) { format.POSIXct(x, format="%Y-%m-%d") }
     tsTime <- function(x) { format.POSIXct(x, format="%H:%M:%S") }
@@ -255,7 +260,7 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
       value <- as.numeric(i[2])
 
       missingValueNode <- function(name) {
-        if(any(is.na(data.description[[name]])))
+        if(looksLikeNULL(item, name) || is.na(item[[name]]) || is.nan(item[[name]]))
           ## write 0 and flag the value to "9"
           xmlNode(name = 'event', attrs=c(date=tsDate(ts), time=tsTime(ts), value=0, flag=9))
         else
@@ -294,6 +299,8 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
     for (name in c('missVal', 'longName','stationName', 'units'))
       if (!looksLikeNULL(item, name) & !is.na(item[name]))
         headerNode <- addChildren(headerNode, kids=list(xmlNode(name, item[[name]])))
+    if(looksLikeNULL(item, 'missVal') && !looksLikeNULL(item, 'InfVal') &&!is.na(item['InfVal']))
+        headerNode <- addChildren(headerNode, kids=list(xmlNode('missVal', item[['InfVal']])))
 
     for (name in colnames(global.data))
       if (!is.na(global.data[1, name]) & !sum(grep('\\.', name)))

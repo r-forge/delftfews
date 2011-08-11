@@ -21,5 +21,14 @@
   <event date="2009-02-14" time="00:10:00" value="1" flag="0"/>
   <event date="2009-02-14" time="00:15:00" value="1" flag="0"/>
  </series>
- 
+ <series>
+  <header>
+   <type>instantaneous</type>
+   <locationId>P1202</locationId>
+   <parameterId>WNS954</parameterId>
+   <timeStep unit="nonequidistant"/>
+   <startDate date="1970-01-01" time="00:00:00"/>
+   <endDate date="1970-01-01" time="00:00:00"/>
+  </header>
+ </series>
 </TimeSeries>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeSeries xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd" version="1.2">
+ <timeZone>0.0</timeZone>
+ <series>
+  <header>
+   <type>instantaneous</type>
+   <locationId>600-P1201</locationId>
+   <parameterId>a</parameterId>
+   <timeStep unit="nonequidistant"/>
+   <startDate date="2009-10-04" time="00:00:00"/>
+   <endDate date="2009-10-19" time="00:00:00"/>
+   <missVal>-999</missVal>
+  </header>
+ </series>
+ <series>
+  <header>
+   <type>instantaneous</type>
+   <locationId>600-P1201</locationId>
+   <parameterId>b</parameterId>
+   <timeStep unit="nonequidistant"/>
+   <startDate date="1970-01-01" time="12:00:00"/>
+   <endDate date="1970-01-01" time="12:00:00"/>
+   <missVal>-999</missVal>
+  </header>
+  <event date="1970-01-01" time="12:00:00" value="-999" flag="8"/>
+ </series>
+</TimeSeries>
