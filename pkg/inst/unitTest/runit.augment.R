@@ -342,6 +342,30 @@ test.cumulate.zoo.all.NA <- function() {
   checkEquals(target, as.vector(result$net.duration))
 }
 
+test.cumulate.zoo.skip.event.at.start <- function() {
+  pidata <- zoo(cbind(a=c(6:1,5:2)), order.by=structure((0:9)*3600, class=c("POSIXct", "POSIXt")))
+
+  result <- cumulate(pidata[, 1], integration.method=1, skip.first=TRUE)
+
+  target <- as.numeric(rep(NA, 10))
+  checkEquals(target, as.vector(result$gross))
+  checkEquals(target, as.vector(result$net))
+  checkEquals(target, as.vector(result$gross.duration))
+  checkEquals(target, as.vector(result$net.duration))
+}
+
+test.cumulate.zoo.include.event.at.start <- function() {
+  pidata <- zoo(cbind(a=c(6:1,5:2)), order.by=structure((0:9)*3600, class=c("POSIXct", "POSIXt")))
+
+  result <- cumulate(pidata[, 1], integration.method=1, skip.first=FALSE)
+
+  target <- as.numeric(rep(NA, 9))
+  checkEquals(c(126000, target), as.vector(result$gross))
+  checkEquals(c(126000, target), as.vector(result$net))
+  checkEquals(c(36000, target), as.vector(result$gross.duration))
+  checkEquals(c(36000, target), as.vector(result$net.duration))
+}
+
 test.add.column.to.empty.shortcut <- function() {
   pidata <- timeseries(to=21000000*60, by=10800, length.out=1)
   target <- c(12)

@@ -26,7 +26,7 @@
 
 cumulate(input, gap = 1, integration.method = 3, with.partials = FALSE, \dots)
 \method{cumulate}{zoo}(input, gap = 1, integration.method = 3, with.partials =
-FALSE, units="secs", \dots)
+FALSE, units="secs", skip.first = FALSE, \dots)
 
 }
 \arguments{
@@ -42,6 +42,10 @@ FALSE, units="secs", \dots)
   \item{with.partials}{logic; whether the output should contain the
     partials used in the calculations.  in this case, this will be the
     fifth column in the output.}
+  \item{skip.first}{logic: whether an event at the very first timestamp
+    should be skipped.  you might consider an event on the first
+    timestamp as suspect, as you probably missed the true beginning,
+    occurring before the start of the available data.}
   \item{\dots}{placeholder for future extensions}
 }
 \examples{

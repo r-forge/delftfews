@@ -69,7 +69,7 @@ cumulate <- function(input, gap=1, integration.method=3, with.partials=FALSE, ..
 
 cumulate.default <- function(input, ...) NULL
 
-cumulate.zoo <- function(input, gap=1, integration.method=3, with.partials=FALSE, units="secs", ...) {
+cumulate.zoo <- function(input, gap=1, integration.method=3, with.partials=FALSE, units="secs", skip.first=FALSE, ...) {
   ## given an univariate series, indexed on POSIXct time stamps,
   ## return a series set containing four columns, the netto and gross
   ## cumulative summarization of input.  the 'integration.method'
@@ -127,5 +127,7 @@ cumulate.zoo <- function(input, gap=1, integration.method=3, with.partials=FALSE
          stretches(input, gap, what="end", zero.surrounded=TRUE),
          MoreArgs=list(type="gross"))
 
+  if(skip.first == TRUE)
+    result[keys[1], ] <- NA
   return(result)
 }
