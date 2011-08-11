@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeSeries xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd" version="1.2">
+ <timeZone>0.0</timeZone>
+ <series>
+  <header>
+   <type>instantaneous</type>
+   <locationId>locA</locationId>
+   <parameterId>par1</parameterId>
+   <timeStep unit="second" multiplier="21600"/>
+   <startDate date="1970-01-01" time="00:00:00"/>
+   <endDate date="1970-01-01" time="06:00:00"/>
+   <longName>-</longName>
+   <stationName>-</stationName>
+   <units>-</units>
+   <missVal>-999</missVal>
+  </header>
+  <event date="1970-01-01" time="00:00:00" value="1" flag="0"/>
+  <event date="1970-01-01" time="06:00:00" value="2" flag="0"/>
+ </series>
+ <series>
+  <header>
+   <type>instantaneous</type>
+   <locationId>locB</locationId>
+   <parameterId>par2</parameterId>
+   <timeStep unit="second" multiplier="21600"/>
+   <startDate date="1970-01-01" time="00:00:00"/>
+   <endDate date="1970-01-01" time="06:00:00"/>
+   <longName>-</longName>
+   <stationName>-</stationName>
+   <units>-</units>
+   <missVal>-999</missVal>
+  </header>
+  <event date="1970-01-01" time="00:00:00" value="101" flag="0"/>
+  <event date="1970-01-01" time="06:00:00" value="102" flag="0"/>
+ </series>
+</TimeSeries>
