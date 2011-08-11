@@ -228,6 +228,16 @@ test.read.PI.filter.timestamp.small <- function() {
   checkEquals(c(1305459000, 1305492300, 1308521760, 1308523440, 1308544200, 1308579300), as.seconds(index(pidata)))
 }
 
+test.read.PI.univariate.as.matrix <- function() {
+  pidata <- read.PI('data/peilschalen-1-timezone-4.xml')
+  checkEqualsNumeric(2, length(dim(pidata)))
+}
+
+test.read.PI.multivariate.as.matrix <- function() {
+  pidata <- read.PI('data/peilschalen-3-with-corrections.xml')
+  checkEqualsNumeric(2, length(dim(pidata)))
+}
+
 test.write.PI.na.missing.elements <- function() {
   ## if no missVal is given: skip the element
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)
