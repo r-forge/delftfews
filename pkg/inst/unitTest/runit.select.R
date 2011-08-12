@@ -275,6 +275,7 @@ test.timeseries.zoo.equivalent <- function() {
 ## selecting complete rows and columns.
 
 `test.[.zoo.by.column` <- function() {
+  DEACTIVATED("selecting only one column retrieves an univariate series, unless you specify drop=FALSE.")
   FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   checkEquals(FWS[,'a', drop=FALSE], FWS[, 'a'])
   checkEquals(FWS[,'b', drop=FALSE], FWS[, 'b'])
