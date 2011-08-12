@@ -268,7 +268,7 @@ test.select.percentiles.timeseries.with.only.NA.columns <- function() {
 
 test.timeseries.zoo.equivalent <- function() {
   FWS1 <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=4, l=cbind(a=1, b=3))
-  FWS2 <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
+  FWS2 <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH), frequency=frequency(FWS1))
   checkEquals(FWS1, FWS2)
 }
 

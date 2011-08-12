@@ -139,3 +139,34 @@ test.rollapply.keeps.tzone.bidimensional <- function() {
   result <- rollapply(input, 5, sum)
   checkEquals("UTC", attr(index(result), 'tzone'))
 }
+
+test.as.matrix.6x0.equals.to.self <- function() {
+  zoo6x0 <- zoo(order.by=0:5)
+  checkEquals(zoo6x0, zoo6x0)
+}
+
+test.as.matrix.6x0.distinct.from.0x0 <- function() {
+  zoo6x0 <- zoo(order.by=0:5)
+  zoo0x0 <- zoo()
+  checkEquals(zoo0x0, zoo0x0)
+  checkEquals(FALSE, isTRUE(all.equal(zoo0x0, zoo6x0)))
+}
+
+test.as.matrix.zoo.zero.by.zero <- function() {
+  checkEquals(c(0, 0), dim(as.matrix(zoo())))
+}
+
+test.as.matrix.zoo.zero.columns <- function() {
+  checkEquals(c(3, 0), dim(as.matrix(zoo(order.by=1:3))))
+  checkEquals(c(2, 0), dim(as.matrix(zoo(order.by=1:2))))
+  checkEquals(c(1, 0), dim(as.matrix(zoo(order.by=1))))
+}
+
+test.as.matrix.zoo.zero.rows <- function() {
+  checkEquals(c(0, 1), dim(as.matrix(zoo(cbind(a=1),
+order.by=numeric(0)))))
+  checkEquals(c(0, 2), dim(as.matrix(zoo(cbind(a=1, b=2),
+order.by=numeric(0)))))
+  checkEquals(c(0, 3), dim(as.matrix(zoo(cbind(a=1, b=2, c=3),
+order.by=numeric(0)))))
+}

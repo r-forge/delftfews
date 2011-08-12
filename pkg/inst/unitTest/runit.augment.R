@@ -23,8 +23,7 @@ EPOCH <- delftfews:::EPOCH
 
 test.timeseries.base <- function() {
   ## test equality between zoo and timeseries contructors
-  minutes <- (0:5) * 720
-  target <- zoo(data.frame(), as.POSIXct(minutes * 60, origin=EPOCH), 1/720/60)
+  target <- zoo(order.by=structure((0:5) * 43200, class=c("POSIXct", "POSIXt")))
   current <- timeseries(from=0, by=720*60, length.out=6)
   checkEquals(target, current)
 }
