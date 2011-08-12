@@ -9,10 +9,10 @@
    <timeStep unit="second" multiplier="21600"/>
    <startDate date="1970-01-01" time="00:00:00"/>
    <endDate date="1970-01-01" time="06:00:00"/>
+   <missVal>-999</missVal>
    <longName>-</longName>
    <stationName>-</stationName>
    <units>-</units>
-   <missVal>-999</missVal>
   </header>
   <event date="1970-01-01" time="00:00:00" value="1" flag="0"/>
   <event date="1970-01-01" time="06:00:00" value="2" flag="0"/>
@@ -25,10 +25,10 @@
    <timeStep unit="second" multiplier="21600"/>
    <startDate date="1970-01-01" time="00:00:00"/>
    <endDate date="1970-01-01" time="06:00:00"/>
+   <missVal>-999</missVal>
    <longName>-</longName>
    <stationName>-</stationName>
    <units>-</units>
-   <missVal>-999</missVal>
   </header>
   <event date="1970-01-01" time="00:00:00" value="101" flag="0"/>
   <event date="1970-01-01" time="06:00:00" value="102" flag="0"/>

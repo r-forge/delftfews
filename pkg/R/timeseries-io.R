@@ -298,6 +298,8 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
     else
       timeStepNode <- xmlNode('timeStep', attrs=c(unit="second", multiplier=timeStep))
 
+    ## NOTA BENE: elements in the header must respect the order
+    ## specified in the xsd.  FEWS will not read the file otherwise.
     headerNode <- xmlNode('header',
                           xmlNode('type', item[['type']]),
                           xmlNode('locationId', item[['locationId']]),
@@ -307,11 +309,12 @@ write.PI.zoo <- function(data, data.description, filename, global.data=NA) {
                           xmlNode('endDate', attrs=c(date=tsDate(end), time=tsTime(end)))
                           )
 
+    if(looksLikeNULL(item, 'missVal') && !looksLikeNULL(item, 'InfVal') && !is.na(item['InfVal']))
+        headerNode <- addChildren(headerNode, kids=list(xmlNode('missVal', item[['InfVal']])))
+
     for (name in c('missVal', 'longName','stationName', 'units'))
       if (!looksLikeNULL(item, name) & !is.na(item[name]))
         headerNode <- addChildren(headerNode, kids=list(xmlNode(name, item[[name]])))
-    if(looksLikeNULL(item, 'missVal') && !looksLikeNULL(item, 'InfVal') &&!is.na(item['InfVal']))
-        headerNode <- addChildren(headerNode, kids=list(xmlNode('missVal', item[['InfVal']])))
 
     for (name in colnames(global.data))
       if (!is.na(global.data[1, name]) & !sum(grep('\\.', name)))
