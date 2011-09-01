@@ -70,11 +70,19 @@ test.xmldoc.getMultipleAttributeValuesAllIrregular <- function() {
   checkEquals(target, current)
 }
 
-test.xmldoc.getMultipleChildrenValues <- function() {
+test.xmldoc.getMultipleChildrenValuesSpecific <- function() {
   doc <- XmlDoc$new(test.fileName[3])
 
   target <- cbind(id=c("1", "2"), name=c("text", "due"))
   current <- doc$getText("/root/e", children=c("id", "name"))
+  checkEquals(target, current)
+}
+
+test.xmldoc.getMultipleChildrenValuesAll <- function() {
+  doc <- XmlDoc$new(test.fileName[3])
+
+  target <- cbind(id=c("1", "2"), name=c("text", "due"))
+  current <- doc$getText("/root/e", children=TRUE)
   checkEquals(target, current)
 }
 

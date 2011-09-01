@@ -32,11 +32,15 @@ XmlDoc <- setRefClass("XmlDoc",
                           getNodeSet(xmlDoc, element, c(r = getDefaultNamespace(xmlDoc)))
                         },
                         getText = function(element, ..., children) {
+                          nodeSet <- .getNodeSet(element, ...)
                           if(missing(children))
-                             sapply(.getNodeSet(element, ...), xmlValue)
+                             sapply(nodeSet, xmlValue)
                           else {
+                            if(length(children) == 1 && children == TRUE) {
+                              children <- names(xmlChildren(nodeSet[[1]]))
+                            }
                             sapply(children,
-                                   function(name) sapply(.getNodeSet(element, ...),
+                                   function(name) sapply(nodeSet,
                                                          function(el) xmlValue(xmlElementsByTagName(el, name)[[1]])))
                           }
                         },
