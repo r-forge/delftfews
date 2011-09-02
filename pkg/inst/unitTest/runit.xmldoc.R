@@ -1,6 +1,6 @@
 require(svUnit)
 
-test.fileName <- file.path(tempdir(), c('1', '2', '3', 'irregular'))
+test.fileName <- file.path(tempdir(), c('1', '2', '3', 'irregular', '5'))
 
 .setUp <- function() {
   cat('<root><element><sub id="1">7</sub><sub id="2">23</sub><ter id="1">17</ter><ter id="2">21</ter></element></root>',
@@ -11,6 +11,8 @@ test.fileName <- file.path(tempdir(), c('1', '2', '3', 'irregular'))
       file=test.fileName[3])
   cat('<root><sub id="1" ktb="7" qlm="a"/><sub id="2" ktb="23" hqb="0" qlm="b"/><sub id="3" ktb="7" hqb="a"/><sub id="4" hqb="7" qlm="a"/></root>',
       file=test.fileName[4])
+  cat('<root><globals><id>7</id><id>8</id><id>9</id><name>name</name></globals></root>',
+      file=test.fileName[5])
 }
 
 .tearDown <- function() {
@@ -73,16 +75,15 @@ test.xmldoc.getMultipleAttributeValuesAllIrregular <- function() {
 test.xmldoc.getMultipleChildrenValuesSpecific <- function() {
   doc <- XmlDoc$new(test.fileName[3])
 
-  target <- cbind(id=c("1", "2"), name=c("text", "due"))
+  target <- list(id=c("1", "2"), name=c("text", "due"))
   current <- doc$getText("/root/e", children=c("id", "name"))
   checkEquals(target, current)
 }
 
 test.xmldoc.getMultipleChildrenValuesAll <- function() {
-  doc <- XmlDoc$new(test.fileName[3])
+  doc <- XmlDoc$new(test.fileName[5])
 
-  target <- cbind(id=c("1", "2"), name=c("text", "due"))
-  current <- doc$getText("/root/e", children=TRUE)
+  target <- list(id=c("7", "8", "9"), name=c("name"))
+  current <- doc$getText("/root/globals", children=TRUE)
   checkEquals(target, current)
 }
-
