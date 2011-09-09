@@ -238,6 +238,27 @@ test.read.PI.multivariate.as.matrix <- function() {
   checkEqualsNumeric(2, length(dim(pidata)))
 }
 
+test.read.PI.first.series.empty <- function() {
+  pidata <- read.PI('data/first-series-empty.xml', is.irregular=TRUE)
+  checkEqualsNumeric(c(12, 2), dim(pidata))
+  checkTrue(all(is.na(pidata[, 1])))
+  checkTrue(!all(is.na(pidata[, 2])))
+}
+
+test.read.PI.first.series.empty.equidistant <- function() {
+  pidata <- read.PI('data/first-series-empty-equidistant.xml')
+  checkEqualsNumeric(c(12, 2), dim(pidata))
+  checkTrue(all(is.na(pidata[, 1])))
+  checkTrue(!all(is.na(pidata[, 2])))
+}
+
+test.read.PI.first.series.empty.equidistant.with.holes <- function() {
+  pidata <- read.PI('data/first-series-empty-equidistant-with-holes.xml', is.irregular=TRUE)
+  checkEqualsNumeric(c(12, 2), dim(pidata))
+  checkTrue(all(is.na(pidata[, 1])))
+  checkTrue(!all(is.na(pidata[, 2])))
+}
+
 test.write.PI.na.missing.elements <- function() {
   ## if no missVal is given: skip the element
   pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)

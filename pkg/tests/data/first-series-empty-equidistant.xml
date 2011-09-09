@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeSeries xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd" version="1.9">
+    <timeZone>0.0</timeZone>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>MPN10</locationId>
+            <parameterId>WNSHDB38</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2010-08-24" time="10:30:27"/>
+            <endDate date="2011-06-22" time="09:18:59"/>
+            <missVal>NaN</missVal>
+            <stationName>MPN10 - Stuw camping Julianahoeve, uitstroom</stationName>
+            <lat>51.73355714602781</lat>
+            <lon>3.7486894557602892</lon>
+            <x>41818.44</x>
+            <y>417366.71</y>
+            <z>0.0</z>
+            <units>mNAP</units>
+        <event date="2010-08-24" time="10:00:00" value="-1.35" flag="9"/>
+        <event date="2010-09-23" time="10:00:00" value="-1.5" flag="9"/>
+        <event date="2010-10-23" time="10:00:00" value="-1.47" flag="9"/>
+        <event date="2010-11-22" time="10:00:00" value="-1.59" flag="9"/>
+        <event date="2010-12-22" time="10:00:00" value="-1.59" flag="9"/>
+        <event date="2011-01-21" time="10:00:00" value="-1.63" flag="9"/>
+        <event date="2011-02-20" time="10:00:00" value="-1.56" flag="9"/>
+        <event date="2011-03-22" time="10:00:00" value="-1.62" flag="9"/>
+        <event date="2011-04-21" time="10:00:00" value="-1.4" flag="9"/>
+        <event date="2011-05-21" time="10:00:00" value="-1.39" flag="9"/>
+        <event date="2011-06-20" time="10:00:00" value="-1.42" flag="9"/>
+        </header>
+    </series>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>MPN100</locationId>
+            <parameterId>WNSHDB38</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2010-08-24" time="10:06:28"/>
+            <endDate date="2011-06-20" time="15:08:33"/>
+            <missVal>NaN</missVal>
+            <stationName>MPN100 - Stuw Klein Poelland, instroom</stationName>
+            <lat>51.716650641142</lat>
+            <lon>3.7643859146176837</lon>
+            <x>42860.61</x>
+            <y>415461.82</y>
+            <z>0.0</z>
+            <units>mNAP</units>
+        </header>
+        <event date="2010-08-24" time="10:00:00" value="-1.6" flag="0"/>
+        <event date="2010-09-23" time="10:00:00" value="-1.64" flag="0"/>
+        <event date="2010-10-23" time="10:00:00" value="-1.6" flag="0"/>
+        <event date="2010-11-22" time="10:00:00" value="-1.7" flag="0"/>
+        <event date="2010-12-22" time="10:00:00" value="-1.75" flag="0"/>
+        <event date="2011-01-21" time="10:00:00" value="-1.7" flag="0"/>
+        <event date="2011-02-20" time="10:00:00" value="-1.67" flag="0"/>
+        <event date="2011-03-22" time="10:00:00" value="-1.75" flag="0"/>
+        <event date="2011-04-21" time="10:00:00" value="-1.7" flag="0"/>
+        <event date="2011-05-21" time="10:00:00" value="-1.65" flag="0"/>
+        <event date="2011-06-20" time="10:00:00" value="-1.65" flag="0"/>
+    </series>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>MPN101</locationId>
+            <parameterId>WNSHDB38</parameterId>
+            <timeStep unit="nonequidistant"/>
+            <startDate date="2010-08-25" time="06:52:21"/>
+            <endDate date="2011-06-20" time="15:20:35"/>
+            <missVal>NaN</missVal>
+            <stationName>MPN101 - Stuw Lage Zoom/De Wippe, instroom</stationName>
+            <lat>51.72605392219187</lat>
+            <lon>3.7821341261256407</lon>
+            <x>44109.98</x>
+            <y>416480.59</y>
+            <z>0.0</z>
+            <units>mNAP</units>
+        </header>
+        <event date="2010-08-24" time="10:00:00" value="-1.55" flag="0"/>
+        <event date="2010-09-23" time="10:00:00" value="-1.7" flag="0"/>
+        <event date="2010-10-23" time="10:00:00" value="-1.67" flag="0"/>
+        <event date="2010-11-22" time="10:00:00" value="-1.79" flag="0"/>
+        <event date="2010-12-22" time="10:00:00" value="-1.79" flag="0"/>
+        <event date="2011-01-21" time="10:00:00" value="-1.83" flag="0"/>
+        <event date="2011-02-20" time="10:00:00" value="-1.76" flag="0"/>
+        <event date="2011-03-22" time="10:00:00" value="-1.82" flag="0"/>
+        <event date="2011-04-21" time="10:00:00" value="-1.6" flag="0"/>
+        <event date="2011-05-21" time="10:00:00" value="-1.59" flag="0"/>
+        <event date="2011-06-20" time="10:00:00" value="-1.62" flag="0"/>
+    </series>
+</TimeSeries>

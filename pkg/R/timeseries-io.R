@@ -49,7 +49,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
       result <- aggregate(values[keepThese], by=list(ceiling(seconds[keepThese]/step.seconds)*step.seconds), function(x) tail(x, n=1))
       colnames(result) <- c('s', "v")
     } else {
-      result <- subset(data.frame(s='', v=FALSE), c(FALSE))
+      result <- structure(list(s = numeric(0), v = numeric(0)), .Names = c("s", "v"), class = "data.frame")
     }
 
     return (result)
