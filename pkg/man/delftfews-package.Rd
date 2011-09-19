@@ -1,10 +1,9 @@
 % File src/R/man/NenS-package.Rd
 % $Id$
 
-\name{NenS-package}
+\name{delftfews-package}
 \Rdversion{1.1}
-\alias{NenS-package}
-\alias{NenS}
+\alias{delftfews-package}
 \alias{delftfews}
 \alias{[.zoo}
 \alias{[<-.zoo}

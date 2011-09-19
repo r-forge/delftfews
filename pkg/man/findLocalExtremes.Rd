@@ -1,6 +1,7 @@
 % $Id: as.seconds.Rd 3 2010-07-07 13:42:11Z mariotomo $
 
 \name{findLocalExtremes}
+\alias{findLocalExtremes}
 \alias{findLocalMin}
 \alias{findLocalMax}
 \title{whether a value in a sequence is a local extreme}
