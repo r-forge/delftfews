@@ -46,8 +46,8 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
       values[flags == 9] <- NA
 
     if(length(!is.na(values)) > 0) {
-      ## start counting steps from first second, not from 1970-01-01
-      base <- seconds[1]
+      ## start counting steps from first second, not from 1970-01-01, but round it to step.seconds.
+      base <- ceiling(seconds[1]/step.seconds)*step.seconds
       seconds <- seconds - base
 
       result <- aggregate(values[keepThese], by=list(ceiling(seconds[keepThese]/step.seconds)*step.seconds), function(x) tail(x, n=1))
