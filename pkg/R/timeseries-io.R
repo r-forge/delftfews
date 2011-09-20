@@ -121,7 +121,11 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
 
     if(isToBeFiltered) {
       old.length <- length(grouped$v)
-      grouped <- grouped[sapply(EPOCH + grouped$s - timeOffset, filter.timestamp), ]
+      if(old.length > 0) {
+        validTimestamps <- sapply(EPOCH + grouped$s - timeOffset, filter.timestamp)
+        logfinest("surviving timestamps: %s", validTimestamps)
+        grouped <- grouped[validTimestamps, ]
+      }
       logdebug("filtering, %d/%d values survive", length(grouped$v), old.length)
     }
 
