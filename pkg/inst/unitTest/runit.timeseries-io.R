@@ -240,23 +240,39 @@ test.read.PI.multivariate.as.matrix <- function() {
 
 test.read.PI.first.series.empty <- function() {
   pidata <- read.PI('data/first-series-empty.xml', is.irregular=TRUE)
-  checkEqualsNumeric(c(12, 2), dim(pidata))
+  checkEqualsNumeric(c(11, 2), dim(pidata))
   checkTrue(all(is.na(pidata[, 1])))
   checkTrue(!all(is.na(pidata[, 2])))
+}
+
+test.read.PI.second.series.empty <- function() {
+  pidata <- read.PI('data/second-series-empty.xml', is.irregular=TRUE)
+  checkEqualsNumeric(c(11, 2), dim(pidata))
+  checkTrue(!all(is.na(pidata[, 1])))
+  checkTrue(all(is.na(pidata[, 2])))
 }
 
 test.read.PI.first.series.empty.equidistant <- function() {
   pidata <- read.PI('data/first-series-empty-equidistant.xml')
-  checkEqualsNumeric(c(12, 2), dim(pidata))
+  checkEqualsNumeric(c(11, 3), dim(pidata))
   checkTrue(all(is.na(pidata[, 1])))
   checkTrue(!all(is.na(pidata[, 2])))
+  checkTrue(!all(is.na(pidata[, 3])))
 }
 
 test.read.PI.first.series.empty.equidistant.with.holes <- function() {
   pidata <- read.PI('data/first-series-empty-equidistant-with-holes.xml', is.irregular=TRUE)
-  checkEqualsNumeric(c(12, 2), dim(pidata))
+  checkEqualsNumeric(c(10, 3), dim(pidata))
   checkTrue(all(is.na(pidata[, 1])))
-  checkTrue(!all(is.na(pidata[, 2])))
+  checkEquals(c(2, 4, 9), which(is.na(pidata[, 2])))
+  checkEquals(c(7), which(is.na(pidata[, 3])))
+}
+
+test.read.PI.empty.equidistant.with.holes <- function() {
+  pidata <- read.PI('data/equidistant-with-holes.xml', is.irregular=TRUE)
+  checkEqualsNumeric(c(10, 2), dim(pidata))
+  checkEquals(c(2, 4, 9), which(is.na(pidata[, 1])))
+  checkEquals(c(7), which(is.na(pidata[, 2])))
 }
 
 test.write.PI.na.missing.elements <- function() {

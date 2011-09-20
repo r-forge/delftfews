@@ -148,6 +148,7 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
     }
 
     result <- zoo(order.by=structure(numeric(0), class=c("POSIXct", "POSIXt")))
+    dim(result) <- c(0, 0)
 
     for(name in names(seriesNodes)) {
       logdebug("doing column '%s'", name)
@@ -155,8 +156,34 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
       if(nrow(item) == 0) {
         item <- zoo(cbind(v=NA), order.by=index(result))
       }
-      colnames(item) <- name
-      result <- cbind(result, item)
+      ## TODO_01: this is a workaround on a zoo problem.  only two
+      ## lines ought to be needed and are clearly marked in this
+      ## block.
+      if(dim(result)[1] == 0) {
+        cn <- c(colnames(result), name)
+        dim(result)[2] <- dim(result)[2] + 1
+        colnames(result) <- cn
+        if(dim(item)[1] != 0) {
+          result <- zoo(order.by=index(item))
+          for(n in cn)
+            result <- cbind(result, NA)
+          colnames(result) <- cn
+          result[, name] <- item
+        }
+      } else {
+        colnames(item) <- name  # THIS LINE SURVIVES AFTER BUG SOLVING
+        if(dim(item)[1] == 0) {
+          actually <- item
+          item <- result[, 1]
+          faking <- TRUE
+        } else {
+          faking <- FALSE
+        }
+        result <- cbind(result, item)  # THIS LINE SURVIVES AFTER BUG SOLVING
+        if(faking)
+          result[, ncol(result)] <- NA
+      }
+      ## END_01
     }
 
   } else {
