@@ -33,3 +33,8 @@ na.interpolate(object)
 \arguments{
   \item{object}{the vector, possibly containing NA values.}
 }
+\examples{
+na.fill(c(1,2,3,NA))  # propagates the 3 forward
+na.fill(c(NA,2,3,4))  # propagates the 2 backward
+na.fill(c(NA,2,NA,NA))  # propagates the 2 backward and forward
+}

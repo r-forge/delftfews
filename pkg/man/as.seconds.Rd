@@ -18,3 +18,7 @@ as.seconds(value)
 \arguments{
   \item{value}{the object that is to be converted into seconds.}
 }
+\examples{
+EPOCH <- structure(0, class = c("POSIXct", "POSIXt"), tzone = "UTC")
+as.seconds(EPOCH)  # gives 0
+}
