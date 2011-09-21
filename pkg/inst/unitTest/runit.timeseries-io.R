@@ -25,6 +25,16 @@ parseSplitDcf <- delftfews:::parseSplitDcf
 
 EPOCH <- delftfews:::EPOCH
 
+if(FALSE) {
+  ## interactive testing...
+  require(delftfews)
+  setwd("~/Local/r-forge.r-project.org/delftfews/pkg/tests/")
+  checkTrue <- function(x) all(x == TRUE)
+  checkEquals <- function(x, y) all(x == y)
+  checkEqualsNumeric <- function(x, y) all(as.numeric(x) == as.numeric(y))
+  checkException <- function(x, ...) x
+}
+
 test.read.PI.just.reading <- function() {
   pidata <- read.PI('data/decumulative.input.xml')
   checkTrue(is.zoo(pidata))
@@ -57,19 +67,25 @@ test.read.PI.na.pass.flag9 <- function() {
 test.read.PI.one.empty.series <- function() {
   ## reader does not crash on one eventless series
 
-  read.PI('data/eventless-f0.xml')
+  pidata <- read.PI('data/eventless-f0.xml')
+  checkEquals(c(10, 2), dim(pidata))
+  checkEquals(c("lp.600-P1201.WNS925", "lp.600-P2504.WNS925"), colnames(pidata))
 }
 
 test.read.PI.first.empty.series <- function() {
   ## reader does not crash on first series being eventless
 
-  read.PI('data/eventless-0f.xml')
+  pidata <- read.PI('data/eventless-0f.xml')
+  checkEquals(c(10, 2), dim(pidata))
+  checkEquals(c("lp.600-P1201.WNS925", "lp.600-P2504.WNS925"), colnames(pidata))
 }
 
 test.read.PI.all.empty.series <- function() {
   ## reader returns something even if no events are found at all
 
-  read.PI('data/eventless-0.xml', step.seconds=1440*60)
+  pidata <- read.PI('data/eventless-0.xml', step.seconds=1440*60)
+  checkEquals(c(31, 1), dim(pidata))
+  checkTrue(all(is.na(pidata)))
 
   checkException(read.PI('data/eventless-0.xml'), ", crashes if you do not specify step.seconds")
 }
