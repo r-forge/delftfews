@@ -77,7 +77,7 @@ test.read.PI.first.empty.series <- function() {
 
   pidata <- read.PI('data/eventless-0f.xml')
   checkEquals(c(10, 2), dim(pidata))
-  checkEquals(c("lp.600-P1201.WNS925", "lp.600-P2504.WNS925"), colnames(pidata))
+  checkEquals(c("lp.600P1201.WNS925", "lp.600P2504.WNS925"), colnames(pidata))
 }
 
 test.read.PI.all.empty.series <- function() {
