@@ -38,3 +38,18 @@ write.PI(data, data.description, filename, global.data)
     describes one element, to be added to the header of all series.  
   }
 }
+\examples{
+\dontrun{pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)}
+  conf <- data.frame(column=c('P1201', 'P1202', 'P1203'))
+  conf$type <- 'instantaneous'
+  conf$locationId <- c('600-P1201', '600-P1202', '600-P1203')
+  conf$parameterId <- 'parameterId'
+  conf$units <- '-'
+  conf$missVal <- -999
+  conf$stationName <- '-'
+  conf$longName <- '-'
+
+  result <- timeseries(order.by=index(pidata)[-1], P1201=NA, P1202=NA, P1203=NA)
+  
+  \dontrun{write.PI(result, conf, 'data/test.write.PI.na.4.xml.current')}
+}
