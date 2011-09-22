@@ -17,3 +17,7 @@ get.step(L, require.constant)
   \item{require.constant}{if the inferred timestep is not constant,
     return NA.}
 }
+\examples{
+pidata <- timeseries(from=1234567890, to=1234587890, length.out=21)
+get.step(pidata)
+}
