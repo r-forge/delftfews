@@ -39,6 +39,7 @@ write.PI(data, data.description, filename, global.data)
   }
 }
 \examples{
+pidata <- timeseries(from=0, to=86400, by=3600)
 \dontrun{pidata <- read.PI('data/decumulative.input.NA.xml', na.action=na.pass)}
   conf <- data.frame(column=c('P1201', 'P1202', 'P1203'))
   conf$type <- 'instantaneous'

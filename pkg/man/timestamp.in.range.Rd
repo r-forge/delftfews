@@ -58,14 +58,14 @@ timestamp.in.weekend(data, tz)
   \item{offset}{the value of the time measure at the unix EPOCH.}
 }
 \examples{
-  pidata <- timeseries(as.POSIXct(1263553200, origin=EPOCH), by=15*60, length.out=289, H.gewogen=-1.5)
+  pidata <- timeseries(from=1263553200, by=15*60, length.out=289, H.gewogen=-1.5)
 
   in.workweek <- timestamp.in.range.weekday(pidata, tz="UTC", from=1, to=6)
   on.saturday <- timestamp.in.range.weekday(pidata, tz="UTC", from=6, to=7)
   in.weekend <- timestamp.in.weekend(pidata, tz="UTC")
   between.hours <- timestamp.in.range.hour(pidata, 17, 10, tz="UTC")
 
-  pidata <- timeseries(as.POSIXct(1234567800, origin=EPOCH), by=57600*60, length.out=18)
+  pidata <- timeseries(from=1234567800, by=57600*60, length.out=18)
   in.summer <- timestamp.in.range.calendar(pidata, "0401", "1001", tz="UTC")
   in.winter <- timestamp.in.range.calendar(pidata, "1001", "0401", tz="UTC")
 }
