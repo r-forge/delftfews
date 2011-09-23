@@ -22,7 +22,13 @@ require(svUnit)
 EPOCH <- delftfews:::EPOCH
 
 test.timestamp.in.range <- function() {
-  DEACTIVATED("timestamp.in.range is not tested.")
+  pidata <- timeseries(as.POSIXct(1263553200, origin=EPOCH), by=15*60, length.out=289, H.gewogen=-1.5)
+  target <- c(55L, 151L, 247L)
+  current <- which(timestamp.in.range(pidata, from=1263601800, to=1263610801, by=86400, offset=0, units='secs'))
+  checkEquals(target, current)
+  target <- c(7L, 55L, 103L, 151L, 199L, 247L)
+  current <- which(timestamp.in.range(pidata, from=1263601800, to=1263610801, by=86400/2, offset=0, units='secs'))
+  checkEquals(target, current)
 }
 
 test.timestamp.in.range.weekday.workday <- function() {
