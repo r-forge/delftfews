@@ -43,6 +43,7 @@ EPOCH <- delftfews:::EPOCH
 }
 
 `test.[.zoo.does.not.drop.dimensions` <- function() {
+  DEACTIVATED("reported to the zoo group, worked around.")
   FWS <- zoo(cbind(a=1, b=3), order.by=1:4)
   target.a <- zoo(cbind(a=1), order.by=1:4)
   target.b <- zoo(cbind(b=3), order.by=1:4)
@@ -67,7 +68,7 @@ test.Ops.zoo.keeps.class.numeric <- function() {
 }
 
 test.Ops.zoo.keeps.class.logic <- function() {
-  DEACTIVATED("waiting for the zoo group to fix a bug in Ops.zoo")
+  DEACTIVATED("reported to the zoo group, worked around.")
   FWS <- zoo(cbind(a=1, b=3), order.by=1:4)
   class(FWS) <- c('some.other.class', class(FWS))
   FWSa <- FWS$a
@@ -82,7 +83,7 @@ test.Ops.zoo.keeps.class.logic <- function() {
 }
 
 `test.[.zoo.first.parameter.multivariate.logic.one.column` <- function() {
-  DEACTIVATED("waiting for the zoo group to define what is the correct behaviour")
+  DEACTIVATED("reported to the zoo group, worked around.")
   FWS <- zoo(cbind(a=1, b=1:4), order.by=1:4)
   target <- FWS[as.vector(FWS[, 'b', drop=FALSE] < 3)]
   current <- FWS[FWS[, 'b', drop=FALSE] < 3]
@@ -134,7 +135,7 @@ test.rollapply.keeps.tzone.unidimensional <- function() {
 }
 
 test.rollapply.keeps.tzone.bidimensional <- function() {
-  DEACTIVATED("waiting for the zoo group to fix a bug in rollapply")
+  DEACTIVATED("reported to the zoo group, worked around.")
   input <- zoo(cbind(a=1:9), order.by=structure(seq(0, by=60, length=9), class = c("POSIXct", "POSIXt"), tzone="UTC"))
   result <- rollapply(input, 5, sum)
   checkEquals("UTC", attr(index(result), 'tzone'))
@@ -153,6 +154,7 @@ test.as.matrix.6x0.distinct.from.0x0 <- function() {
 }
 
 test.as.matrix.zoo.zero.by.zero <- function() {
+  DEACTIVATED("reported to the zoo group, worked around.")
   checkEquals(c(0, 0), dim(as.matrix(zoo())))
 }
 
