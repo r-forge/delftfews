@@ -1,6 +1,6 @@
 <!-- This is the project specific website template -->
 <!-- It can be changed as liked or replaced by other content -->
-<!-- $Id: index.php 56 2010-11-12 12:52:07Z mariotomo $ -->
+<!-- $Id$ -->
 
 <?php
 
