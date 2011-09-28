@@ -44,11 +44,14 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<h3>introduction</h3>
-<p>aim of the <tt>delftfews</tt> package is to help you writing FEWS general adapters in R.</p>
+<h3>what is this page?</h3>
 <ul>
-<li>if you haven't got the faintest idea of what a FEWS general adapter is, then probably you are looking at the wrong page.</li>
-<li>if you don't know how to use this library and what it can do for you, read further.</li>
+<li>if don't know what is a FEWS general adapter then you are probably looking at the wrong page.</li>
+<li>if you know that but don't know how to use this library and what it can do for you, read further.</li>
+</ul>
+<h3>introduction</h3>
+<ul>
+<li>aim of the <tt>delftfews</tt> package is to help you writing FEWS general adapters in R.</li>
 </ul>
 <h3>background information</h3>
 <ul>
