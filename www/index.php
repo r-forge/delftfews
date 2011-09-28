@@ -44,17 +44,24 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<p>this hopes to help you writing FEWS general adapters in R.</p>
-<p>what is a general adapter, what is FEWS, why would you want to use this library and how does it help?</p>
+<h3>introduction</h3>
+<p>aim of the <tt>delftfews</tt> package is to help you writing FEWS general adapters in R.</p>
+<ul>
+<li>if you haven't got the faintest idea of what a FEWS general adapter is, then probably you are looking at the wrong page.</li>
+<li>if you don't know how to use this library and what it can do for you, read further.</li>
+</ul>
+<h3>background information</h3>
 <ul>
 <li>FEWS (Flood Early Warning System) at <a href="http://www.deltares.nl/en/searchresults?search-expression=fews&page=1">deltares.nl</a></li>
 <li>description of the exchange format PI (public interface) at <a href="http://publicwiki.deltares.nl/display/FEWSDOC/The+Delft-Fews+Published+interface+%28PI%29">deltares.nl</a>.</li>
 <li>the company paying the authors: <a href="http://www.nelen-schuurmans.nl/EN/home">Nelen & Schuurmans</a>.</li>
 </ul>
 
-<p>The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
-
-<p>The <strong>released packages</strong> you can find <a href="http://r-forge.r-project.org/R/?group_id=775"><strong>here</strong></a>. </p>
+<h3>technical information</h3>
+<ul>
+<li>The <strong>project summary page</strong> you can find <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>.</li>
+<li>The <strong>released packages</strong> you can find <a href="http://r-forge.r-project.org/R/?group_id=775"><strong>here</strong></a>.</li>
+</ul>
 
 </body>
 </html>
