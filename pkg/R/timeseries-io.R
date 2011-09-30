@@ -415,34 +415,3 @@ splitToNumeric <- function(x) {
   names(attributes(result)$row.names) <- NULL
   return(result)
 }
-
-splitDcfMatrix <- function(x) {
-  ## splits a debian configuration file matrix in components.
-
-  ## returns a list of named string matrices, still to be parsed.
-
-  ## not exported
-
-  result <- list()
-  while(sum(dim(x)) != 0) {
-    cols <- which(!is.na(x[1,]))
-    rows <- which(!is.na(x[,1]))
-    result[[length(result) + 1]] <- rbind(x[rows, cols, drop=FALSE])
-    x <- x[-rows, -cols, drop=FALSE]
-  }
-
-  names(result) <- unlist(lapply(X=result, FUN=function(x) colnames(x)[[1]]))
-  result
-}
-
-parseSplitDcf <- function(x) {
-  ## parses (forces to numeric) and splits a dcf matrix
-  ##
-  ## not exported
-  lapply(splitDcfMatrix(x), splitToNumeric)
-}
-
-read.dcf.parsed <- function(filename) {
-  ## reads a debian configuration file and splits it in components
-  parseSplitDcf(read.dcf(filename))
-}

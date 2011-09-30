@@ -21,7 +21,6 @@ require(svUnit)
 
 ## testing the following non-exported functions:
 splitToNumeric <- delftfews:::splitToNumeric
-parseSplitDcf <- delftfews:::parseSplitDcf
 
 EPOCH <- delftfews:::EPOCH
 
@@ -540,26 +539,4 @@ test.splitToNumeric.small <- function() {
   current.m <- splitToNumeric(input.m)
   
   checkEquals(target.m, current.m)
-}
-
-test.parseSplitDcf <- function() {
-  input.m <- matrix(c("overstortput, by Lizard Scripter", "Lizard General Adapter Functions", NA, NA, NA, NA,
-                    NA, NA, "nat", "-0.38", "-0.40", "300.0",
-                    NA, NA, "droog", "-0.42", "-0.44", "300.0"
-                    ),
-                  ncol=6, byrow=TRUE)
-  colnames(input.m) <- c("fileDescription", "sourceSystem", "scenario", "aanslagpeil", "afslagpeil", "gemaalcapaciteit")
-
-  target.m <- list(data.frame(fileDescription="overstortput, by Lizard Scripter",
-                              sourceSystem="Lizard General Adapter Functions", stringsAsFactors=FALSE),
-                   data.frame(aanslagpeil=c(-0.38, -0.42),
-                              afslagpeil=c(-0.40, -0.44),
-                              gemaalcapaciteit=c(300.0, 300.0)))
-  names(target.m) <- c("fileDescription", "scenario")
-  rownames(target.m[[2]]) <- c("nat", "droog")
-  
-  current.m <- parseSplitDcf(input.m)
-  checkEquals(length(target.m), length(current.m))
-  checkEquals(target.m[[1]], current.m[[1]])
-  checkEquals(target.m[[2]], current.m[[2]])
 }
