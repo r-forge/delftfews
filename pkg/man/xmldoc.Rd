@@ -49,14 +49,19 @@
     file=file.path(tempFileName))
 
   doc <- XmlDoc$new(tempFileName)
-  doc$getAttribute("id", "/root/element/sub")
-  doc$getText("/root/element/sub")
+  current <- doc$getAttribute("id", "/root/element/sub")
+  stopifnot(c("1","2") == current)
 
-  doc$getText("/root/element/sub[@id=\%d]", 2)
+  current <- doc$getText("/root/element/sub")
+  stopifnot(c("7", "23") == current)
 
-  doc$getAttribute(c("id", "ktb", "qlm"), "/root/element/sub")
+  current <- doc$getText("/root/element/sub[@id=\%d]", 2)
+  stopifnot(c("23") == current)
 
-  doc$getText("/root/element", children="sub")
+  current <- doc$getAttribute(c("id", "ktb", "qlm"), "/root/element/sub")
+  stopifnot(cbind(id=c("1", "2"), ktb=c("7", "23"), qlm=c("a", "b")) == current)
+
+  doc$getText("/root/element", children="sub")  # returns a list
 
   file.remove(tempFileName)
 }
