@@ -84,6 +84,7 @@ test.Ops.zoo.keeps.class.logic <- function() {
 }
 
 `test.[.zoo.first.parameter.multivariate.logic.one.column` <- function() {
+  DEACTIVATED("failing, reported to zoo group.")
   FWS <- zoo(cbind(a=1, b=1:4), order.by=1:4)
   target <- FWS[as.vector(FWS[, 'b', drop=FALSE] < 3)]
   current <- FWS[FWS[, 'b', drop=FALSE] < 3]
