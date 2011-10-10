@@ -43,7 +43,6 @@ EPOCH <- delftfews:::EPOCH
 }
 
 `test.[.zoo.does.not.drop.dimensions` <- function() {
-  DEACTIVATED("reported to the zoo group, worked around.")
   FWS <- zoo(cbind(a=1, b=3), order.by=1:4)
   target.a <- zoo(cbind(a=1), order.by=1:4)
   target.b <- zoo(cbind(b=3), order.by=1:4)
@@ -68,7 +67,6 @@ test.Ops.zoo.keeps.class.numeric <- function() {
 }
 
 test.Ops.zoo.keeps.class.logic <- function() {
-  DEACTIVATED("reported to the zoo group, worked around.")
   FWS <- zoo(cbind(a=1, b=3), order.by=1:4)
   class(FWS) <- c('some.other.class', class(FWS))
   FWSa <- FWS$a
@@ -83,7 +81,6 @@ test.Ops.zoo.keeps.class.logic <- function() {
 }
 
 `test.[.zoo.first.parameter.multivariate.logic.one.column` <- function() {
-  DEACTIVATED("reported to the zoo group, worked around.")
   FWS <- zoo(cbind(a=1, b=1:4), order.by=1:4)
   target <- FWS[as.vector(FWS[, 'b', drop=FALSE] < 3)]
   current <- FWS[FWS[, 'b', drop=FALSE] < 3]
@@ -135,7 +132,6 @@ test.rollapply.keeps.tzone.unidimensional <- function() {
 }
 
 test.rollapply.keeps.tzone.bidimensional <- function() {
-  DEACTIVATED("reported to the zoo group, worked around.")
   input <- zoo(cbind(a=1:9), order.by=structure(seq(0, by=60, length=9), class = c("POSIXct", "POSIXt"), tzone="UTC"))
   result <- rollapply(input, 5, sum)
   checkEquals("UTC", attr(index(result), 'tzone'))
@@ -154,7 +150,6 @@ test.as.matrix.6x0.distinct.from.0x0 <- function() {
 }
 
 test.as.matrix.zoo.zero.by.zero <- function() {
-  DEACTIVATED("reported to the zoo group, worked around.")
   checkEquals(c(0, 0), dim(as.matrix(zoo())))
 }
 
@@ -182,7 +177,6 @@ test.timeseries.zoo.equivalent <- function() {
 ## selecting complete rows and columns.
 
 `test.[.zoo.by.column` <- function() {
-  DEACTIVATED("selecting only one column retrieves an univariate series, unless you specify drop=FALSE.")
   FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   checkEquals(FWS[,'a', drop=FALSE], FWS[, 'a'])
   checkEquals(FWS[,'b', drop=FALSE], FWS[, 'b'])
@@ -218,14 +212,12 @@ test.timeseries.zoo.equivalent <- function() {
 }
 
 `test.[<-.zoo.by.column.new` <- function() {
-  DEACTIVATED("waiting for the zoo group to fix a bug in [<-.zoo")
   FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   FWS[, 'd'] <- 5:8
   checkEqualsNumeric(5:8, FWS[, 'd'])
 }
 
 `test.[<-.zoo.character.adding.named.column` <- function() {
-  DEACTIVATED("waiting for the zoo group to correct a bug in [<-.zoo")
   FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   FWS[, 'd'] <- FWS$a
   checkEqualsNumeric(rep(1, 4), FWS[, 'd'])
@@ -245,7 +237,6 @@ test.timeseries.zoo.equivalent <- function() {
 }
 
 `test.[<-.zoo.keeps.other.names` <- function() {
-  DEACTIVATED("waiting for the zoo group to correct a bug in [<-.zoo")
   FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   colnames(FWS) <- c('ab-c','d,e,f')
   FWS[, 'a'] <- 4:7
@@ -274,4 +265,74 @@ test.timeseries.zoo.equivalent <- function() {
   FWS <- zoo(cbind(a=1, b=3), order.by=as.POSIXct(seq(1234567800, by=57600*60, length.out=4), origin=EPOCH))
   FWS$d <- FWS$a
   checkEqualsNumeric(rep(1, 4), FWS[, 'd'])
+}
+
+test.zoo.cbind.empty.0x1.numeric <- function() {
+  empty <- structure(numeric(0), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+  i1 <- structure(logical(0), .Dim = 0:1, .Dimnames = list(NULL, "lp.MPN10.WNSHDB38"), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+
+  checkEquals(as.numeric(i1), as.numeric(cbind(empty, i1)))  # OK in 1.7-5 on 2011-10-10
+}
+
+test.zoo.cbind.empty.0x1.complete <- function() {
+  empty <- structure(numeric(0), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+  i1 <- structure(logical(0), .Dim = 0:1, .Dimnames = list(NULL, "lp.MPN10.WNSHDB38"), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+
+  checkEquals(structure(logical(0), .Dim = 0:1,
+                        .Dimnames = list(NULL, "lp.MPN10.WNSHDB38"),
+                        index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo"),
+              cbind(empty, i1))
+      
+  ## fails with structure(logical(0), .Dim = 0:1, .Dimnames =
+  ## list(NULL, NULL), index = structure(numeric(0), class =
+  ## c("POSIXct", "POSIXt")), class = "zoo")
+}
+
+test.zoo.cbind.empty.3x1.numeric <- function() {
+  empty <- structure(numeric(0), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+  i2 <- structure(c(-1.6, -1.64, -1.65), .Dim = c(3L, 1L), index = structure(c(1282644388, 1284544972, 1287654592), class = c("POSIXct", "POSIXt"), tzone = "UTC"), class = "zoo", .Dimnames = list(NULL, "lp.MPN100.WNSHDB38"))
+
+  checkEquals(as.numeric(i2), as.numeric(cbind(empty, i2)))  # OK in 1.7-5 on 2011-10-10
+}
+  
+test.zoo.cbind.empty.3x1.complete <- function() {
+  empty <- structure(numeric(0), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+  i2 <- structure(c(-1.6, -1.64, -1.65), .Dim = c(3L, 1L), index = structure(c(1282644388, 1284544972, 1287654592), class = c("POSIXct", "POSIXt"), tzone = "UTC"), class = "zoo", .Dimnames = list(NULL, "lp.MPN100.WNSHDB38"))
+
+  checkEquals(structure(c(-1.6, -1.64, -1.65), .Dim = c(3L, 1L),
+                        index = structure(c(1282644388, 1284544972, 1287654592), class = c("POSIXct", "POSIXt"), tzone = "UTC"), class = "zoo",
+                        .Dimnames = list(NULL, "lp.MPN100.WNSHDB38")),
+              cbind(empty, i2))
+
+  ## fails with structure(c(-1.6, -1.64, -1.65), .Dim = c(3L, 1L),
+  ## index = structure(c(1282644388, 1284544972, 1287654592), class =
+  ## c("POSIXct", "POSIXt")), class = "zoo")
+}
+  
+test.zoo.cbind.0x1.3x1 <- function() {
+  i1 <- structure(logical(0), .Dim = 0:1, .Dimnames = list(NULL, "lp.MPN10.WNSHDB38"), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+  i2 <- structure(c(-1.6, -1.64, -1.65), .Dim = c(3L, 1L), index = structure(c(1282644388, 1284544972, 1287654592), class = c("POSIXct", "POSIXt"), tzone = "UTC"), class = "zoo", .Dimnames = list(NULL, "lp.MPN100.WNSHDB38"))
+
+  checkEquals(structure(c(NA, NA, NA, -1.6, -1.64, -1.65), .Dim = c(3L, 2L),
+                        .Dimnames = list(NULL, c("lp.MPN10.WNSHDB38", "lp.MPN100.WNSHDB38")),
+                        index = structure(c(1282644388, 1284544972, 1287654592), class = c("POSIXct", "POSIXt")), class = "zoo"),
+              cbind(i1, i2))  # OK in 1.7-5 on 2011-10-10
+}
+
+test.zoo.cbind.3x1.0x1 <- function() {
+  i1 <- structure(logical(0), .Dim = 0:1, .Dimnames = list(NULL, "lp.MPN10.WNSHDB38"), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+  i2 <- structure(c(-1.6, -1.64, -1.65), .Dim = c(3L, 1L), index = structure(c(1282644388, 1284544972, 1287654592), class = c("POSIXct", "POSIXt"), tzone = "UTC"), class = "zoo", .Dimnames = list(NULL, "lp.MPN100.WNSHDB38"))
+  checkEquals(structure(c(-1.6, -1.64, -1.65, NA, NA, NA), .Dim = c(3L, 2L),
+                        .Dimnames = list(NULL, c("lp.MPN100.WNSHDB38", "lp.MPN10.WNSHDB38")),
+                        index = structure(c(1282644388, 1284544972, 1287654592), class = c("POSIXct", "POSIXt")), class = "zoo"),
+              cbind(i2, i1))  # OK in 1.7-5 on 2011-10-10
+}
+
+test.zoo.cbind.empty.nx1.colnames <- function() {
+  empty <- structure(numeric(0), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+  i1 <- structure(logical(0), .Dim = 0:1, .Dimnames = list(NULL, "lp.MPN10.WNSHDB38"), index = structure(numeric(0), class = c("POSIXct", "POSIXt")), class = "zoo")
+  i2 <- structure(c(-1.6, -1.64, -1.65), .Dim = c(3L, 1L), index = structure(c(1282644388, 1284544972, 1287654592), class = c("POSIXct", "POSIXt"), tzone = "UTC"), class = "zoo", .Dimnames = list(NULL, "lp.MPN100.WNSHDB38"))
+
+  checkEquals(colnames(i2), colnames(cbind(empty, i2)))  # failing in 1.7-5 on 2011-10-10
+  checkEquals(colnames(i1), colnames(cbind(empty, i1)))  # failing in 1.7-5 on 2011-10-10
 }
