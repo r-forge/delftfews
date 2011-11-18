@@ -76,3 +76,24 @@ read.sheet(file, sheet, header, sep, fileEncoding, stringsAsFactors, strip.white
     read.table, where it is FALSE.}
   \item{...}{passed to included functions}
 }
+\examples{
+read.sheet(textConnection('-- first
+ts v
+"2009-09-30 10:00:00" -2.081609
+"2009-09-30 10:15:00" -2.079778
+
+-- second
+a b
+3 4
+2 2'), 'first', sep=" ")
+
+read.sheet(textConnection('-- first
+ts v
+"2009-09-30 10:00:00" -2.081609
+"2009-09-30 10:15:00" -2.079778
+
+-- second
+a b
+3 4
+2 2'), 'second', sep=" ")
+}

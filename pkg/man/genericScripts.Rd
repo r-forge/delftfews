@@ -1,6 +1,6 @@
 % File src/R/man/genericScripts.Rd
 
-\name{genericScripts}
+\name{gaCommonInitializationSteps}
 \alias{gaCommonInitializationSteps}
 \alias{blendInGlobals}
 \title{gaCommonInitializationSteps}
@@ -71,4 +71,8 @@ TRUE)) > 1, commandArgs(trailingOnly = TRUE)[[2]], NA))
   configuration file.  The rationale behind this is that you can use it
   to select (using XPath) elements in a common extraConf object.
 
+}
+\examples{
+\dontrun{gaCommonInitializationSteps() ## gets arguments from command line} 
+\dontrun{gaCommonInitializationSteps("ga_conf.xml", "metadata.xml")}
 }
