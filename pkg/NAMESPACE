@@ -25,6 +25,10 @@ export(as.seconds,
        timestamp.in.range.weekday,
        timestamp.in.weekend,
        write.PI,
+
+       gaCommonInitializationSteps,
+       blendInGlobals,
+
        "[.zoo",
        "$.zoo",
        "$<-.zoo",
