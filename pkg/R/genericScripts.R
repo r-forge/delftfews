@@ -44,12 +44,14 @@ gaCommonInitializationSteps <- function(gaDefFile =
   log <- getLogger("fews.diagnostics")
   log$debug("gaCommonInitializationSteps starting.")
 
+  gar <- XmlDoc$new(gaDefFile)
+
   ## gaConfDir identifies a group of general adapters.  this can be
   ## used to select among repeated entities in the optional extraConf
   ## configuration document.
-  gaConfDir <- getContainerDir(gaDefFile)
-  
-  gar <- XmlDoc$new(gaDefFile)
+  gaConfDir <- strsplit(gar$getText('/generalAdapterRun/general/rootDir'),
+                        '/', fixed=TRUE)[[1]][2]
+
   exportDir <- gsub("%WORK_DIR%", ".", gar$getText('/generalAdapterRun/general/exportDir'))
   importDir <- gsub("%WORK_DIR%", ".", gar$getText('/generalAdapterRun/general/importDir'))
 
@@ -63,7 +65,7 @@ gaCommonInitializationSteps <- function(gaDefFile =
   inputLocationId <- gar$getText('/generalAdapterRun/activities/exportActivities/exportTimeSeriesActivity/timeSeriesSets/timeSeriesSet/locationId')
   inputParameterId <- gar$getText('/generalAdapterRun/activities/exportActivities/exportTimeSeriesActivity/timeSeriesSets/timeSeriesSet/parameterId')
   inputColumnName <- paste("lp", inputLocationId, inputParameterId, sep=".")
-  
+
   outputLocationId <- gar$getText('/generalAdapterRun/activities/importActivities/importTimeSeriesActivity/timeSeriesSets/timeSeriesSet/locationId')
   outputParameterId <- gar$getText('/generalAdapterRun/activities/importActivities/importTimeSeriesActivity/timeSeriesSets/timeSeriesSet/parameterId')
   outputColumnName <- paste("lp", outputLocationId, outputParameterId, sep=".")
