@@ -47,7 +47,6 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
 
     if(length(!is.na(values)) > 0) {
       ## start counting steps from first second, not from 1970-01-01
-      base <- seconds[1]
       seconds <- seconds - base
 
       result <- aggregate(values[keepThese], by=list(ceiling(seconds[keepThese]/step.seconds)*step.seconds), function(x) tail(x, n=1))
@@ -70,6 +69,12 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
 
   ## time offset in seconds from the timeZone element (which is in hours)
   timeOffset <- as.double(doc$getText("/TimeSeries/timeZone")) * 60 * 60
+
+  ## base is the earliest timestamp in the whole file.
+  base <- as.seconds(as.POSIXct(min(apply(doc$getAttribute(c("date","time"),
+                                                           "/TimeSeries/series/event"),
+                                          1, function(x) paste(x, collapse=" "))),
+                                "%Y-%m-%d %H:%M:%S", tz='UTC'))
 
   ## we only operate on the "series" nodes.
   if(missing(parameterId)) {

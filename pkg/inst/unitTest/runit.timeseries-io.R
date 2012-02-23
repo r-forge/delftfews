@@ -540,3 +540,16 @@ test.splitToNumeric.small <- function() {
   
   checkEquals(target.m, current.m)
 }
+
+
+test.read.PI.step.seconds.series.have.different.offset <- function() {
+  pidata <- read.PI('data/different-offset.xml',
+                    step.seconds=3600,
+                    na.action=na.pass)
+
+  target <- rep(NA, 10)
+  target[4] <- -1.563
+  target[5] <- -1.562
+  current <- as.numeric(pidata[, 1])
+  checkEquals(target, current)
+}

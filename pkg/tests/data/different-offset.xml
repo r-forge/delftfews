@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TimeSeries xmlns="http://www.wldelft.nl/fews/PI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.wldelft.nl/fews/PI http://fews.wldelft.nl/schemas/version1.0/pi-schemas/pi_timeseries.xsd" version="1.2">
+    <timeZone>0.0</timeZone>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>US_GAF_12</locationId>
+            <parameterId>H.gewogen.toekomst.ruw</parameterId>
+            <timeStep unit="second" multiplier="900"/>
+            <startDate date="2012-02-22" time="11:45:00"/>
+            <endDate date="2012-02-22" time="13:00:00"/>
+            <missVal>-999.0</missVal>
+            <stationName>Waterlandseboezem</stationName>
+            <units>m</units>
+        </header>
+        <event date="2012-02-22" time="11:45:00" value="-1.562" flag="0"/>
+        <event date="2012-02-22" time="12:00:00" value="-1.563" flag="0"/>
+        <event date="2012-02-22" time="12:15:00" value="-1.563" flag="0"/>
+        <event date="2012-02-22" time="12:30:00" value="-1.56" flag="0"/>
+        <event date="2012-02-22" time="12:45:00" value="-1.561" flag="0"/>
+        <event date="2012-02-22" time="13:00:00" value="-1.562" flag="0"/>
+    </series>
+    <series>
+        <header>
+            <type>instantaneous</type>
+            <locationId>US_GAF_12</locationId>
+            <parameterId>Wind.richting.voorsp</parameterId>
+            <timeStep unit="second" multiplier="10800"/>
+            <startDate date="2012-02-22" time="09:00:00"/>
+            <endDate date="2012-02-22" time="18:00:00"/>
+            <missVal>-999.0</missVal>
+            <stationName>Waterlandseboezem</stationName>
+            <units>graden</units>
+        </header>
+        <event date="2012-02-22" time="09:00:00" value="220" flag="0"/>
+        <event date="2012-02-22" time="12:00:00" value="218" flag="0"/>
+        <event date="2012-02-22" time="15:00:00" value="219" flag="0"/>
+        <event date="2012-02-22" time="18:00:00" value="220" flag="0"/>
+    </series>
+</TimeSeries>
