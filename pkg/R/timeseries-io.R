@@ -71,10 +71,13 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
   timeOffset <- as.double(doc$getText("/TimeSeries/timeZone")) * 60 * 60
 
   ## base is the earliest timestamp in the whole file.
-  base <- as.seconds(as.POSIXct(min(apply(doc$getAttribute(c("date","time"),
-                                                           "/TimeSeries/series/event"),
-                                          1, function(x) paste(x, collapse=" "))),
-                                "%Y-%m-%d %H:%M:%S", tz='UTC'))
+  ## well, if there are no events, then base is 1970-01-01
+  events <- doc$getAttribute(c("date", "time"), "/TimeSeries/series/event")
+  if(is.matrix(events))
+    base <- as.seconds(as.POSIXct(min(apply(events, 1, function(x) paste(x, collapse=" "))),
+                                  "%Y-%m-%d %H:%M:%S", tz='UTC'))
+  else
+    base <- 0
 
   ## we only operate on the "series" nodes.
   if(missing(parameterId)) {
