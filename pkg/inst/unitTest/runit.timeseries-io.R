@@ -141,6 +141,24 @@ test.read.PI.is.irregular.TRUE <- function() {
 test.read.PI.is.irregular.TRUE.granularity.3600 <- function() {
   pidata <- read.PI('data/peilschalen-3.xml', is.irregular=TRUE, step.seconds=3600)
 
+  target <- structure(c(1282644388, 1282647988, 1282719988, 1284545188,
+                        1284559588, 1287648388, 1287655588, 1287659188,
+                        1289927188, 1290009988, 1292335588, 1295262388,
+                        1295265988, 1295273188, 1297847188, 1297857988,
+                        1300284388, 1300287988, 1302786388, 1302854788,
+                        1305554788, 1308585988, 1308737188), class = c("POSIXct", "POSIXt"))
+  current <- index(pidata)
+  dput(current)
+  checkEqualsNumeric(target, current)
+
+  checkEqualsNumeric(c(NA, NA, -1.67), pidata[8])
+  checkEqualsNumeric(c(0.37, NA, NA), pidata[9])
+  checkEqualsNumeric(c(NA, -1.7, -1.79), pidata[10])
+}
+
+test.read.PI.is.irregular.TRUE.granularity.3600.base.0 <- function() {
+  pidata <- read.PI('data/peilschalen-3.xml', is.irregular=TRUE, base=0, step.seconds=3600)
+
   target <- structure(c(1282647600, 1282719600, 1284548400,
                         1284559200, 1287648000, 1287655200,
                         1287658800, 1289926800, 1290009600,

@@ -21,8 +21,9 @@
   
 }
 \usage{
-read.PI(filename, step.seconds = NA, na.action = na.fill, parameterId, is.irregular = FALSE, filter.timestamp,
-                 skip.short.lived = NA)
+read.PI(filename, step.seconds = NA, na.action = na.fill, parameterId,
+        is.irregular = FALSE, filter.timestamp, skip.short.lived = NA,
+        base)
 }
 \arguments{
   \item{filename}{the name of the xml file containing the timeseries}
@@ -40,6 +41,8 @@ read.PI(filename, step.seconds = NA, na.action = na.fill, parameterId, is.irregu
   \item{skip.short.lived}{numeric: if available, indicates the required
     lifespan for a value.  all values lasting shorter than this are
     considered invalid and overwritten by the first following value.}
+  \item{base}{numeric: in seconds since 1970-01-01, the base for the
+    timestamps of the resulting zoo object. otherwise inferred from the data.}
 }
 \examples{
 \dontrun{pidata <- read.PI('pi.xml', step.seconds=900)}

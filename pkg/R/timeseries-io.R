@@ -28,7 +28,7 @@ EPOCH <- as.POSIXct("1970-01-01 00:00:00", "%Y-%m-%d %H:%M:%S", tz="UTC")
 require("XML")
 require("logging")
 
-read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, is.irregular=FALSE, filter.timestamp, skip.short.lived=NA) {
+read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, is.irregular=FALSE, filter.timestamp, skip.short.lived=NA, base) {
   ## creates a data.frame containing all data in matrix form.
   isToBeFiltered <- !missing(filter.timestamp)
 
@@ -70,14 +70,17 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
   ## time offset in seconds from the timeZone element (which is in hours)
   timeOffset <- as.double(doc$getText("/TimeSeries/timeZone")) * 60 * 60
 
-  ## base is the earliest timestamp in the whole file.
-  ## well, if there are no events, then base is 1970-01-01
-  events <- doc$getAttribute(c("date", "time"), "/TimeSeries/series/event")
-  if(is.matrix(events))
-    base <- as.seconds(as.POSIXct(min(apply(events, 1, function(x) paste(x, collapse=" "))),
-                                  "%Y-%m-%d %H:%M:%S", tz='UTC'))
-  else
-    base <- 0
+  ## if missing as actual argument, base is the earliest timestamp in
+  ## the whole file.
+  if(missing(base)) {
+    events <- doc$getAttribute(c("date", "time"), "/TimeSeries/series/event")
+    if(is.matrix(events))
+      base <- as.seconds(as.POSIXct(min(apply(events, 1, function(x) paste(x, collapse=" "))),
+                                    "%Y-%m-%d %H:%M:%S", tz='UTC'))
+    else
+      ## well, if there are no events, then base is 1970-01-01
+      base <- 0
+  }
 
   ## we only operate on the "series" nodes.
   if(missing(parameterId)) {
