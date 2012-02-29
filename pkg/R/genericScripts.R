@@ -78,6 +78,11 @@ gaCommonInitializationSteps <- function(gaDefFile =
     extraConf <- XmlDoc$new(gaExtraConfFile)
   }
 
+  area <- unique(inputLocationId)
+  if (length(area) != 1) {
+    log$info("input data refers to more than one area: %s", area)
+  }
+
   ## exporting information to the global environment, to make it
   ## available to the caller.
   log$debug("gaCommonInitializationSteps defining global variables.")
@@ -90,6 +95,7 @@ gaCommonInitializationSteps <- function(gaDefFile =
   assign("extraConf", extraConf, envir = .GlobalEnv)
   assign("log", log, envir = .GlobalEnv)
   assign("gaConfDir", gaConfDir, envir = .GlobalEnv)
+  assign("area", area, envir = .GlobalEnv)
 
   log$debug("gaCommonInitializationSteps ended successfully.")
 }
