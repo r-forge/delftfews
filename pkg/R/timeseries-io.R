@@ -28,6 +28,21 @@ EPOCH <- as.POSIXct("1970-01-01 00:00:00", "%Y-%m-%d %H:%M:%S", tz="UTC")
 require("XML")
 require("logging")
 
+saveTimestampedInput <- function(origin) {
+  ## stores a copy of the input file.
+
+  ## the target file is named as the input file itself, but is placed
+  ## in a directory next to the input file and named as the current
+  ## timestamp, cut to the whole hour.
+
+  parts <- strsplit(origin, "/", fixed=TRUE)[[1]]
+  dirName <- format(Sys.time(), "%Y%m%d%H00")
+  parts <- c(parts[1:(length(parts) - 1)], dirName, parts[length(parts)])
+  destination <- paste(parts, collapse="/")
+
+  file.copy(from=origin, to=destination)
+}
+
 read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, is.irregular=FALSE, filter.timestamp, skip.short.lived=NA, base) {
   ## creates a data.frame containing all data in matrix form.
   isToBeFiltered <- !missing(filter.timestamp)
@@ -66,6 +81,8 @@ read.PI <- function(filename, step.seconds=NA, na.action=na.fill, parameterId, i
 
   ## Read XML file
   doc <- XmlDoc$new(filename)
+  if(exists("doSaveInput") && get("doSaveInput"))
+    saveTimestampedInput(filename)
 
   ## time offset in seconds from the timeZone element (which is in hours)
   timeOffset <- as.double(doc$getText("/TimeSeries/timeZone")) * 60 * 60
