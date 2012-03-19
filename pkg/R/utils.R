@@ -212,21 +212,29 @@ double.threshold.matrix <- function(data, ...) {
 multi.double.threshold <- function(data, thresholds, initial.status)
   UseMethod('multi.double.threshold')
 
-multi.double.threshold.default <- function(data, thresholds, initial.status=FALSE) {
+multi.double.threshold.default <- function(data, thresholds, initial.status=0) {
   ## multiple double threshold test.  similar to above
   ## double.threshold, but this one counts the amount of thresholds
   ## being exceeded.
 
-  ## `thresholds` is a data.frame with two columns named
-  ## "threshold.false" and "threshold.true".
+  ## `thresholds` is a matrix or data.frame with two columns, the
+  ## first for threshold.false and the second for threshold.true.
 
-  apply.threshold.row <- function(threshold.row, data, ...) {
-    threshold.false <- threshold.row[1]
-    threshold.true <- threshold.row[2]
-    double.threshold(data, threshold.false, threshold.true, ...)
+  ## `initial.status` is the amount of thresholds initially
+  ## overflowed. it is here transformed into a logical vector.
+
+  overflowed <- c(rep(TRUE, initial.status),
+                  rep(FALSE, nrow(thresholds) - initial.status))
+
+  apply.threshold.row <- function(row, data) {
+    threshold.false <- row[1]
+    threshold.true <- row[2]
+    initial.status <- row[3]
+
+    double.threshold(data, threshold.false, threshold.true, initial.status)
   }
 
-  apply(apply(thresholds, 1, apply.threshold.row, data=data, initial.status=initial.status), 1, sum)
+  apply(apply(cbind(thresholds, overflowed), 1, apply.threshold.row, data=data), 1, sum)
 }
 
 multi.double.threshold.data.frame <- function(data, ...) {

@@ -340,11 +340,11 @@ test.double.threshold.data.frame.1 <- function() {
 }
 
 test.multi.double.threshold.vector.1 <- function() {
-  ## vector, four thresholds, initial TRUE.
+  ## vector, four thresholds, initial 1.
 
   values <- c(1, 2, 3, 4, 5, 4, 3, 2, 1)
   thresholds <- data.frame(false=1:4-0.01, true=1:4+0.01)
-  current <- multi.double.threshold(values, thresholds, TRUE)
+  current <- multi.double.threshold(values, thresholds, 1)
   target <- c(1, 1, 2, 3, 4, 4, 3, 2, 1)
   checkEquals(target, current)
 }
@@ -360,7 +360,8 @@ test.multi.double.threshold.data.frame.0 <- function() {
 }
 
 test.multi.double.threshold.data.frame.1 <- function() {
-  ## data.frame(one column), four thresholds, initial TRUE.
+  ## this one is a misleading test, here for legacy reasons.
+  ## data.frame(one column), four thresholds, initial TRUE (seen as 1).
 
   values <- data.frame(a=c(1, 2, 3, 4, 5, 4, 3, 2, 1))
   thresholds <- data.frame(false=1:4-0.01, true=1:4+0.01)
@@ -370,12 +371,86 @@ test.multi.double.threshold.data.frame.1 <- function() {
 }
 
 test.multi.double.threshold.data.frame.2 <- function() {
-  ## data.frame(two columns), four thresholds, initial TRUE.
+  ## this one is a misleading test, here for legacy reasons.
+  ## data.frame(two columns), four thresholds, initial TRUE (seen as 1).
 
   values <- data.frame(a=c(1, 2, 3, 4, 5, 4, 3, 2, 1), b=c(1, 2, 3, 4, 5, 4, 3, 2, 1))
   thresholds <- data.frame(false=1:4-0.01, true=1:4+0.01)
   current <- multi.double.threshold(values, thresholds, TRUE)
   target <- data.frame(a=c(1, 1, 2, 3, 4, 4, 3, 2, 1), b=c(1, 1, 2, 3, 4, 4, 3, 2, 1))
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.3522.up.0 <- function() {
+  ## four thresholds, going up, initially 0 overflowed.
+
+  values <- 1:30
+  thresholds <- cbind(off=c(0, 3, 10, 15), on=c(3, 8, 26, 30))
+
+  current <- multi.double.threshold(values, thresholds, 0)
+  target <- c(0, 0, 0, 1, 1, 1, 1, 1, 2, 2,
+              2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 2, 2, 3, 3, 3, 3)
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.3522.up.1 <- function() {
+  ## four thresholds, going up, initially 1 overflowed.
+
+  values <- 5:24
+  thresholds <- cbind(off=c(0, 3, 10, 15), on=c(3, 8, 26, 30))
+
+  current <- multi.double.threshold(values, thresholds, 1)
+  target <- c(1, 1, 1, 1, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.3522.up.2 <- function() {
+  ## four thresholds, going up, initially 2 overflowed.
+
+  values <- 5:24
+  thresholds <- cbind(off=c(0, 3, 10, 15), on=c(3, 8, 26, 30))
+
+  current <- multi.double.threshold(values, thresholds, 2)
+  target <- c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.3522.down.4 <- function() {
+  ## four thresholds, going down, initially 4 overflowed.
+
+  values <- 25:6
+  thresholds <- cbind(off=c(0, 3, 10, 15), on=c(3, 8, 26, 30))
+
+  current <- multi.double.threshold(values, thresholds, 4)
+  target <- c(4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+              4, 3, 3, 3, 3, 3, 2, 2, 2, 2)
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.3522.down.3 <- function() {
+  ## four thresholds, going down, initially 3 overflowed.
+
+  values <- 25:6
+  thresholds <- cbind(off=c(0, 3, 10, 15), on=c(3, 8, 26, 30))
+
+  current <- multi.double.threshold(values, thresholds, 3)
+  target <- c(3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+              3, 3, 3, 3, 3, 3, 2, 2, 2, 2)
+  checkEquals(target, current)
+}
+
+test.multi.double.threshold.3522.down.2 <- function() {
+  ## four thresholds, going down, initially 2 overflowed.
+
+  values <- 25:6
+  thresholds <- cbind(off=c(0, 3, 10, 15), on=c(3, 8, 26, 30))
+
+  current <- multi.double.threshold(values, thresholds, 2)
+  target <- c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+              2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
   checkEquals(target, current)
 }
 

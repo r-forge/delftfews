@@ -34,7 +34,9 @@ multi.double.threshold(data, thresholds, initial.status)
   \item{thresholds}{a data.frame with two columns (threshold.false,
     threshold.true) and as many rows as the thresholds you want to count.}
   \item{initial.status}{initial status, used if initial value is between
-    a false/true threshold pair.}
+    a false/true threshold pair. it is of the same type as the return
+    type of the function, i.e.: a logical for `double.threshold` and an
+    integer for `multi.double.threshold`.}
   \item{on.equality}{a boolean, indicates whether a threshold is to be
     considered reached also on equality or only on exceeding it.
     defaults to FALSE (equality is not enough).}
