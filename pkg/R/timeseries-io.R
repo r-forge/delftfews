@@ -40,6 +40,7 @@ saveTimestampedInput <- function(origin) {
   parts <- c(parts[1:(length(parts) - 1)], dirName, parts[length(parts)])
   destination <- paste(parts, collapse="/")
 
+  dir.create(paste(parts[1:(length(parts) - 1)], collapse="/"), showWarnings=FALSE)
   file.copy(from=origin, to=destination)
 }
 
