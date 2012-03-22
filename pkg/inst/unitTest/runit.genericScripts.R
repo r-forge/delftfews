@@ -4,7 +4,7 @@
 
 require(svUnit)
 
-test.fileName <- file.path(tempdir(), c('1', '2', '3', '4'))
+test.fileName <- file.path(tempdir(), c('1', '2', '3', '4', '5'))
 
 .setUp <- function() {
   cat('<root><globals><abc>7</abc><cde>17</cde></globals></root>',
@@ -15,6 +15,8 @@ test.fileName <- file.path(tempdir(), c('1', '2', '3', '4'))
       file=test.fileName[3])
   cat('<root><globals id="1"><abc type="integer">7</abc><abc>8</abc><abc>9</abc><cde type="real">17</cde></globals><globals id="2"><abc type="integer">70</abc><abc>80</abc><abc>90</abc><cde type="real">170</cde></globals></root>',
       file=test.fileName[4])
+  cat('<root></root>',
+      file=test.fileName[5])
 }
 
 .tearDown <- function() {
@@ -59,6 +61,14 @@ test.blendInGlobals.typed.vector.by.id <- function() {
   checkEquals(c("abc", "cde"), ls(te))
   checkIdentical(c(70L, 80L, 90L), get("abc", te))
   checkIdentical(170.0, get("cde", te))
+}
+
+test.blendInGlobals.no.globals <- function() {
+  ec <- XmlDoc$new(test.fileName[5])
+  te <- new.env()
+  previously <- ls(te)
+  blendInGlobals(xmldoc=ec, envir=te)
+  checkEquals(previously, ls(te))
 }
 
 ## getContainerDir is not exported

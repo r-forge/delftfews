@@ -32,10 +32,14 @@ getContainerDir <- function(fileName) {
 }
 
 
-gaCommonInitializationSteps <- function(gaDefFile =
-  commandArgs(trailingOnly=TRUE)[[1]], gaExtraConfFile =
-  ifelse(length(commandArgs(trailingOnly = TRUE)) > 1,
-  commandArgs(trailingOnly = TRUE)[[2]], NA)) {
+gaCommonInitializationSteps <- function(gaDefFile=commandArgs(trailingOnly=TRUE)[[1]],
+                                        gaExtraConfFile=ifelse(
+                                          length(commandArgs(trailingOnly = TRUE)) > 1,
+                                          commandArgs(trailingOnly = TRUE)[[2]], NA),
+                                        testCase=ifelse(
+                                          length(commandArgs(trailingOnly = TRUE)) > 2,
+                                          commandArgs(trailingOnly = TRUE)[[3]], NA)
+                                        ) {
   ## this function alters the global environment based on the content
   ## of the FEWS GA definition file.  check the manual page for more
   ## detail and please maintain that information.
@@ -54,6 +58,10 @@ gaCommonInitializationSteps <- function(gaDefFile =
 
   exportDir <- gsub("%WORK_DIR%", ".", gar$getText('/generalAdapterRun/general/exportDir'))
   importDir <- gsub("%WORK_DIR%", ".", gar$getText('/generalAdapterRun/general/importDir'))
+
+  if(!is.na(testCase)) {
+    exportDir <- file.path(exportDir, testCase)
+  }
 
   diagnosticsFileName <- gsub("%WORK_DIR%", ".", gar$getText('/generalAdapterRun/general/diagnosticFile'))
   setup.fewsdiagnostics(diagnosticsFileName)
@@ -101,6 +109,9 @@ gaCommonInitializationSteps <- function(gaDefFile =
 }
 
 blendInGlobals <- function(xmldoc=ifelse(all(exists('extraConf')), extraConf, NA), envir=.GlobalEnv, key=NA) {
+  ## there are no globals in the document
+  if (length(xmldoc$getText("/root/globals")) == 0)
+    return()
   ## get all attributes in a single structure
   if (is.na(key))
     globals <- xmldoc$getText("/root/globals", children=TRUE)

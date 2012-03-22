@@ -21,9 +21,7 @@
 }
 \usage{
 
-gaCommonInitializationSteps(gaDefFile = commandArgs(trailingOnly =
-TRUE)[[1]], gaExtraConfFile = ifelse(length(commandArgs(trailingOnly =
-TRUE)) > 1, commandArgs(trailingOnly = TRUE)[[2]], NA))
+gaCommonInitializationSteps(gaDefFile, gaExtraConfFile, testCase)
 
 }
 \arguments{
@@ -35,6 +33,10 @@ TRUE)) > 1, commandArgs(trailingOnly = TRUE)[[2]], NA))
     extra configuration items, that do not fit in the general adapter
     definition file.  it's optional, defaults to the second command line
     argument or is simply skipped.}
+
+  \item{testCase}{character: use this parameter only for testing. if
+    given, the function will put this name just in front of the input
+    file as retrieved from the GA file.}
 
 }
 \details{
