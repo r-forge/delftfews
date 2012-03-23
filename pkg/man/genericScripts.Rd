@@ -22,6 +22,7 @@
 \usage{
 
 gaCommonInitializationSteps(gaDefFile, gaExtraConfFile, testCase)
+blendInGlobals(xmldoc, envir, name, ...)
 
 }
 \arguments{
@@ -37,6 +38,17 @@ gaCommonInitializationSteps(gaDefFile, gaExtraConfFile, testCase)
   \item{testCase}{character: use this parameter only for testing. if
     given, the function will put this name just in front of the input
     file as retrieved from the GA file.}
+
+  \item{xmldoc}{XmlDoc: the object containing the extra configuration.}
+
+  \item{envir}{environment: the target environment where to export globals}
+
+  \item{name}{character: if not specified, the globals are assumed to be
+    common to all scripts (we look for them under /root/globals). if
+    specified, the globals are looked for under /root/<name>/globals and
+    name can contain also XPath parts.}
+
+  \item{...}{further specifies name.}
 
 }
 \details{
