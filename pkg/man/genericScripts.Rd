@@ -22,7 +22,7 @@
 \usage{
 
 gaCommonInitializationSteps(gaDefFile, gaExtraConfFile, testCase)
-blendInGlobals(xmldoc, envir, name, ...)
+blendInGlobals(xmldoc, envir, element, ...)
 
 }
 \arguments{
@@ -41,14 +41,15 @@ blendInGlobals(xmldoc, envir, name, ...)
 
   \item{xmldoc}{XmlDoc: the object containing the extra configuration.}
 
-  \item{envir}{environment: the target environment where to export globals}
+  \item{envir}{environment: the target environment where to export
+    globals, defaults to the `.GlobalEnv`.}
 
-  \item{name}{character: if not specified, the globals are assumed to be
-    common to all scripts (we look for them under /root/globals). if
-    specified, the globals are looked for under /root/<name>/globals and
-    name can contain also XPath parts.}
+  \item{element}{character: if not specified, the globals are assumed to be
+    common to all scripts and we look for them under /root/globals.  use
+    `element` to override this.  you can use XPath syntax and pass extra
+    parameters in the `...` optional arguments.}
 
-  \item{...}{further specifies name.}
+  \item{...}{further specifies the element that contains the globals.}
 
 }
 \details{

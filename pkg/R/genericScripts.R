@@ -108,11 +108,9 @@ gaCommonInitializationSteps <- function(gaDefFile=commandArgs(trailingOnly=TRUE)
   log$debug("gaCommonInitializationSteps ended successfully.")
 }
 
-blendInGlobals <- function(xmldoc, envir=.GlobalEnv, name, ...) {
-  if(missing(name)) {
+blendInGlobals <- function(xmldoc, envir=.GlobalEnv, element, ...) {
+  if(missing(element)) {
     element <- "/root/globals"
-  } else {
-    element <- paste("/root", name, "globals", sep="/")
   }
   ## there are no globals in the document
   if (length(xmldoc$getText(element, ...)) == 0)
@@ -120,12 +118,12 @@ blendInGlobals <- function(xmldoc, envir=.GlobalEnv, name, ...) {
   ## get all elements in a single structure
   globals <- xmldoc$getText(element, ..., children=TRUE)
   ## assign typed values in the target environment
-  for(name in names(globals)) {
-    value <- globals[[name]]
-    type <- xmldoc$getAttribute(paste(element, name, sep="/"), ..., attr="type")[[1]]
+  for(child in names(globals)) {
+    value <- globals[[child]]
+    type <- xmldoc$getAttribute(paste(element, child, sep="/"), ..., attr="type")[[1]]
     if(is.null(type))
       type <- "character"
     value <- do.call(paste("as", type, sep='.'), list(value))
-    assign(name, value, envir=envir)
+    assign(child, value, envir=envir)
   }
 }
