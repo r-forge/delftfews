@@ -43,18 +43,25 @@ XmlDoc <- setRefClass("XmlDoc",
                                                          xmlValue))
                           }
                         },
-                        getAttribute = function(attr, element, ...) {
+                        getAttribute = function(attr, element, ..., drop=TRUE) {
                           nodeSet <- .getNodeSet(element, ...)
-                          if(is.character(attr) && length(attr) == 1)
-                            sapply(nodeSet, xmlGetAttr, attr)
-                          else {
+                          if(is.character(attr) && length(attr) == 1) {
+                            result <- sapply(nodeSet, xmlGetAttr, attr)
+                          } else {
                             if(length(attr) == 1 && attr == TRUE) {
                               attr <- Reduce(union, sapply(nodeSet, function(x) names(xmlAttrs(x))))
                             }
-                            sapply(attr,
-                                   function(a)
-                                     sapply(nodeSet, xmlGetAttr, a))
+                            result <- sapply(attr,
+                                             function(a)
+                                             sapply(nodeSet, xmlGetAttr, a))
                           }
+                          if(!isTRUE(drop) && !is.matrix(result)) {
+                            resultColNames <- names(result)
+                            result <- rbind(result)
+                            colnames(result) <- resultColNames
+                            rownames(result) <- NULL
+                          }
+                          return(result)
                         },
                         getDoc = function() xmlDoc
                         ))

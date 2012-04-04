@@ -72,6 +72,14 @@ test.xmldoc.getMultipleAttributeValuesAllIrregular <- function() {
   checkEquals(target, current)
 }
 
+test.xmldoc.getMultipleAttributeValuesAsMatrix <- function() {
+  doc <- XmlDoc$new(test.fileName[1])
+
+  target <- cbind(id=c("1"), ktb=c("7"), qlm=c("a"))
+  current <- doc$getAttribute(c("id", "ktb", "qlm"), "/root/sub[@id=%d]", 1, drop=FALSE)
+  checkEquals(target, current)
+}
+
 test.xmldoc.getMultipleChildrenValuesSpecific <- function() {
   doc <- XmlDoc$new(test.fileName[3])
 
