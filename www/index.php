@@ -57,7 +57,6 @@ echo $contents; } ?>
 <ul>
 <li>FEWS (Flood Early Warning System) at <a href="http://www.deltares.nl/en/searchresults?search-expression=fews&page=1">deltares.nl</a></li>
 <li>description of the exchange format PI (public interface) at <a href="http://publicwiki.deltares.nl/display/FEWSDOC/The+Delft-Fews+Published+interface+%28PI%29">deltares.nl</a>.</li>
-<li>the company paying the authors: <a href="http://www.nelen-schuurmans.nl/EN/home">Nelen & Schuurmans</a>.</li>
 </ul>
 
 <h3>technical information</h3>

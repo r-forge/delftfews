@@ -3,8 +3,8 @@ Version: 0.3-163
 SVN-Revision: $Rev$
 Date: 2010-07-08
 Title: delftfews R extensions
-Author: Mario Frasca <mario.frasca@nelen-schuurmans.nl>
-Maintainer: Mario Frasca <mario.frasca@nelen-schuurmans.nl>
+Author: Mario Frasca <mrgsfrasca@gmail.com>
+Maintainer: Mario Frasca <mrgsfrasca@gmail.com>
 Description: a collection of timeseries sets handling functions used
 	     at my employer (Nelen en Schuurmans) in cooperation
 	     with Deltares.  the main aim of the delftfews package is
